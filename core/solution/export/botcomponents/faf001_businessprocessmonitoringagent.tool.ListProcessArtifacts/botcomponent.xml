@@ -1,0 +1,11 @@
+<botcomponent schemaname="faf001_businessprocessmonitoringagent.tool.ListProcessArtifacts">
+  <componenttype>9</componenttype>
+  <description>List generated files from the bpartifact table, that is content a run produced. Filter by _faf001_bpinstanceid_value. Useful columns: faf001_artifactname, faf001_description, faf001_artifacttype, faf001_version, faf001_status, faf001_generatedon, _faf001_generatedby_value, faf001_mimetype, faf001_filesize, faf001_storagetype, faf001_externalurl, _faf001_supersedesid_value, _faf001_bpstepid_value, faf001_bpartifactid. File bytes are not returned; report metadata only.</description>
+  <iscustomizable>1</iscustomizable>
+  <name>List process artifact rows</name>
+  <parentbotid>
+    <schemaname>faf001_businessprocessmonitoringagent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

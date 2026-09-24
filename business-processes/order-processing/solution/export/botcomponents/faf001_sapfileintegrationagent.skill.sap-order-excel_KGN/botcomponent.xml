@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<botcomponent schemaname="faf001_sapfileintegrationagent.skill.sap-order-excel_KGN">
+  <componenttype>9</componenttype>
+  <description>Render an SAP sales order JSON payload into the fixed Excel workbook template. Use when asked to export, convert, or write an SAP order to Excel or xlsx.</description>
+  <iscustomizable>0</iscustomizable>
+  <name>sap-order-excel</name>
+  <parentbotid>
+    <schemaname>faf001_sapfileintegrationagent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

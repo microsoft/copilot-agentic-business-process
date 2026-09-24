@@ -1,0 +1,12 @@
+<customapirequestparameter uniquename="faf001_SubmissionJson">
+  <description default="JSON object with integer outcome, optional string notes, and optional values array of key/type/value objects. Outcomes: 324010000..324010002. Types: text, json, number, boolean, datetime.">
+    <label description="JSON object with integer outcome, optional string notes, and optional values array of key/type/value objects. Outcomes: 324010000..324010002. Types: text, json, number, boolean, datetime." languagecode="1033" />
+  </description>
+  <displayname default="Widget Submission JSON">
+    <label description="Widget Submission JSON" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <isoptional>0</isoptional>
+  <name>faf001_CompleteTask.faf001_SubmissionJson</name>
+  <type>10</type>
+</customapirequestparameter>

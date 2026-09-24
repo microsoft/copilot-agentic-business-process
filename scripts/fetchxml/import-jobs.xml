@@ -1,0 +1,10 @@
+<fetch>
+  <entity name="importjob">
+    <attribute name="importjobid" />
+    <attribute name="solutionname" />
+    <attribute name="progress" />
+    <attribute name="startedon" />
+    <attribute name="completedon" />
+    <order attribute="startedon" descending="true" />
+  </entity>
+</fetch>

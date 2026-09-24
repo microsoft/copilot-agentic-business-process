@@ -1,0 +1,11 @@
+<customapiresponseproperty uniquename="faf001_StepId">
+  <description default="GUID of the newly created completed human-task step. Repeated completion is rejected.">
+    <label description="GUID of the newly created completed human-task step. Repeated completion is rejected." languagecode="1033" />
+  </description>
+  <displayname default="Completion Step ID">
+    <label description="Completion Step ID" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <name>faf001_CompleteTask.faf001_StepId</name>
+  <type>12</type>
+</customapiresponseproperty>

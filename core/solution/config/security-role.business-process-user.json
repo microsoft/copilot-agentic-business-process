@@ -1,0 +1,22 @@
+{
+  "roleName": "Business-Process-User",
+  "depth": "Global",
+  "tableDepths": {
+    "callbackregistration": "Basic"
+  },
+  "tables": {
+    "callbackregistration": ["Create", "Read", "Write", "Delete"],
+    "faf001_bpinstance": ["Create", "Read", "Write", "Delete", "Append", "AppendTo", "Assign", "Share"],
+    "faf001_bpstep": ["Create", "Read", "Write", "Delete", "Append", "AppendTo", "Assign", "Share"],
+    "faf001_bptask": ["Create", "Read", "Write", "Delete", "Append", "AppendTo", "Assign", "Share"],
+    "faf001_bpartifact": ["Create", "Read", "Write", "Delete", "Append", "AppendTo", "Assign", "Share"],
+    "faf001_bpattachment": ["Create", "Read", "Write", "Delete", "Append", "AppendTo", "Assign", "Share"],
+    "faf001_bpdatavalue": ["Create", "Read", "Write", "Delete", "Append", "AppendTo", "Assign", "Share"],
+    "systemuser": ["Read", "AppendTo"],
+    "team": ["Read", "AppendTo"],
+    "role": ["Read", "AppendTo"],
+    "flowrun": ["Read", "AppendTo"],
+    "environmentvariabledefinition": ["Read"],
+    "environmentvariablevalue": ["Read"]
+  }
+}

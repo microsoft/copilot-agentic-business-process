@@ -1,0 +1,3 @@
+kind: InlineAgentSkill
+content: <!-- bic:bundle=faf001_sapfileintegrationagent.file.saporderexcelzip_CUTOP -->
+authoringSource: Upload

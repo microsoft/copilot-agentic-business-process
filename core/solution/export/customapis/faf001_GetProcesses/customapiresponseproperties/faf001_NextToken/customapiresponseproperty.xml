@@ -1,0 +1,11 @@
+<customapiresponseproperty uniquename="faf001_NextToken">
+  <description default="Continuation token for the next request, or an empty string on the last page.">
+    <label description="Continuation token for the next request, or an empty string on the last page." languagecode="1033" />
+  </description>
+  <displayname default="Next Token">
+    <label description="Next Token" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <name>faf001_GetProcesses.faf001_NextToken</name>
+  <type>10</type>
+</customapiresponseproperty>

@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CanvasApp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name>cr522_workflowconsole_75f6c</Name>
+  <AppVersion>2026-09-23T07:19:39Z</AppVersion>
+  <Status>Ready</Status>
+  <CreatedByClientVersion>0.0.0.0</CreatedByClientVersion>
+  <MinClientVersion>0.0.0.0</MinClientVersion>
+  <Tags>{}</Tags>
+  <IsCdsUpgraded>0</IsCdsUpgraded>
+  <GalleryItemId xsi:nil="true"></GalleryItemId>
+  <BackgroundColor>RGBA(255,255,255,1)</BackgroundColor>
+  <DisplayName>Workflow Console</DisplayName>
+  <Description></Description>
+  <CommitMessage xsi:nil="true"></CommitMessage>
+  <Publisher xsi:nil="true"></Publisher>
+  <AuthorizationReferences>[]</AuthorizationReferences>
+  <ConnectionReferences>{"1b292963-3f40-401d-b9c9-f602a733bc4a":{"id":"/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps","displayName":"Microsoft Dataverse","iconUri":"https://static.powerapps.com/resource/ppcr/releases/v1.0.1827/1.0.1827.4939/commondataserviceforapps/icon.png","dataSources":["commondataserviceforapps"],"dependencies":[],"dependents":[],"parameterHints":{},"parameterHintsV2":{},"isOnPremiseConnection":false,"bypassConsent":false,"dataSets":{},"apiTier":"Premium","actions":[]}}</ConnectionReferences>
+  <DatabaseReferences>{"default.cds":{"databaseDetails":{"referenceType":"Environmental","environmentName":"default.cds","overrideValues":{"status":"NotSpecified","environmentVariableName":""}},"dataSources":{"processhumantasks":{"entitySetName":"faf001_bptasks","logicalName":"faf001_bptask"},"businessprocessinstances":{"entitySetName":"faf001_bpinstances","logicalName":"faf001_bpinstance"},"processstepexecutions":{"entitySetName":"faf001_bpsteps","logicalName":"faf001_bpstep"},"processattachments":{"entitySetName":"faf001_bpattachments","logicalName":"faf001_bpattachment"},"processartifacts":{"entitySetName":"faf001_bpartifacts","logicalName":"faf001_bpartifact"},"processdatavalues":{"entitySetName":"faf001_bpdatavalues","logicalName":"faf001_bpdatavalue"},"users":{"entitySetName":"systemusers","logicalName":"systemuser"},"teams":{"entitySetName":"teams","logicalName":"team"},"environment_39a902ba":{"entitySetName":"Environment","logicalName":"environment_39a902ba"}}}}</DatabaseReferences>
+  <AppComponents>[]</AppComponents>
+  <AppComponentDependencies>[]</AppComponentDependencies>
+  <CanConsumeAppPass>1</CanConsumeAppPass>
+  <CanvasAppType>4</CanvasAppType>
+  <BypassConsent>0</BypassConsent>
+  <AdminControlBypassConsent>0</AdminControlBypassConsent>
+  <EmbeddedApp xsi:nil="true"></EmbeddedApp>
+  <IntroducedVersion>1.0</IntroducedVersion>
+  <CdsDependencies>{"cdsdependencies":[{"logicalname":"faf001_bptask","componenttype":1},{"logicalname":"faf001_bpinstance","componenttype":1},{"logicalname":"faf001_bpstep","componenttype":1},{"logicalname":"faf001_bpattachment","componenttype":1},{"logicalname":"faf001_bpartifact","componenttype":1},{"logicalname":"faf001_bpdatavalue","componenttype":1},{"logicalname":"systemuser","componenttype":1},{"logicalname":"team","componenttype":1}]}</CdsDependencies>
+  <IsCustomizable>1</IsCustomizable>
+  <CodeAppPackageUris>
+    <CodeAppPackageUri>/CanvasApps/cr522_workflowconsole_75f6c_CodeAppPackages/index.html_ContentType_text/html</CodeAppPackageUri>
+    <CodeAppPackageUri>/CanvasApps/cr522_workflowconsole_75f6c_CodeAppPackages/assets/index-Chn-u_FO.js_ContentType_application/javascript</CodeAppPackageUri>
+    <CodeAppPackageUri>/CanvasApps/cr522_workflowconsole_75f6c_CodeAppPackages/assets/index-Ct3azNlX.css_ContentType_text/css</CodeAppPackageUri>
+    <CodeAppPackageUri>/CanvasApps/cr522_workflowconsole_75f6c_CodeAppPackages/power-apps.svg_ContentType_image/svg+xml</CodeAppPackageUri>
+  </CodeAppPackageUris>
+</CanvasApp>

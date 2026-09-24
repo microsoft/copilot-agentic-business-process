@@ -1,0 +1,10 @@
+<fetch>
+  <entity name="environmentvariabledefinition">
+    <attribute name="schemaname" />
+    <attribute name="defaultvalue" />
+    <link-entity name="environmentvariablevalue" from="environmentvariabledefinitionid" to="environmentvariabledefinitionid" link-type="outer" alias="current">
+      <attribute name="value" />
+    </link-entity>
+    <order attribute="schemaname" />
+  </entity>
+</fetch>

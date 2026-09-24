@@ -1,0 +1,8 @@
+<fetch>
+  <entity name="customapi">
+    <attribute name="uniquename" />
+    <attribute name="name" />
+    <attribute name="isfunction" />
+    <order attribute="uniquename" />
+  </entity>
+</fetch>

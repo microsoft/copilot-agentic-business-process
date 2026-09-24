@@ -1,0 +1,17 @@
+{
+  "record_id": "PROMOTIONS-DEMO-V1",
+  "mode": "mock",
+  "provenance": "All eligibility, rates, date windows, scopes, and currencies are fictional demo policy. Buyer 330795 is transcribed from order 95060; DEMO-AL-TAYER is synthetic. Supplier name is user-provided; no supplier code was supplied. The supplier 5% offer is a fictional example, not an authorized commercial term. CHF is a demo policy currency, NOT inferred from that order. No personal contact details retained.",
+  "policy": { "date_basis": "order_date", "date_bounds": "inclusive", "stacking": false, "selection": "greatest_rounded_line_saving_then_promotion_id_ascending", "rounding": "half_up_per_line_discount_2_decimals", "price_basis": "submitted_pre_promotion_unit_price", "quantity_threshold_basis": "aggregate_same_product", "spend_threshold_basis": "complete_order_gross_merchandise", "tax_and_shipping_discounted": false, "supported_currencies": ["USD", "CHF"] },
+  "buyers": [
+    { "record_id": "BUYER-AL-TAYER", "buyer_id": "DEMO-AL-TAYER", "name": "Al Tayer Insignia", "identity_source": "synthetic_demo_id" },
+    { "record_id": "BUYER-ALPSTEIN", "buyer_id": "330795", "name": "Alpstein Parfumerie", "identity_source": "source_order_customer_number" },
+    { "record_id": "BUYER-STANDARD", "buyer_id": "DEMO-STANDARD", "name": "Fictional Standard Buyer", "identity_source": "synthetic_demo_id" }
+  ],
+  "promotions": [
+    { "promotion_id": "PROMO-JM-CANDLE-10", "active": true, "buyer_ids": ["*"], "product_ids": ["DEMO-JM-001", "DEMO-JM-002"], "currency": "USD", "start_date": "2026-02-01", "end_date": "2026-02-28", "minimum_product_quantity": 1, "minimum_order_gross": "0.00", "discount_percent": 10 },
+    { "promotion_id": "PROMO-AL-TAYER-05", "active": true, "buyer_ids": ["DEMO-AL-TAYER"], "product_ids": ["*"], "currency": "USD", "start_date": "2026-02-01", "end_date": "2026-02-28", "minimum_product_quantity": 1, "minimum_order_gross": "0.00", "discount_percent": 5 },
+    { "promotion_id": "PROMO-ALPSTEIN-15", "active": true, "buyer_ids": ["330795"], "product_ids": ["DEMO-EL-001", "DEMO-EL-002", "DEMO-EL-003"], "currency": "CHF", "start_date": "2026-02-01", "end_date": "2026-02-28", "minimum_product_quantity": 1, "minimum_order_gross": "0.00", "discount_percent": 15 },
+    { "promotion_id": "PROMO-SUPPLIER-05", "active": true, "supplier_codes": [], "supplier_names": ["ESTEE LAUDER MIDDLE EAST FZE DUBAI BRANCH"], "buyer_ids": ["*"], "product_ids": ["*"], "currency": "USD", "start_date": "2026-02-01", "end_date": "2026-12-28", "minimum_product_quantity": 1, "minimum_order_gross": "0.00", "discount_percent": 5 }
+  ]
+}

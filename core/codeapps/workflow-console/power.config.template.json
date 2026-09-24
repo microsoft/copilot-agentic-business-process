@@ -1,0 +1,38 @@
+{
+  "version": "1.0",
+  "appId": null,
+  "appDisplayName": "Workflow Console",
+  "region": "prod",
+  "appType": "CodeApp",
+  "environmentId": null,
+  "description": " ",
+  "buildPath": "./dist",
+  "buildEntryPoint": "index.html",
+  "localAppUrl": "http://localhost:3000",
+  "logoPath": "Default",
+  "connectionReferences": {
+    "faf001_sharedcommondataserviceforapps": {
+      "id": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+      "displayName": "Microsoft Dataverse",
+      "dataSources": ["commondataserviceforapps"],
+      "dataSets": {},
+      "xrmConnectionReferenceLogicalName": "faf001_sharedcommondataserviceforapps"
+    }
+  },
+  "databaseReferences": {
+    "default.cds": {
+      "dataSources": {
+        "processhumantasks": { "entitySetName": "faf001_bptasks", "logicalName": "faf001_bptask", "isHidden": false },
+        "businessprocessinstances": { "entitySetName": "faf001_bpinstances", "logicalName": "faf001_bpinstance", "isHidden": false },
+        "processstepexecutions": { "entitySetName": "faf001_bpsteps", "logicalName": "faf001_bpstep", "isHidden": false },
+        "processattachments": { "entitySetName": "faf001_bpattachments", "logicalName": "faf001_bpattachment", "isHidden": false },
+        "processartifacts": { "entitySetName": "faf001_bpartifacts", "logicalName": "faf001_bpartifact", "isHidden": false },
+        "processdatavalues": { "entitySetName": "faf001_bpdatavalues", "logicalName": "faf001_bpdatavalue", "isHidden": false },
+        "users": { "entitySetName": "systemusers", "logicalName": "systemuser", "isHidden": false },
+        "teams": { "entitySetName": "teams", "logicalName": "team", "isHidden": false },
+        "environment_39a902ba": { "entitySetName": "Environment", "logicalName": "environment_39a902ba", "isHidden": false }
+      },
+      "environmentVariableName": ""
+    }
+  }
+}

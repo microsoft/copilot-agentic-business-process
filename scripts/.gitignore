@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+*.pyc
+
+# Environment-specific, may contain connection ids / tenant ids
+config/deploy.*.json
+!config/deploy.sample.json
+
+# Generated artifacts (deployment settings files, state, logs)
+.out/

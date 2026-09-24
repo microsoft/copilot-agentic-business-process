@@ -1,0 +1,11 @@
+<botcomponent schemaname="faf001_businessprocessmonitoringagent.tool.ListProcessAttachments">
+  <componenttype>9</componenttype>
+  <description>List incoming files from the bpattachment table, that is content that arrived into a run. Filter by _faf001_bpinstanceid_value. Useful columns: faf001_filename, faf001_description, faf001_attachmenttype, faf001_mimetype, faf001_filesize, faf001_storagetype, faf001_externalurl, faf001_source, faf001_receivedon, _faf001_bpstepid_value, _faf001_bptaskid_value, faf001_bpattachmentid. File bytes are not returned; report metadata only.</description>
+  <iscustomizable>1</iscustomizable>
+  <name>List process attachment rows</name>
+  <parentbotid>
+    <schemaname>faf001_businessprocessmonitoringagent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

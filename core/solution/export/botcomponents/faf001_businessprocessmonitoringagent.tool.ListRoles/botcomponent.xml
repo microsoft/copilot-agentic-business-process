@@ -1,0 +1,11 @@
+<botcomponent schemaname="faf001_businessprocessmonitoringagent.tool.ListRoles">
+  <componenttype>9</componenttype>
+  <description>Resolve security roles from the standard Dataverse role table. Use it to turn the GUID in _faf001_requiredrole_value into a role name and description, and to find a role by its actual name supplied by the user. Filter with roleid eq &lt;guid&gt;; do not assume a predefined role name. Useful columns: roleid, name, description, _businessunitid_value. A required role identifies a task routing capability rather than a named person; it does not by itself prove that the caller can act. Always pass $select and $top.</description>
+  <iscustomizable>1</iscustomizable>
+  <name>List security role rows</name>
+  <parentbotid>
+    <schemaname>faf001_businessprocessmonitoringagent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

@@ -1,0 +1,18 @@
+<customapi uniquename="faf001_GetOutputs">
+  <allowedcustomprocessingsteptype>0</allowedcustomprocessingsteptype>
+  <bindingtype>0</bindingtype>
+  <description default="List caller-accessible process data value metadata. Retrieve values using standard Dataverse row retrieval; outputs are not file columns.">
+    <label description="List caller-accessible process data value metadata. Retrieve values using standard Dataverse row retrieval; outputs are not file columns." languagecode="1033" />
+  </description>
+  <displayname default="Get Process Outputs">
+    <label description="Get Process Outputs" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <isfunction>0</isfunction>
+  <isprivate>0</isprivate>
+  <name>faf001_GetOutputs</name>
+  <plugintypeid>
+    <plugintypeexportkey>6F6ED6DB31CA1A9968827C9508B33C85D0FA9C5481E82BBD7357DC46CCEC9CB2</plugintypeexportkey>
+  </plugintypeid>
+  <workflowsdkstepenabled>0</workflowsdkstepenabled>
+</customapi>

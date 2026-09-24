@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<botcomponent schemaname="faf001_sapfileintegrationagent.skill.sap-order-json_oFR">
+  <componenttype>9</componenttype>
+  <description>Generate an SAP sales order as JSON from an unstructured source (email, PDF, order form, or free text). Use when asked to create, build, or map an SAP order / sales order payload in JSON.</description>
+  <iscustomizable>0</iscustomizable>
+  <name>sap-order-json</name>
+  <parentbotid>
+    <schemaname>faf001_sapfileintegrationagent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

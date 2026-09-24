@@ -1,0 +1,20 @@
+[project]
+name = "ppdeploy"
+version = "0.1.0"
+description = "Generic, idempotent Power Platform solution deployment driver built on the pac CLI."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "msal>=1.31",
+    "requests>=2.32",
+]
+
+[project.scripts]
+ppdeploy = "ppdeploy.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["ppdeploy"]

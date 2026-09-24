@@ -1,0 +1,7 @@
+<fetch>
+  <entity name="pluginpackage">
+    <attribute name="name" />
+    <attribute name="version" />
+    <order attribute="name" />
+  </entity>
+</fetch>

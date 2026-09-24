@@ -1,0 +1,11 @@
+<botcomponent schemaname="faf001_businessprocessmonitoringagent.tool.ListProcessSteps">
+  <componenttype>9</componenttype>
+  <description>List executed steps from the bpstep table. Filter one run with _faf001_bpinstanceid_value eq &lt;guid&gt;, and order by faf001_starttime asc. Useful columns: faf001_stepname, faf001_steptype, faf001_status, faf001_starttime, faf001_endtime, faf001_errorcode, faf001_errormessage, _faf001_executedby_value, _faf001_bpinstanceid_value, faf001_bpstepid. For the full ordered history of one known run prefer the Get process detail tool instead.</description>
+  <iscustomizable>1</iscustomizable>
+  <name>List process step rows</name>
+  <parentbotid>
+    <schemaname>faf001_businessprocessmonitoringagent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

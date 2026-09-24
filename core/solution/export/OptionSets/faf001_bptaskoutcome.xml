@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<optionset Name="faf001_bptaskoutcome" localizedName="BP Task Outcome" description="Global choice for the business process tracking model." xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <OptionSetType>picklist</OptionSetType>
+  <IsGlobal>1</IsGlobal>
+  <IntroducedVersion>1.0.0.0</IntroducedVersion>
+  <IsCustomizable>1</IsCustomizable>
+  <displaynames>
+    <displayname description="BP Task Outcome" languagecode="1033" />
+  </displaynames>
+  <Descriptions>
+    <Description description="Global choice for the business process tracking model." languagecode="1033" />
+  </Descriptions>
+  <options>
+    <option value="324010000" ExternalValue="" IsHidden="0">
+      <labels>
+        <label description="Approved" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="324010001" ExternalValue="" IsHidden="0">
+      <labels>
+        <label description="Rejected" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="324010002" ExternalValue="" IsHidden="0">
+      <labels>
+        <label description="Needs More Info" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="324010003" ExternalValue="" IsHidden="0">
+      <labels>
+        <label description="Escalated" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="324010004" ExternalValue="" IsHidden="0">
+      <labels>
+        <label description="Completed" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="324010005" ExternalValue="" IsHidden="0">
+      <labels>
+        <label description="No Response" languagecode="1033" />
+      </labels>
+    </option>
+  </options>
+</optionset>

@@ -1,0 +1,18 @@
+<customapi uniquename="faf001_GetArtifacts">
+  <allowedcustomprocessingsteptype>0</allowedcustomprocessingsteptype>
+  <bindingtype>0</bindingtype>
+  <description default="List all caller-accessible artifact metadata for a process. Use standard Dataverse file download for faf001_file.">
+    <label description="List all caller-accessible artifact metadata for a process. Use standard Dataverse file download for faf001_file." languagecode="1033" />
+  </description>
+  <displayname default="Get Process Artifacts">
+    <label description="Get Process Artifacts" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <isfunction>0</isfunction>
+  <isprivate>0</isprivate>
+  <name>faf001_GetArtifacts</name>
+  <plugintypeid>
+    <plugintypeexportkey>51E5E608A1B02FE149EB69DE7A8C779E4F4B4D3345E2AD69A26D88ACD55FABC4</plugintypeexportkey>
+  </plugintypeid>
+  <workflowsdkstepenabled>0</workflowsdkstepenabled>
+</customapi>

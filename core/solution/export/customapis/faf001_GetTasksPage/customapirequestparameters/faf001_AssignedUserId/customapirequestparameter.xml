@@ -1,0 +1,12 @@
+<customapirequestparameter uniquename="faf001_AssignedUserId">
+  <description default="Optional systemuser GUID. Combined with Assigned Team using OR; does not change caller identity.">
+    <label description="Optional systemuser GUID. Combined with Assigned Team using OR; does not change caller identity." languagecode="1033" />
+  </description>
+  <displayname default="Assigned User ID">
+    <label description="Assigned User ID" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <isoptional>1</isoptional>
+  <name>faf001_GetTasksPage.faf001_AssignedUserId</name>
+  <type>12</type>
+</customapirequestparameter>

@@ -1,0 +1,14 @@
+kind: ConnectorTool
+authMode: Invoker
+connectionReference: faf001_sharedcommondataserviceforapps
+connectorId: /providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps
+operationId: ListRecordsWithOrganization
+toolInputs:
+  - name: entityName
+    value:
+      kind: ContextVariableReference
+      name: ListProcessOutputs.entityName
+  - name: organization
+    value:
+      kind: ContextVariableReference
+      name: ListProcessOutputs.organization

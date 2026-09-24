@@ -1,0 +1,11 @@
+<customapiresponseproperty uniquename="faf001_HasMore">
+  <description default="True when Dataverse reports another page. Paging is not a point-in-time snapshot.">
+    <label description="True when Dataverse reports another page. Paging is not a point-in-time snapshot." languagecode="1033" />
+  </description>
+  <displayname default="Has More">
+    <label description="Has More" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <name>faf001_GetTasksPage.faf001_HasMore</name>
+  <type>0</type>
+</customapiresponseproperty>

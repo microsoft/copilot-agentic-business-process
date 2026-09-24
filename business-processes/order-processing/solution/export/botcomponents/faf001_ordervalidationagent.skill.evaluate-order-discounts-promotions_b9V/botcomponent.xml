@@ -1,0 +1,11 @@
+<botcomponent schemaname="faf001_ordervalidationagent.skill.evaluate-order-discounts-promotions_b9V">
+  <componenttype>9</componenttype>
+  <description>Evaluate product, buyer, and supplier-specific purchase order promotions using provided policies. Use to match supplier code or name, verify claimed discounts, eligibility, dates, currency, thresholds, non-stacking rules, and proposed revised merchandise totals without changing a confirmed order.</description>
+  <iscustomizable>1</iscustomizable>
+  <name>evaluate-order-discounts-promotions</name>
+  <parentbotid>
+    <schemaname>faf001_ordervalidationagent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

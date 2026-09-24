@@ -1,0 +1,11 @@
+<customapiresponseproperty uniquename="faf001_Artifacts">
+  <description default="Artifact IDs, name, type, version, status, storage metadata and references. No file content.">
+    <label description="Artifact IDs, name, type, version, status, storage metadata and references. No file content." languagecode="1033" />
+  </description>
+  <displayname default="Artifacts">
+    <label description="Artifacts" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <name>faf001_GetArtifacts.faf001_Artifacts</name>
+  <type>4</type>
+</customapiresponseproperty>

@@ -1,0 +1,206 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://faf.local/schemas/sap-sales-order.schema.json",
+  "title": "SAP Sales Order",
+  "description": "SAP S/4HANA sales order payload. Field names follow the OData service API_SALES_ORDER_SRV (entity A_SalesOrder / A_SalesOrderItem).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "SalesOrderType",
+    "SalesOrganization",
+    "DistributionChannel",
+    "OrganizationDivision",
+    "SoldToParty",
+    "TransactionCurrency",
+    "to_Item"
+  ],
+  "properties": {
+    "SalesOrder": {
+      "type": "string",
+      "maxLength": 10,
+      "pattern": "^[0-9]{1,10}$",
+      "description": "SAP document number. Omit when the order is being created; SAP assigns it."
+    },
+    "SalesOrderType": {
+      "type": "string",
+      "maxLength": 4,
+      "description": "Order type. OR = standard order, RE = returns, CS = cash sale, FD = free of charge delivery.",
+      "examples": ["OR", "RE", "CS"]
+    },
+    "SalesOrganization": {
+      "type": "string",
+      "maxLength": 4,
+      "description": "Sales organization that owns the order, e.g. 1710."
+    },
+    "DistributionChannel": {
+      "type": "string",
+      "maxLength": 2,
+      "description": "Distribution channel, e.g. 10 = direct sales, 20 = resale."
+    },
+    "OrganizationDivision": {
+      "type": "string",
+      "maxLength": 2,
+      "description": "Division of the product line, e.g. 00."
+    },
+    "SoldToParty": {
+      "type": "string",
+      "maxLength": 10,
+      "description": "Customer number of the ordering party (partner role SP/AG)."
+    },
+    "ShipToParty": {
+      "type": "string",
+      "maxLength": 10,
+      "description": "Customer number of the goods recipient (partner role SH/WE). Defaults to SoldToParty."
+    },
+    "PurchaseOrderByCustomer": {
+      "type": "string",
+      "maxLength": 35,
+      "description": "Customer purchase order / reference number printed on the source document."
+    },
+    "CustomerPurchaseOrderDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Date of the customer purchase order, YYYY-MM-DD."
+    },
+    "SalesOrderDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Document date of the sales order, YYYY-MM-DD. Defaults to today."
+    },
+    "RequestedDeliveryDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Header-level delivery date requested by the customer, YYYY-MM-DD."
+    },
+    "TransactionCurrency": {
+      "type": "string",
+      "pattern": "^[A-Z]{3}$",
+      "description": "Document currency, ISO 4217, e.g. EUR."
+    },
+    "TotalNetAmount": {
+      "type": "string",
+      "pattern": "^-?[0-9]+\\.[0-9]{2}$",
+      "description": "Net order value in TransactionCurrency, decimal string with 2 decimals."
+    },
+    "CustomerPaymentTerms": {
+      "type": "string",
+      "maxLength": 4,
+      "description": "Payment terms key, e.g. 0001 = immediately, NT30 = net 30 days."
+    },
+    "IncotermsClassification": {
+      "type": "string",
+      "maxLength": 3,
+      "description": "Incoterms code, e.g. EXW, FOB, DAP, CIF."
+    },
+    "IncotermsLocation1": {
+      "type": "string",
+      "maxLength": 70,
+      "description": "Incoterms location (city/port) qualifying IncotermsClassification."
+    },
+    "ShippingCondition": {
+      "type": "string",
+      "maxLength": 2,
+      "description": "Shipping condition key, e.g. 01 = standard, 02 = express."
+    },
+    "HeaderBillingBlockReason": {
+      "type": "string",
+      "maxLength": 2,
+      "description": "Billing block key. Empty means not blocked."
+    },
+    "DeliveryBlockReason": {
+      "type": "string",
+      "maxLength": 2,
+      "description": "Delivery block key. Empty means not blocked."
+    },
+    "SalesOrderText": {
+      "type": "string",
+      "maxLength": 250,
+      "description": "Free-text header note carried from the source document."
+    },
+    "to_Item": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Order line items (A_SalesOrderItem).",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "SalesOrderItem",
+          "Material",
+          "RequestedQuantity",
+          "RequestedQuantityUnit"
+        ],
+        "properties": {
+          "SalesOrderItem": {
+            "type": "string",
+            "pattern": "^[0-9]{6}$",
+            "description": "Item number, zero-padded to 6 digits: 000010, 000020, ..."
+          },
+          "Material": {
+            "type": "string",
+            "maxLength": 40,
+            "description": "Material / product number ordered."
+          },
+          "SalesOrderItemText": {
+            "type": "string",
+            "maxLength": 40,
+            "description": "Short description of the material as stated on the source document."
+          },
+          "RequestedQuantity": {
+            "type": "string",
+            "pattern": "^[0-9]+\\.[0-9]{3}$",
+            "description": "Ordered quantity, decimal string with 3 decimals, greater than zero."
+          },
+          "RequestedQuantityUnit": {
+            "type": "string",
+            "maxLength": 3,
+            "description": "Unit of measure, SAP UoM code, e.g. PC, KG, L, M.",
+            "examples": ["PC", "KG", "L"]
+          },
+          "NetAmount": {
+            "type": "string",
+            "pattern": "^-?[0-9]+\\.[0-9]{2}$",
+            "description": "Net value of the item in TransactionCurrency, 2 decimals."
+          },
+          "Plant": {
+            "type": "string",
+            "maxLength": 4,
+            "description": "Supplying plant, e.g. 1710."
+          },
+          "ItemRequestedDeliveryDate": {
+            "type": "string",
+            "format": "date",
+            "description": "Item-level delivery date when it differs from the header date."
+          },
+          "MaterialByCustomer": {
+            "type": "string",
+            "maxLength": 35,
+            "description": "Customer material number, when the source document uses the customer catalog."
+          }
+        }
+      }
+    },
+    "to_Partner": {
+      "type": "array",
+      "description": "Additional business partners beyond sold-to and ship-to.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["PartnerFunction", "Customer"],
+        "properties": {
+          "PartnerFunction": {
+            "type": "string",
+            "maxLength": 2,
+            "description": "Partner function: SP sold-to, SH ship-to, BP bill-to, PY payer.",
+            "examples": ["SP", "SH", "BP", "PY"]
+          },
+          "Customer": {
+            "type": "string",
+            "maxLength": 10,
+            "description": "Customer number holding that partner function."
+          }
+        }
+      }
+    }
+  }
+}

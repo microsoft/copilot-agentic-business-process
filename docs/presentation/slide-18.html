@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+(() => {
+  const param = new URLSearchParams(window.location.search).get("scoutTheme");
+  const theme = param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  document.documentElement.setAttribute("data-theme", theme);
+})();
+</script><title>18. Contoso Order Intake team</title><link rel="icon" href="data:,"><link rel="stylesheet" href="base.css"><link rel="stylesheet" href="styles.css"></head>
+<body class="viewer">
+<header class="toolbar" aria-label="Presentation controls">
+  <a class="brand" href="index.html">Agentic business processes <span>HTML review / FY27 style</span></a>
+  <nav aria-label="Slide navigation">
+    <a class="nav-button" id="previous" href="slide-17.html" aria-label="Previous slide">&#8592; Previous</a>
+    <label class="sr-only" for="slide-picker">Choose slide</label><select id="slide-picker"><option value="slide-01.html">01 - From AI agents to accountable agentic business processes.</option><option value="slide-02.html">02 - Where standalone agents are not enough</option><option value="slide-03.html">03 - One reusable core. Your business logic on top.</option><option value="slide-04.html">04 - Agentified Order Processing Intake</option><option value="slide-05.html">05 - Less re-keying. Better-informed decisions.</option><option value="slide-06.html">06 - From incoming order to SAP-ready payload</option><option value="slide-07.html">07 - Review what the agent actually read</option><option value="slide-08.html">08 - Validate business rules - not just fields</option><option value="slide-09.html">09 - Put work in the right hands</option><option value="slide-10.html">10 - Ask where work is stuck</option><option value="slide-11.html">11 - High-Level Solution &amp; Reusable Core</option><option value="slide-12.html">12 - Agentic Order Intake Processing - High-Level Solution</option><option value="slide-13.html">13 - How the solution fits together</option><option value="slide-14.html">14 - What you do not have to build again</option><option value="slide-15.html">15 - Reference patterns worth repeating</option><option value="slide-16.html">16 - Build your next process - not another runtime</option><option value="slide-17.html">17 - Demo</option><option selected value="slide-18.html">18 - Contoso Order Intake team</option><option value="slide-19.html">19 - Getting Started</option><option value="slide-20.html">20 - Deploy Core once. Add the process. Verify.</option><option value="slide-21.html">21 - What you need to run - and move beyond - the demo</option><option value="slide-22.html">22 - Add a new business process</option><option value="slide-23.html">23 - Thank you</option></select>
+    <a class="nav-button" id="next" href="slide-19.html" aria-label="Next slide">Next &#8594;</a>
+    <button id="fullscreen" type="button" aria-label="Enter fullscreen">Present</button>
+  </nav>
+</header>
+<main class="stage" aria-label="Slide 18 of 23">
+  <div class="slide-frame">
+    <article class="slide team-slide fy27-panel" aria-labelledby="slide-title">
+      <div class="eyebrow"><span>04 / Demo</span></div>
+      <header class="slide-heading"><h1 id="slide-title">Contoso Order Intake team</h1><p>Meet the people behind the demo.</p></header>
+      <div class="slide-content"><div class="columns team-grid"><figure class="team-card"><img src="../../business-processes/order-processing/docs/aadi-order-reviewer.jpg" alt="Aadi, Global Order Reviewer"><figcaption><h2>Aadi</h2><p>Global Order Reviewer</p></figcaption></figure><figure class="team-card"><img src="../../business-processes/order-processing/docs/alan-order-approver.jpg" alt="Alan, Global Order Approver"><figcaption><h2>Alan</h2><p>Global Order Approver</p></figcaption></figure><figure class="team-card"><img src="../../business-processes/order-processing/docs/carlos-backoffice-customer-support.jpg" alt="Carlos, Backoffice Customer Support"><figcaption><h2>Carlos</h2><p>Backoffice Customer Support</p></figcaption></figure><figure class="team-card"><img src="../../business-processes/order-processing/docs/davide-contoso-retail-store-manager.jpg" alt="Davide, Contoso Retail Store Manager"><figcaption><h2>Davide</h2><p>Contoso Retail Store Manager</p></figcaption></figure></div></div>
+      <footer class="slide-footer"><span>Agentic Business Process Automation on Copilot Studio</span><span>18 / 23</span></footer>
+    </article>
+  </div>
+</main>
+<aside class="review">
+  <details><summary>Presenter notes &amp; sources</summary><div class="notes-body"><p>Introduce the demo team: Aadi is the Global Order Reviewer, Alan is the Global Order Approver, Carlos is Backoffice Customer Support, and Davide is the Contoso Retail Store Manager. The reviewer verifies extracted order data; the approver reviews the business-rule evaluation and makes the decision. Global describes their demo responsibilities; the solution-owned Dataverse security roles remain Order Reviewer and Order Approver. Backoffice Customer Support and Contoso Retail Store Manager are demo persona labels, not additional solution-owned Dataverse security roles.</p><ul><li><a href="../../business-processes/order-processing/README.md" target="_blank" rel="noopener">Order Processing - process, agents, human gates and sample limitations</a></li></ul></div></details>
+  <span>Arrow keys: navigate &nbsp; Home / End: first / last &nbsp; F: present</span>
+</aside>
+<p id="viewer-error" class="viewer-error" role="alert" hidden></p>
+<script src="viewer.js"></script></body></html>

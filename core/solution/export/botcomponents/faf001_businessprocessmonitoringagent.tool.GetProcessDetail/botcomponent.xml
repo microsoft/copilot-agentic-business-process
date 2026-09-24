@@ -1,0 +1,11 @@
+<botcomponent schemaname="faf001_businessprocessmonitoringagent.tool.GetProcessDetail">
+  <componenttype>9</componenttype>
+  <description>Return one business process run together with its complete step history in one call. The connector cannot look up this action's input schema in this environment, so ignore that failure and use exactly these parameter names. Set the action parameters to {"faf001_ProcessInstanceId":"&lt;process instance GUID&gt;"}. Returns faf001_Process, the instance row, and faf001_StepsJson, a JSON string holding steps already ordered by start time, each with id, name, startDate, endDate, type, status, executedBy, outputs, and artifacts. Prefer this over listing steps, outputs, and artifacts separately once the run is known. Run-global outputs that belong to no step are not included; use the output list tool for those.</description>
+  <iscustomizable>1</iscustomizable>
+  <name>Get process detail</name>
+  <parentbotid>
+    <schemaname>faf001_businessprocessmonitoringagent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

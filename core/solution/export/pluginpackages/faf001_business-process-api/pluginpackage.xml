@@ -1,0 +1,9 @@
+<pluginpackage uniquename="faf001_business-process-api">
+  <exportkeyversion>1</exportkeyversion>
+  <iscustomizable>1</iscustomizable>
+  <name>faf001_business-process-api</name>
+  <package mimetype="application/octet-stream">faf001_business-process-api.nupkg</package>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+  <version>1.0.0</version>
+</pluginpackage>

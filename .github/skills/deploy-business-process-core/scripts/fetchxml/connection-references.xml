@@ -1,0 +1,10 @@
+<fetch>
+  <entity name="connectionreference">
+    <attribute name="connectionreferencelogicalname" />
+    <attribute name="connectionreferencedisplayname" />
+    <attribute name="connectionid" />
+    <attribute name="connectorid" />
+    <attribute name="statecode" />
+    <order attribute="connectionreferencelogicalname" />
+  </entity>
+</fetch>

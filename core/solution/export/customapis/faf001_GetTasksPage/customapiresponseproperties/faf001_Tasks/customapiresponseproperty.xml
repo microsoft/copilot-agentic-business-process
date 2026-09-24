@@ -1,0 +1,11 @@
+<customapiresponseproperty uniquename="faf001_Tasks">
+  <description default="One page of caller-accessible faf001_bptask rows with the documented task columns.">
+    <label description="One page of caller-accessible faf001_bptask rows with the documented task columns." languagecode="1033" />
+  </description>
+  <displayname default="Tasks">
+    <label description="Tasks" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <name>faf001_GetTasksPage.faf001_Tasks</name>
+  <type>4</type>
+</customapiresponseproperty>

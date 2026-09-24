@@ -1,0 +1,18 @@
+kind: ConnectorTool
+authMode: Invoker
+connectionReference: faf001_sharedcommondataserviceforapps
+connectorId: /providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps
+operationId: ListRecordsWithOrganization
+toolInputs:
+  - name: entityName
+    value:
+      kind: ContextVariableReference
+      name: GetConsoleUrl.entityName
+  - name: fetchXml
+    value:
+      kind: ContextVariableReference
+      name: GetConsoleUrl.fetchXml
+  - name: organization
+    value:
+      kind: ContextVariableReference
+      name: GetConsoleUrl.organization

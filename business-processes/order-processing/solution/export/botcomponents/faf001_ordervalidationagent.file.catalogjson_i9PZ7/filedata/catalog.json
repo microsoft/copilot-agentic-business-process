@@ -1,0 +1,16 @@
+{
+  "record_id": "CATALOG-DEMO-V1",
+  "mode": "mock",
+  "provenance": "Manually transcribed seed records from user-provided images; not independently verified. Product IDs and EA unit policy are demo additions. Ellipses mark clipped text and are not source characters.",
+  "products": [
+    { "product_id": "DEMO-JM-001", "sku": "L419010000", "barcode": "690251033751", "description": "JM Woodsage & Sea Salt Home Candle", "aliases": ["JM Wood Sage & Sea Salt Home Candle"], "uom": "EA", "description_clipped": false },
+    { "product_id": "DEMO-JM-002", "sku": "L10H010000", "barcode": "690251009480", "description": "JM Pomegranate Noir Home Candle", "aliases": [], "uom": "EA", "description_clipped": false },
+    { "product_id": "DEMO-JM-003", "sku": "LGEC010000", "barcode": "690251118083", "description": "JM Wood Sage & Sea Salt Body Mist 100 ml / 3.4...", "aliases": ["JM Wood Sage & Sea Salt Body Mist 100 ml / 3.4"], "uom": "EA", "description_clipped": true },
+    { "product_id": "DEMO-JM-004", "sku": "L51C010000", "barcode": "690251042319", "description": "JM Mimosa & Cardamom Cologne 100 ml / 3.4...", "aliases": ["JM Mimosa & Cardamom Cologne 100 ml / 3.4"], "uom": "EA", "description_clipped": true },
+    { "product_id": "DEMO-JM-005", "sku": "L2HB010000", "barcode": "690251159154", "description": "JM Myrrh & Tonka 125ML All Over Body Spray", "aliases": [], "uom": "EA", "description_clipped": false },
+    { "product_id": "DEMO-JM-006", "sku": "L2HD010000", "barcode": "690251159161", "description": "JM Velvet Rose & Oud 125ML All Over Body Spra...", "aliases": ["JM Velvet Rose & Oud 125ML All Over Body Spra"], "uom": "EA", "description_clipped": true },
+    { "product_id": "DEMO-EL-001", "sku": "PG52010000", "barcode": null, "description": "LAUDER Adv Multi Synch Multi Rec Compl 75 ml", "aliases": [], "uom": "EA", "description_clipped": false },
+    { "product_id": "DEMO-EL-002", "sku": "R8P9040000", "barcode": null, "description": "LAUDER Brow Now Brow Defin Pencil No 04", "aliases": [], "uom": "EA", "description_clipped": false },
+    { "product_id": "DEMO-EL-003", "sku": "WFJM010000", "barcode": null, "description": "LAUDER Daywear Multi Pr 24H SPF15 nor Mischh 50", "aliases": [], "uom": "EA", "description_clipped": false }
+  ]
+}

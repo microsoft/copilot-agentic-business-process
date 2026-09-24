@@ -1,0 +1,11 @@
+<customapiresponseproperty uniquename="faf001_Task">
+  <description default="Assignee-accessible task detail including faf001_inputdata and faf001_widgetid.">
+    <label description="Assignee-accessible task detail including faf001_inputdata and faf001_widgetid." languagecode="1033" />
+  </description>
+  <displayname default="Task">
+    <label description="Task" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <name>faf001_GetTask.faf001_Task</name>
+  <type>3</type>
+</customapiresponseproperty>

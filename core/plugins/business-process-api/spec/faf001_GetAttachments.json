@@ -1,0 +1,18 @@
+{
+  "uniquename": "faf001_GetAttachments",
+  "name": "faf001_GetAttachments",
+  "pluginTypeName": "Faf001.BusinessProcessApi.Api.GetAttachmentsPlugin",
+  "displayname": "Get Process Attachments",
+  "description": "List all caller-accessible attachment metadata for a process. Use standard Dataverse file download for faf001_file.",
+  "bindingtype": 0,
+  "isfunction": false,
+  "isprivate": false,
+  "allowedcustomprocessingsteptype": 0,
+  "workflowsdkstepenabled": false,
+  "CustomAPIRequestParameters": [
+    { "uniquename": "faf001_ProcessInstanceId", "name": "faf001_GetAttachments.faf001_ProcessInstanceId", "displayname": "Process Instance ID", "description": "Required nonempty process instance GUID.", "type": 12, "isoptional": false }
+  ],
+  "CustomAPIResponseProperties": [
+    { "uniquename": "faf001_Attachments", "name": "faf001_GetAttachments.faf001_Attachments", "displayname": "Attachments", "description": "Attachment IDs, filename, type, storage metadata and related references. No file content.", "type": 4 }
+  ]
+}

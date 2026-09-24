@@ -1,0 +1,18 @@
+<customapi uniquename="faf001_CompleteTask">
+  <allowedcustomprocessingsteptype>0</allowedcustomprocessingsteptype>
+  <bindingtype>0</bindingtype>
+  <description default="Atomically complete an open task assigned to the caller, save widget outputs and create a completed human-task step. Requires synchronous transaction and optimistic concurrency.">
+    <label description="Atomically complete an open task assigned to the caller, save widget outputs and create a completed human-task step. Requires synchronous transaction and optimistic concurrency." languagecode="1033" />
+  </description>
+  <displayname default="Complete Task">
+    <label description="Complete Task" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <isfunction>0</isfunction>
+  <isprivate>0</isprivate>
+  <name>faf001_CompleteTask</name>
+  <plugintypeid>
+    <plugintypeexportkey>04C21BD7E94BFD2F91B806345868455697B504C8ED45D7E68CE7691861F5295F</plugintypeexportkey>
+  </plugintypeid>
+  <workflowsdkstepenabled>0</workflowsdkstepenabled>
+</customapi>

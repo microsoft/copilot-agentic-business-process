@@ -1,0 +1,18 @@
+{
+  "uniquename": "faf001_GetTask",
+  "name": "faf001_GetTask",
+  "pluginTypeName": "Faf001.BusinessProcessApi.Api.GetTaskPlugin",
+  "displayname": "Get Task Detail",
+  "description": "Read task detail including input data and widget ID. Caller must be assigned or eligible to preview an unassigned open task.",
+  "bindingtype": 0,
+  "isfunction": false,
+  "isprivate": false,
+  "allowedcustomprocessingsteptype": 0,
+  "workflowsdkstepenabled": false,
+  "CustomAPIRequestParameters": [
+    { "uniquename": "faf001_TaskId", "name": "faf001_GetTask.faf001_TaskId", "displayname": "Task ID", "description": "Required nonempty task GUID.", "type": 12, "isoptional": false }
+  ],
+  "CustomAPIResponseProperties": [
+    { "uniquename": "faf001_Task", "name": "faf001_GetTask.faf001_Task", "displayname": "Task", "description": "Caller-authorized task detail including faf001_inputdata and faf001_widgetid.", "type": 3 }
+  ]
+}

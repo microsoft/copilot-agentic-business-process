@@ -1,0 +1,14 @@
+kind: ConnectorTool
+authMode: Invoker
+connectionReference: faf001_sharedcommondataserviceforapps
+connectorId: /providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps
+operationId: PerformUnboundActionWithOrganization
+toolInputs:
+  - name: actionName
+    value:
+      kind: ContextVariableReference
+      name: GetProcessDetail.actionName
+  - name: organization
+    value:
+      kind: ContextVariableReference
+      name: GetProcessDetail.organization

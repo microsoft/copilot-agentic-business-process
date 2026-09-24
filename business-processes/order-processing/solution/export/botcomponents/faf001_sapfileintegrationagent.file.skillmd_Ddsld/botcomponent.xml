@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<botcomponent schemaname="faf001_sapfileintegrationagent.file.skillmd_Ddsld">
+  <componenttype>14</componenttype>
+  <filedata mimetype="application/octet-stream">SKILL.md</filedata>
+  <iscustomizable>0</iscustomizable>
+  <name>./SKILL.md</name>
+  <parentbotcomponentid>
+    <schemaname>faf001_sapfileintegrationagent.skill.sap-order-json_oFR</schemaname>
+  </parentbotcomponentid>
+  <parentbotid>
+    <schemaname>faf001_sapfileintegrationagent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

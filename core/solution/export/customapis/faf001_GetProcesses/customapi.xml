@@ -1,0 +1,18 @@
+<customapi uniquename="faf001_GetProcesses">
+  <allowedcustomprocessingsteptype>0</allowedcustomprocessingsteptype>
+  <bindingtype>0</bindingtype>
+  <description default="Read one page of caller-accessible process instances, optionally filtered by status. This Action does not modify data.">
+    <label description="Read one page of caller-accessible process instances, optionally filtered by status. This Action does not modify data." languagecode="1033" />
+  </description>
+  <displayname default="Get Business Processes">
+    <label description="Get Business Processes" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <isfunction>0</isfunction>
+  <isprivate>0</isprivate>
+  <name>faf001_GetProcesses</name>
+  <plugintypeid>
+    <plugintypeexportkey>1ED803463C0F9C10BEB999D39B311D7FD219E7D3FBF8DB7A785BDEF0736FE1BA</plugintypeexportkey>
+  </plugintypeid>
+  <workflowsdkstepenabled>0</workflowsdkstepenabled>
+</customapi>

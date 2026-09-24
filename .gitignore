@@ -1,0 +1,15 @@
+# Secrets — never commit. Client secrets, tokens, credentials.
+**/.secrets.*.json
+**/.secrets/
+
+# Environment-specific deployment settings — connection ids, tenant-specific GUIDs
+**/deployment-settings.*.json
+
+# draw.io autosaves a backup beside every diagram it opens
+.$*.drawio.bkp
+**/.$*.drawio.bkp
+
+# Python
+__pycache__/
+*.pyc
+.venv/

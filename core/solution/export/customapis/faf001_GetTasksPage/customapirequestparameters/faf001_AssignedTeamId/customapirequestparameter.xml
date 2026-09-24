@@ -1,0 +1,12 @@
+<customapirequestparameter uniquename="faf001_AssignedTeamId">
+  <description default="Optional team GUID. Combined with Assigned User using OR; does not grant access.">
+    <label description="Optional team GUID. Combined with Assigned User using OR; does not grant access." languagecode="1033" />
+  </description>
+  <displayname default="Assigned Team ID">
+    <label description="Assigned Team ID" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <isoptional>1</isoptional>
+  <name>faf001_GetTasksPage.faf001_AssignedTeamId</name>
+  <type>12</type>
+</customapirequestparameter>

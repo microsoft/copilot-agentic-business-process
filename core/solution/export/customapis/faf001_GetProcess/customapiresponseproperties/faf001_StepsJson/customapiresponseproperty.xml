@@ -1,0 +1,11 @@
+<customapiresponseproperty uniquename="faf001_StepsJson">
+  <description default="Chronological steps with dates, type, status and metadata-only output and artifact references.">
+    <label description="Chronological steps with dates, type, status and metadata-only output and artifact references." languagecode="1033" />
+  </description>
+  <displayname default="Steps JSON">
+    <label description="Steps JSON" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <name>faf001_GetProcess.faf001_StepsJson</name>
+  <type>10</type>
+</customapiresponseproperty>

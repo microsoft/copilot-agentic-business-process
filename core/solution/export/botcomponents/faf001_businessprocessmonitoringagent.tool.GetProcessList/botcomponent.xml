@@ -1,0 +1,11 @@
+<botcomponent schemaname="faf001_businessprocessmonitoringagent.tool.GetProcessList">
+  <componenttype>9</componenttype>
+  <description>Return a curated, paged list of business process runs. The connector cannot look up this action's input schema in this environment, so ignore that failure and use exactly these parameter names. Set the action parameters to {"faf001_Status":&lt;instance status integer&gt;,"faf001_PageSize":&lt;1-500&gt;,"faf001_ContinuationToken":"&lt;token&gt;"}; every parameter is optional, omit faf001_Status for all statuses and pass the previous faf001_NextToken to continue. Returns faf001_Processes, faf001_HasMore, and faf001_NextToken. Use the instance list tool instead when you need to filter or sort on anything other than status.</description>
+  <iscustomizable>1</iscustomizable>
+  <name>Get process list</name>
+  <parentbotid>
+    <schemaname>faf001_businessprocessmonitoringagent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

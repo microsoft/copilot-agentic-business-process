@@ -1,0 +1,11 @@
+<botcomponent schemaname="faf001_businessprocessmonitoringagent.tool.GetConsoleUrl">
+  <componenttype>9</componenttype>
+  <description>Return the Workflow Console launch URL held in the faf001_WorkflowConsoleBaseUrl environment variable. Call it with NO parameters at all: the table and the query are already fixed, and adding $filter, $select, or $top will break it. It returns at most one row with defaultvalue, the portable source default, and current.value, the value configured for this environment. Prefer current.value and fall back to defaultvalue when it is empty. Use this whenever you need to hand the user a link to a task.</description>
+  <iscustomizable>1</iscustomizable>
+  <name>Get Workflow Console base URL</name>
+  <parentbotid>
+    <schemaname>faf001_businessprocessmonitoringagent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

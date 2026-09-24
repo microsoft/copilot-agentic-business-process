@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<botcomponent schemaname="faf001_sapfileintegrationagent.file.sapsalesorderschemajson_rVY0d">
+  <componenttype>14</componenttype>
+  <filedata mimetype="application/json">sap-sales-order.schema.json</filedata>
+  <iscustomizable>0</iscustomizable>
+  <name>./references/sap-sales-order.schema.json</name>
+  <parentbotcomponentid>
+    <schemaname>faf001_sapfileintegrationagent.skill.sap-order-json_oFR</schemaname>
+  </parentbotcomponentid>
+  <parentbotid>
+    <schemaname>faf001_sapfileintegrationagent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

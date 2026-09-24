@@ -1,0 +1,11 @@
+<botcomponent schemaname="faf001_businessprocessmonitoringagent.tool.ListProcessOutputs">
+  <componenttype>9</componenttype>
+  <description>List typed key/value outputs and insights from the bpdatavalue table. Filter by _faf001_bpinstanceid_value, and optionally _faf001_bpstepid_value or _faf001_bptaskid_value, or match a key with faf001_datakey eq or contains. Select faf001_datakey, faf001_datatype, faf001_description and the one value column that faf001_datatype names: faf001_valuetext, faf001_valuenumber, faf001_valueboolean, faf001_valuedatetime, or faf001_valuejson. Reviewer verdicts live under keys ending in .decision with free text under .notes.</description>
+  <iscustomizable>1</iscustomizable>
+  <name>List process output rows</name>
+  <parentbotid>
+    <schemaname>faf001_businessprocessmonitoringagent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

@@ -1,0 +1,18 @@
+<customapi uniquename="faf001_StartTask">
+  <allowedcustomprocessingsteptype>0</allowedcustomprocessingsteptype>
+  <bindingtype>0</bindingtype>
+  <description default="Start an active open task assigned to the caller using optimistic concurrency. Sets In Progress without changing assignment or ownership. Reopening an In Progress task is idempotent.">
+    <label description="Start an active open task assigned to the caller using optimistic concurrency. Sets In Progress without changing assignment or ownership. Reopening an In Progress task is idempotent." languagecode="1033" />
+  </description>
+  <displayname default="Start Task">
+    <label description="Start Task" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <isfunction>0</isfunction>
+  <isprivate>0</isprivate>
+  <name>faf001_StartTask</name>
+  <plugintypeid>
+    <plugintypeexportkey>2ED2A7B2A85B9C90B826B9DED1DA53AB76F93E1174571FACFDADB4E4EA8E371E</plugintypeexportkey>
+  </plugintypeid>
+  <workflowsdkstepenabled>0</workflowsdkstepenabled>
+</customapi>

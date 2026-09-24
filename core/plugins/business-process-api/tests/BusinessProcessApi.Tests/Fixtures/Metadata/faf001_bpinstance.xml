@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity>
+  <attributes>
+    <attribute PhysicalName="faf001_bpinstanceid" />
+    <attribute PhysicalName="faf001_processname" />
+    <attribute PhysicalName="faf001_processdescription" />
+    <attribute PhysicalName="faf001_processversion" />
+    <attribute PhysicalName="faf001_businesskey" />
+    <attribute PhysicalName="faf001_status" />
+    <attribute PhysicalName="faf001_statusmessage" />
+    <attribute PhysicalName="faf001_priority" />
+    <attribute PhysicalName="faf001_starttime" />
+    <attribute PhysicalName="faf001_endtime" />
+    <attribute PhysicalName="faf001_duedate" />
+    <attribute PhysicalName="faf001_lastupdated" />
+    <attribute PhysicalName="faf001_lastcompletedstepid" />
+    <attribute PhysicalName="faf001_errorcode" />
+    <attribute PhysicalName="faf001_errormessage" />
+    <attribute PhysicalName="faf001_channel" />
+    <attribute PhysicalName="faf001_initiatedby" />
+    <attribute PhysicalName="faf001_initiatorexternal" />
+    <attribute PhysicalName="ownerid" />
+    <attribute PhysicalName="createdon" />
+    <attribute PhysicalName="modifiedon" />
+    <attribute PhysicalName="statecode" />
+    <attribute PhysicalName="statuscode" />
+  </attributes>
+</Entity>

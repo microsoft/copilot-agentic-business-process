@@ -1,0 +1,18 @@
+<customapi uniquename="faf001_GetTasks">
+  <allowedcustomprocessingsteptype>0</allowedcustomprocessingsteptype>
+  <bindingtype>0</bindingtype>
+  <description default="Read all caller-accessible business process tasks, across all statuses.">
+    <label description="Read all caller-accessible business process tasks, across all statuses." languagecode="1033" />
+  </description>
+  <displayname default="Get Business Process Tasks">
+    <label description="Get Business Process Tasks" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <isfunction>0</isfunction>
+  <isprivate>0</isprivate>
+  <name>faf001_GetTasks</name>
+  <plugintypeid>
+    <plugintypeexportkey>D67595C6E795EFB5E954AEE735FE63B546E2812221C4E9CDCA6ADF8AC8DDB85E</plugintypeexportkey>
+  </plugintypeid>
+  <workflowsdkstepenabled>0</workflowsdkstepenabled>
+</customapi>

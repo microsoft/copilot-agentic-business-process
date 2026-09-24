@@ -1,0 +1,30 @@
+name: Feature or change proposal
+description: Propose a capability, or a change to the core that more than one process needs.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What can you not do today, and what are you doing instead?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+    validations:
+      required: true
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Scope
+      description: >
+        Changes to the core must serve more than one business process. A change that only
+        one process needs belongs in that process's own solution.
+      options:
+        - Core — needed by more than one business process
+        - A single business process
+        - Documentation or deployment guidance
+    validations:
+      required: true

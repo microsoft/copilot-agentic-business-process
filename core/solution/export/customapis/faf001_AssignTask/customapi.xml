@@ -1,0 +1,18 @@
+<customapi uniquename="faf001_AssignTask">
+  <allowedcustomprocessingsteptype>0</allowedcustomprocessingsteptype>
+  <bindingtype>0</bindingtype>
+  <description default="Assign an eligible unassigned open task to the caller using optimistic concurrency. First successful claim wins. Does not change record ownership.">
+    <label description="Assign an eligible unassigned open task to the caller using optimistic concurrency. First successful claim wins. Does not change record ownership." languagecode="1033" />
+  </description>
+  <displayname default="Claim Task">
+    <label description="Claim Task" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <isfunction>0</isfunction>
+  <isprivate>0</isprivate>
+  <name>faf001_AssignTask</name>
+  <plugintypeid>
+    <plugintypeexportkey>36BF03185A980565E4E8D7F6E5BA262F3F4F48E615FAB05FEFD0326F38E2027E</plugintypeexportkey>
+  </plugintypeid>
+  <workflowsdkstepenabled>0</workflowsdkstepenabled>
+</customapi>

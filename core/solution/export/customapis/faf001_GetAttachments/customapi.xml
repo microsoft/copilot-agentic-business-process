@@ -1,0 +1,18 @@
+<customapi uniquename="faf001_GetAttachments">
+  <allowedcustomprocessingsteptype>0</allowedcustomprocessingsteptype>
+  <bindingtype>0</bindingtype>
+  <description default="List all caller-accessible attachment metadata for a process. Use standard Dataverse file download for faf001_file.">
+    <label description="List all caller-accessible attachment metadata for a process. Use standard Dataverse file download for faf001_file." languagecode="1033" />
+  </description>
+  <displayname default="Get Process Attachments">
+    <label description="Get Process Attachments" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <isfunction>0</isfunction>
+  <isprivate>0</isprivate>
+  <name>faf001_GetAttachments</name>
+  <plugintypeid>
+    <plugintypeexportkey>37FFA1F2A25AE56D68061A9BE9BEEED2D3A801FFD7F2B895DC9F3A6518610AD1</plugintypeexportkey>
+  </plugintypeid>
+  <workflowsdkstepenabled>0</workflowsdkstepenabled>
+</customapi>

@@ -1,0 +1,85 @@
+{
+  "uniquename": "faf001_GetTasksPage",
+  "name": "faf001_GetTasksPage",
+  "pluginTypeName": "Faf001.BusinessProcessApi.Api.GetTasksPagePlugin",
+  "displayname": "Get Business Process Tasks Page",
+  "description": "Read one filtered page of caller-accessible tasks. This Action does not modify data.",
+  "bindingtype": 0,
+  "isfunction": false,
+  "isprivate": false,
+  "allowedcustomprocessingsteptype": 0,
+  "workflowsdkstepenabled": false,
+  "CustomAPIRequestParameters": [
+    {
+      "uniquename": "faf001_ProcessInstanceId",
+      "name": "faf001_GetTasksPage.faf001_ProcessInstanceId",
+      "displayname": "Process Instance ID",
+      "description": "Optional process-instance GUID. Omit to include all accessible instances.",
+      "type": 12,
+      "isoptional": true
+    },
+    {
+      "uniquename": "faf001_Status",
+      "name": "faf001_GetTasksPage.faf001_Status",
+      "displayname": "Task Status",
+      "description": "Optional integer BP Task Status choice value, not the built-in state or status reason.",
+      "type": 7,
+      "isoptional": true
+    },
+    {
+      "uniquename": "faf001_AssignedUserId",
+      "name": "faf001_GetTasksPage.faf001_AssignedUserId",
+      "displayname": "Assigned User ID",
+      "description": "Optional systemuser GUID. Combined with Assigned Team using OR; does not change caller identity.",
+      "type": 12,
+      "isoptional": true
+    },
+    {
+      "uniquename": "faf001_AssignedTeamId",
+      "name": "faf001_GetTasksPage.faf001_AssignedTeamId",
+      "displayname": "Assigned Team ID",
+      "description": "Optional team GUID. Combined with Assigned User using OR; does not grant access.",
+      "type": 12,
+      "isoptional": true
+    },
+    {
+      "uniquename": "faf001_PageSize",
+      "name": "faf001_GetTasksPage.faf001_PageSize",
+      "displayname": "Page Size",
+      "description": "Optional integer from 1 to 500. Defaults to 100. Repeat the same effective size on subsequent pages.",
+      "type": 7,
+      "isoptional": true
+    },
+    {
+      "uniquename": "faf001_ContinuationToken",
+      "name": "faf001_GetTasksPage.faf001_ContinuationToken",
+      "displayname": "Continuation Token",
+      "description": "Opaque token from the previous response. Repeat the same filters. Omit or send an empty string to start.",
+      "type": 10,
+      "isoptional": true
+    }
+  ],
+  "CustomAPIResponseProperties": [
+    {
+      "uniquename": "faf001_Tasks",
+      "name": "faf001_GetTasksPage.faf001_Tasks",
+      "displayname": "Tasks",
+      "description": "One page of caller-accessible faf001_bptask rows with the documented task columns.",
+      "type": 4
+    },
+    {
+      "uniquename": "faf001_HasMore",
+      "name": "faf001_GetTasksPage.faf001_HasMore",
+      "displayname": "Has More",
+      "description": "True when Dataverse reports another page. Paging is not a point-in-time snapshot.",
+      "type": 0
+    },
+    {
+      "uniquename": "faf001_NextToken",
+      "name": "faf001_GetTasksPage.faf001_NextToken",
+      "displayname": "Next Token",
+      "description": "Continuation token for the next request, or an empty string on the last page.",
+      "type": 10
+    }
+  ]
+}

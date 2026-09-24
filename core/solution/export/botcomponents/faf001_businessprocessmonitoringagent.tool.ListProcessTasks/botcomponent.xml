@@ -1,0 +1,11 @@
+<botcomponent schemaname="faf001_businessprocessmonitoringagent.tool.ListProcessTasks">
+  <componenttype>9</componenttype>
+  <description>List human tasks from the bptask table. Filter by _faf001_bpinstanceid_value, faf001_status, _faf001_assignedto_value, _faf001_assignedteam_value, or _faf001_requiredrole_value. Useful columns: faf001_taskname, faf001_tasktype, faf001_status, faf001_outcome, faf001_comments, faf001_duedate, faf001_assignedon, faf001_completedon, _faf001_assignedto_value, _faf001_assignedteam_value, _faf001_requiredrole_value, _faf001_bpstepid_value, faf001_bptaskid. Never select faf001_inputdata.</description>
+  <iscustomizable>1</iscustomizable>
+  <name>List process task rows</name>
+  <parentbotid>
+    <schemaname>faf001_businessprocessmonitoringagent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

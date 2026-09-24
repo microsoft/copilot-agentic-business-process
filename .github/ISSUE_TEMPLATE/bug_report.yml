@@ -1,0 +1,46 @@
+name: Bug report
+description: Something in the core or a reference implementation does not behave as documented.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not include secrets, credential output, or environment identifiers you are not
+        willing to publish.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Business Process API (Dataverse plug-in)
+        - Workflow Console (code app)
+        - Core solution / deployment
+        - Order Processing reference implementation
+        - Deployment skills
+        - Documentation
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: Include the stage that failed and the exact command or skill you ran.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Versions
+      description: Solution version, `pac` version, Node.js / .NET SDK versions where relevant.

@@ -1,0 +1,22 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /core/codeapps/workflow-console
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 5
+    groups:
+      react:
+        patterns:
+          - react
+          - react-dom
+          - '@types/react*'
+      radix:
+        patterns:
+          - '@radix-ui/*'
+
+  - package-ecosystem: nuget
+    directory: /core/plugins/business-process-api
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 5

@@ -1,0 +1,11 @@
+<botcomponent schemaname="faf001_ordervalidationagent.skill.validate-order-product-identity_ezO">
+  <componenttype>9</componenttype>
+  <description>Validate purchase order line SKU, barcode, and product description against reference catalog data. Use for product identity checks, unknown items, conflicting identifiers, description mismatches, and optional barcodes before stock or promotion checks.</description>
+  <iscustomizable>1</iscustomizable>
+  <name>validate-order-product-identity</name>
+  <parentbotid>
+    <schemaname>faf001_ordervalidationagent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

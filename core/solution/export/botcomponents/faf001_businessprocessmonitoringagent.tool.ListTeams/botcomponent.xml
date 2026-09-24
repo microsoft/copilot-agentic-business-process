@@ -1,0 +1,11 @@
+<botcomponent schemaname="faf001_businessprocessmonitoringagent.tool.ListTeams">
+  <componenttype>9</componenttype>
+  <description>Resolve teams from the standard Dataverse team table. Use it to turn the GUID in _faf001_assignedteam_value into a team name and description. Filter with teamid eq &lt;guid&gt;, or use an actual team name supplied by the user; do not assume a predefined team name. Useful columns: teamid, name, description, teamtype, _administratorid_value. Always pass $select and $top.</description>
+  <iscustomizable>1</iscustomizable>
+  <name>List team rows</name>
+  <parentbotid>
+    <schemaname>faf001_businessprocessmonitoringagent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

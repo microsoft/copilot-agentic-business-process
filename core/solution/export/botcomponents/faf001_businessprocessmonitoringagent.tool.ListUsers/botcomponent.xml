@@ -1,0 +1,11 @@
+<botcomponent schemaname="faf001_businessprocessmonitoringagent.tool.ListUsers">
+  <componenttype>9</componenttype>
+  <description>Resolve people from the standard Dataverse systemuser table. Use it to turn a GUID from _faf001_assignedto_value, _faf001_executedby_value, _faf001_initiatedby_value, or _faf001_generatedby_value into a person, and to turn an email address or name supplied by the user into a systemuserid. Filter with systemuserid eq &lt;guid&gt;, internalemailaddress eq '&lt;email&gt;', or contains(fullname,'&lt;text&gt;'). Useful columns: systemuserid, fullname, internalemailaddress, domainname, jobtitle, isdisabled, _businessunitid_value. Always pass $select and $top; never list the whole table.</description>
+  <iscustomizable>1</iscustomizable>
+  <name>List user rows</name>
+  <parentbotid>
+    <schemaname>faf001_businessprocessmonitoringagent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

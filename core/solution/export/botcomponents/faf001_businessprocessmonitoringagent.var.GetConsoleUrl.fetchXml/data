@@ -1,0 +1,4 @@
+kind: AgentVariable
+name: GetConsoleUrl.fetchXml
+type: "{\"type\":\"string\",\"title\":\"Fetch Xml Query\",\"description\":\"Enter a Fetch XML query for advanced customization\",\"x-ms-property-name-alias\":\"fetchXml\"}"
+defaultValue: "<fetch top='1'><entity name='environmentvariabledefinition'><attribute name='schemaname'/><attribute name='defaultvalue'/><filter><condition attribute='schemaname' operator='eq' value='faf001_WorkflowConsoleBaseUrl'/></filter><link-entity name='environmentvariablevalue' from='environmentvariabledefinitionid' to='environmentvariabledefinitionid' link-type='outer' alias='current'><attribute name='value'/></link-entity></entity></fetch>"

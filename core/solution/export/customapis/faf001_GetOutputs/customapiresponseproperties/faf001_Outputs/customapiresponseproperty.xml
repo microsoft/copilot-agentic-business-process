@@ -1,0 +1,11 @@
+<customapiresponseproperty uniquename="faf001_Outputs">
+  <description default="Output IDs, keys, types, descriptions and process/step/task references. No value columns.">
+    <label description="Output IDs, keys, types, descriptions and process/step/task references. No value columns." languagecode="1033" />
+  </description>
+  <displayname default="Outputs">
+    <label description="Outputs" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <name>faf001_GetOutputs.faf001_Outputs</name>
+  <type>4</type>
+</customapiresponseproperty>

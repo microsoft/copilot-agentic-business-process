@@ -1,0 +1,12 @@
+<customapirequestparameter uniquename="faf001_ContinuationToken">
+  <description default="Opaque token from the previous GetProcesses response. Repeat the same status filter. Omit or send an empty string to start.">
+    <label description="Opaque token from the previous GetProcesses response. Repeat the same status filter. Omit or send an empty string to start." languagecode="1033" />
+  </description>
+  <displayname default="Continuation Token">
+    <label description="Continuation Token" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <isoptional>1</isoptional>
+  <name>faf001_GetProcesses.faf001_ContinuationToken</name>
+  <type>10</type>
+</customapirequestparameter>

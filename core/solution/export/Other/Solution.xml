@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ImportExportXml version="9.2.26091.144" SolutionPackageVersion="9.2" languagecode="1033" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" OrganizationVersion="9.2.26091.144" OrganizationSchemaType="Standard" CRMServerServiceabilityVersion="9.2.26091.00144">
+  <SolutionManifest>
+    <UniqueName>BusinessProcessCore</UniqueName>
+    <LocalizedNames>
+      <LocalizedName description="Business Process Core" languagecode="1033" />
+    </LocalizedNames>
+    <Descriptions />
+    <Version>1.0.0.2</Version>
+    <Managed>0</Managed>
+    <Publisher>
+      <UniqueName>faf001</UniqueName>
+      <LocalizedNames>
+        <LocalizedName description="faf001" languagecode="1033" />
+      </LocalizedNames>
+      <Descriptions>
+        <Description description="faf001" languagecode="1033" />
+      </Descriptions>
+      <EMailAddress xsi:nil="true"></EMailAddress>
+      <SupportingWebsiteUrl xsi:nil="true"></SupportingWebsiteUrl>
+      <CustomizationPrefix>faf001</CustomizationPrefix>
+      <CustomizationOptionValuePrefix>32401</CustomizationOptionValuePrefix>
+      <Addresses>
+        <Address>
+          <AddressNumber>1</AddressNumber>
+          <AddressTypeCode>1</AddressTypeCode>
+          <City xsi:nil="true"></City>
+          <County xsi:nil="true"></County>
+          <Country xsi:nil="true"></Country>
+          <Fax xsi:nil="true"></Fax>
+          <FreightTermsCode xsi:nil="true"></FreightTermsCode>
+          <ImportSequenceNumber xsi:nil="true"></ImportSequenceNumber>
+          <Latitude xsi:nil="true"></Latitude>
+          <Line1 xsi:nil="true"></Line1>
+          <Line2 xsi:nil="true"></Line2>
+          <Line3 xsi:nil="true"></Line3>
+          <Longitude xsi:nil="true"></Longitude>
+          <Name xsi:nil="true"></Name>
+          <PostalCode xsi:nil="true"></PostalCode>
+          <PostOfficeBox xsi:nil="true"></PostOfficeBox>
+          <PrimaryContactName xsi:nil="true"></PrimaryContactName>
+          <ShippingMethodCode>1</ShippingMethodCode>
+          <StateOrProvince xsi:nil="true"></StateOrProvince>
+          <Telephone1 xsi:nil="true"></Telephone1>
+          <Telephone2 xsi:nil="true"></Telephone2>
+          <Telephone3 xsi:nil="true"></Telephone3>
+          <TimeZoneRuleVersionNumber xsi:nil="true"></TimeZoneRuleVersionNumber>
+          <UPSZone xsi:nil="true"></UPSZone>
+          <UTCOffset xsi:nil="true"></UTCOffset>
+          <UTCConversionTimeZoneCode xsi:nil="true"></UTCConversionTimeZoneCode>
+        </Address>
+        <Address>
+          <AddressNumber>2</AddressNumber>
+          <AddressTypeCode>1</AddressTypeCode>
+          <City xsi:nil="true"></City>
+          <County xsi:nil="true"></County>
+          <Country xsi:nil="true"></Country>
+          <Fax xsi:nil="true"></Fax>
+          <FreightTermsCode xsi:nil="true"></FreightTermsCode>
+          <ImportSequenceNumber xsi:nil="true"></ImportSequenceNumber>
+          <Latitude xsi:nil="true"></Latitude>
+          <Line1 xsi:nil="true"></Line1>
+          <Line2 xsi:nil="true"></Line2>
+          <Line3 xsi:nil="true"></Line3>
+          <Longitude xsi:nil="true"></Longitude>
+          <Name xsi:nil="true"></Name>
+          <PostalCode xsi:nil="true"></PostalCode>
+          <PostOfficeBox xsi:nil="true"></PostOfficeBox>
+          <PrimaryContactName xsi:nil="true"></PrimaryContactName>
+          <ShippingMethodCode>1</ShippingMethodCode>
+          <StateOrProvince xsi:nil="true"></StateOrProvince>
+          <Telephone1 xsi:nil="true"></Telephone1>
+          <Telephone2 xsi:nil="true"></Telephone2>
+          <Telephone3 xsi:nil="true"></Telephone3>
+          <TimeZoneRuleVersionNumber xsi:nil="true"></TimeZoneRuleVersionNumber>
+          <UPSZone xsi:nil="true"></UPSZone>
+          <UTCOffset xsi:nil="true"></UTCOffset>
+          <UTCConversionTimeZoneCode xsi:nil="true"></UTCConversionTimeZoneCode>
+        </Address>
+      </Addresses>
+    </Publisher>
+    <RootComponents>
+      <RootComponent type="1" schemaName="faf001_bpartifact" behavior="0" />
+      <RootComponent type="1" schemaName="faf001_bpattachment" behavior="0" />
+      <RootComponent type="1" schemaName="faf001_bpdatavalue" behavior="0" />
+      <RootComponent type="1" schemaName="faf001_bpinstance" behavior="0" />
+      <RootComponent type="1" schemaName="faf001_bpstep" behavior="0" />
+      <RootComponent type="1" schemaName="faf001_bptask" behavior="0" />
+      <RootComponent type="1" schemaName="flowrun" behavior="1" />
+      <RootComponent type="1" schemaName="role" behavior="1" />
+      <RootComponent type="1" schemaName="systemuser" behavior="1" />
+      <RootComponent type="1" schemaName="team" behavior="1" />
+      <RootComponent type="300" schemaName="cr522_workflowconsole_75f6c" behavior="0" />
+      <RootComponent type="9" schemaName="faf001_bpartifactstatus" behavior="0" />
+      <RootComponent type="9" schemaName="faf001_bpartifacttype" behavior="0" />
+      <RootComponent type="9" schemaName="faf001_bpattachmentsource" behavior="0" />
+      <RootComponent type="9" schemaName="faf001_bpattachmenttype" behavior="0" />
+      <RootComponent type="9" schemaName="faf001_bpchannel" behavior="0" />
+      <RootComponent type="9" schemaName="faf001_bpdatatype" behavior="0" />
+      <RootComponent type="9" schemaName="faf001_bpinstancestatus" behavior="0" />
+      <RootComponent type="9" schemaName="faf001_bppriority" behavior="0" />
+      <RootComponent type="9" schemaName="faf001_bpstepstatus" behavior="0" />
+      <RootComponent type="9" schemaName="faf001_bpsteptype" behavior="0" />
+      <RootComponent type="9" schemaName="faf001_bpstoragetype" behavior="0" />
+      <RootComponent type="9" schemaName="faf001_bptaskoutcome" behavior="0" />
+      <RootComponent type="9" schemaName="faf001_bptaskstatus" behavior="0" />
+      <RootComponent type="9" schemaName="faf001_bptasktype" behavior="0" />
+    </RootComponents>
+    <MissingDependencies>
+      <MissingDependency>
+        <Required type="1" schemaName="flowrun" displayName="Flow Run" solution="MicrosoftFlowExtensionsOnline (1.10.19.0)">
+          <package appName="MicrosoftFlowExtensionsCore" version="1.10.19.0">MicrosoftFlowExtensionsAnchor (1.10.19.0)</package>
+        </Required>
+        <Dependent type="1" schemaName="flowrun" displayName="Flow Run" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="1" schemaName="role" displayName="Role" parentSchemaName="" solution="AuthorizationCore (1.134.0.0)" />
+        <Dependent type="1" schemaName="role" displayName="Role" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="1" schemaName="systemuser" displayName="SystemUser" parentSchemaName="" solution="msdyn_PowerAdminSettingsEmail (2.2.3517.1)" />
+        <Dependent type="1" schemaName="systemuser" displayName="SystemUser" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="1" schemaName="team" displayName="Team" parentSchemaName="" solution="msdynce_AppCommonPatch (9.0.1904.4006)" />
+        <Dependent type="1" schemaName="team" displayName="Team" />
+      </MissingDependency>
+    </MissingDependencies>
+  </SolutionManifest>
+</ImportExportXml>

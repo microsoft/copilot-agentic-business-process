@@ -1,0 +1,18 @@
+<customapi uniquename="faf001_GetTasksPage">
+  <allowedcustomprocessingsteptype>0</allowedcustomprocessingsteptype>
+  <bindingtype>0</bindingtype>
+  <description default="Read one filtered page of caller-accessible tasks. This Action does not modify data.">
+    <label description="Read one filtered page of caller-accessible tasks. This Action does not modify data." languagecode="1033" />
+  </description>
+  <displayname default="Get Business Process Tasks Page">
+    <label description="Get Business Process Tasks Page" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <isfunction>0</isfunction>
+  <isprivate>0</isprivate>
+  <name>faf001_GetTasksPage</name>
+  <plugintypeid>
+    <plugintypeexportkey>CEED33A08A2FFA0DD394727E14ED5CD6D69D107887A4B8A07C80BAF853B16F09</plugintypeexportkey>
+  </plugintypeid>
+  <workflowsdkstepenabled>0</workflowsdkstepenabled>
+</customapi>

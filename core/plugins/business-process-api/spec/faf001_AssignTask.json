@@ -1,0 +1,18 @@
+{
+  "uniquename": "faf001_AssignTask",
+  "name": "faf001_AssignTask",
+  "pluginTypeName": "Faf001.BusinessProcessApi.Api.AssignTaskPlugin",
+  "displayname": "Claim Task",
+  "description": "Assign an eligible unassigned open task to the caller using optimistic concurrency. First successful claim wins. Does not change record ownership.",
+  "bindingtype": 0,
+  "isfunction": false,
+  "isprivate": false,
+  "allowedcustomprocessingsteptype": 0,
+  "workflowsdkstepenabled": false,
+  "CustomAPIRequestParameters": [
+    { "uniquename": "faf001_TaskId", "name": "faf001_AssignTask.faf001_TaskId", "displayname": "Task ID", "description": "Required nonempty task GUID. Assignee is always the Dataverse caller.", "type": 12, "isoptional": false }
+  ],
+  "CustomAPIResponseProperties": [
+    { "uniquename": "faf001_TaskId", "name": "faf001_AssignTask.faf001_TaskId", "displayname": "Task ID", "description": "Claimed task GUID. Repeated claim by its current assignee does not modify the task.", "type": 12 }
+  ]
+}

@@ -1,0 +1,4 @@
+kind: AgentVariable
+name: GetTaskQueue.actionName
+type: "{\"type\":\"string\",\"title\":\"Action Name\",\"x-ms-dynamic-list\":{\"operationId\":\"GetUnboundActions\",\"parameters\":{},\"itemsPath\":\"value\",\"itemValuePath\":\"operationId\",\"itemTitlePath\":\"operationDisplayName\"},\"description\":\"Choose an action\",\"minLength\":1,\"x-ms-property-name-alias\":\"actionName\"}"
+defaultValue: faf001_GetTasksPage

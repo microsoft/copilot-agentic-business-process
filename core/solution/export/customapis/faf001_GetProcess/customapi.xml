@@ -1,0 +1,18 @@
+<customapi uniquename="faf001_GetProcess">
+  <allowedcustomprocessingsteptype>0</allowedcustomprocessingsteptype>
+  <bindingtype>0</bindingtype>
+  <description default="Read a caller-accessible process and chronological steps with metadata-only output and artifact references.">
+    <label description="Read a caller-accessible process and chronological steps with metadata-only output and artifact references." languagecode="1033" />
+  </description>
+  <displayname default="Get Process Detail">
+    <label description="Get Process Detail" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <isfunction>0</isfunction>
+  <isprivate>0</isprivate>
+  <name>faf001_GetProcess</name>
+  <plugintypeid>
+    <plugintypeexportkey>325E6C394D127E65B4DA8C9FCD26A1EBFD6F26B8C2A325E6D3DDB4A0A100684D</plugintypeexportkey>
+  </plugintypeid>
+  <workflowsdkstepenabled>0</workflowsdkstepenabled>
+</customapi>

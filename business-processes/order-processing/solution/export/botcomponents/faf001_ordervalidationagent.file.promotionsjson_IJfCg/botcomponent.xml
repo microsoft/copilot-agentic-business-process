@@ -1,0 +1,14 @@
+<botcomponent schemaname="faf001_ordervalidationagent.file.promotionsjson_IJfCg">
+  <componenttype>14</componenttype>
+  <filedata mimetype="application/json">promotions.json</filedata>
+  <iscustomizable>1</iscustomizable>
+  <name>./assets/promotions.json</name>
+  <parentbotcomponentid>
+    <schemaname>faf001_ordervalidationagent.skill.evaluate-order-discounts-promotions_b9V</schemaname>
+  </parentbotcomponentid>
+  <parentbotid>
+    <schemaname>faf001_ordervalidationagent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

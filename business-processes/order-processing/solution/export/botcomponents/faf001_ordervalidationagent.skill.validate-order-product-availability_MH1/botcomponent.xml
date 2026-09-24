@@ -1,0 +1,11 @@
+<botcomponent schemaname="faf001_ordervalidationagent.skill.validate-order-product-availability_MH1">
+  <componenttype>9</componenttype>
+  <description>Validate purchase order fulfillment against product stock reference data. Use after product identity resolution to check available quantities, aggregate repeated SKUs, detect shortages, and report blocked stock checks. Single warehouse, immediate fulfillment, no reservations, backorders, or partial fulfillment.</description>
+  <iscustomizable>1</iscustomizable>
+  <name>validate-order-product-availability</name>
+  <parentbotid>
+    <schemaname>faf001_ordervalidationagent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

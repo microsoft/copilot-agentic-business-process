@@ -1,0 +1,12 @@
+<customapirequestparameter uniquename="faf001_PageSize">
+  <description default="Optional integer from 1 to 500. Defaults to 100. Repeat the same effective size on subsequent pages.">
+    <label description="Optional integer from 1 to 500. Defaults to 100. Repeat the same effective size on subsequent pages." languagecode="1033" />
+  </description>
+  <displayname default="Page Size">
+    <label description="Page Size" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <isoptional>1</isoptional>
+  <name>faf001_GetProcesses.faf001_PageSize</name>
+  <type>7</type>
+</customapirequestparameter>

@@ -1,0 +1,3 @@
+kind: InlineAgentSkill
+content: <!-- bic:bundle=faf001_sapfileintegrationagent.file.saporderzip_7aZaa -->
+authoringSource: Upload

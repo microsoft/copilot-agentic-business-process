@@ -1,0 +1,55 @@
+{
+  "reference": "FY27-GTM-OD202-Agentify-Your-Business-Processes-Copilot-Studio-and-Power-Platform.pptx",
+  "referenceSlideCount": 27,
+  "referenceSlideSizePoints": { "width": 960, "height": 540 },
+  "aspectRatio": "16:9",
+  "previewCanvasPixels": { "width": 1600, "height": 900 },
+  "primaryTheme": "Custom 11",
+  "powerPointExport": {
+    "file": "Agentic-Business-Processes-FY27-Corrected.pptx",
+    "slideCount": 23,
+    "editableContent": "Main slide text and the repository hyperlink are native PowerPoint objects. Product screenshots and portraits are embedded images. Decorative HTML cards and connectors are preserved as transparent visual layers.",
+    "nativeTemplateUsage": "Reference slide 1 for the cover; reference slide 27 for section dividers, Demo and the closing slide; reference slide 3 for content panels; reference slide 6 for screenshot backgrounds; reference slide 26 for the getting-started content background. Unused slide and layout placeholders are removed to prevent default text areas overlapping editable titles in PowerPoint.",
+    "repositoryUrl": "https://example.com/repository",
+    "repositoryUrlIsPlaceholder": true
+  },
+  "fonts": {
+    "heading": "Segoe Sans Display Semibold",
+    "body": "Segoe Sans Text",
+    "fallbacks": ["Segoe UI", "Aptos", "Calibri", "sans-serif"],
+    "fontFilesIncluded": false,
+    "observedReferenceSizesPoints": { "coverTitle": 40, "contentTitle": 28, "body": [14, 16], "caption": 11 }
+  },
+  "extractedThemeColors": {
+    "dark1": "#1A1A1A",
+    "light1": "#FFFFFF",
+    "dark2": "#00599F",
+    "light2": "#E6E6E6",
+    "accent1": "#0078D4",
+    "accent2": "#00599F",
+    "accent3": "#5647E5",
+    "accent4": "#00B294",
+    "accent5": "#00FFFF",
+    "accent6": "#737373",
+    "hyperlink": "#0076D3",
+    "followedHyperlink": "#4CB1FE"
+  },
+  "layoutAdaptation": [
+    { "previewSlides": [1], "referenceSlides": [1], "treatment": "Full-bleed blue-purple-cyan gradient, cyan left-aligned title and geometric forward motif." },
+    { "previewSlides": [2, 3, 5, 6, 13, 14, 15, 16], "referenceSlides": [3, 6, 11, 13, 15], "treatment": "Translucent rounded panel, bold headings, white cards, blue subheadings and purple/teal emphasis." },
+    { "previewSlides": [7, 8, 9, 10], "referenceSlides": [7, 8, 9, 13], "treatment": "Screenshot-first layout: full-height image on the right; title, talking points and takeaway in a compact left panel. No top heading band or slide footer. White image frame and full-bleed gradient." },
+    { "previewSlides": [12], "referenceSlides": [7, 8, 9, 13], "treatment": "Order Processing architecture image in a near-full-height white frame, compact white title and FY27 gradient. Full image retained without cropping." },
+    { "previewSlides": [18], "referenceSlides": [3, 6, 11, 13, 15], "treatment": "Contoso Order Intake team: four white cards with circular photo avatars, soft teal borders, names and prominent 32px semibold dark role labels on the FY27 panel background. Aadi: Global Order Reviewer; Alan: Global Order Approver; Carlos: Backoffice Customer Support; Davide: Contoso Retail Store Manager." },
+    { "previewSlides": [4, 11, 17, 19], "referenceSlides": [27], "treatment": "Section dividers with full-bleed blue-purple-cyan gradient, large white left-aligned titles and ascending triangular shapes on the right. The Demo divider and team slide precede Getting Started." },
+    { "previewSlides": [20, 21], "referenceSlides": [20, 26], "treatment": "Light gray canvas, white cards and saturated lower gradient band." },
+    { "previewSlides": [22], "referenceSlides": [3, 6, 11, 13, 15], "treatment": "Two-column guide: four steps for building a new process alongside a proposed Agent Forge Analyst Agent to Product Owner Agent to GitHub Copilot handoff. Prominent WORK IN PROGRESS badge distinguishes the proposed accelerator from the existing reference pattern." },
+    { "previewSlides": [23], "referenceSlides": [27], "treatment": "Thank you closing slide, appended with explicit approval for the PowerPoint export." }
+  ],
+  "adaptationNotes": [
+    "HTML design treatments are recreated in CSS. The approved PowerPoint export reuses the user-provided FY27 deck's native layouts and artwork; no font files are included.",
+    "Gradient colors, geometry and panel opacity are visually approximated rather than pixel-identical to the source artwork.",
+    "Reference ROI figures and product claims are not copied. The approved total is 23 slides: 18 content slides, four section dividers and a closing slide, including the Order Processing architecture image at slide 12, the Demo divider at slide 17, the team portraits at slide 18 and the new-process development guide at slide 22. Agent Forge acceleration is a proposed work-in-progress approach, not a verified delivery pipeline or measured speed claim. Slides 7-10 use the four supplied UI screenshots; no screenshot placeholders remain. Review audience authorization or redact sensitive information before external distribution.",
+    "FY27 is the selected presentation style. The builder generates all pages directly from slides.mjs in this folder, with local base.css, styles.css and viewer.js. The alternate preview has been removed.",
+    "PowerPoint generation approved. The original FY27 cover and closing layouts are reused; section dividers adapt the closing layout. Content slides use the original FY27 backgrounds. The official repository hyperlink remains a clearly labeled placeholder."
+  ]
+}

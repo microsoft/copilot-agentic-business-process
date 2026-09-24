@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<botcomponent schemaname="faf001_sapfileintegrationagent.settings.feedback">
+  <componenttype>18</componenttype>
+  <iscustomizable>0</iscustomizable>
+  <parentbotid>
+    <schemaname>faf001_sapfileintegrationagent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

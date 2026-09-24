@@ -1,0 +1,13 @@
+<environmentvariabledefinition schemaname="faf001_OrderMailboxAddress">
+  <description default="Shared mailbox address used for order intake and validation-error replies.">
+    <label description="Shared mailbox address used for order intake and validation-error replies." languagecode="1033" />
+  </description>
+  <displayname default="Order Mailbox Address">
+    <label description="Order Mailbox Address" languagecode="1033" />
+  </displayname>
+  <introducedversion>1.0.0.0</introducedversion>
+  <iscustomizable>1</iscustomizable>
+  <isrequired>1</isrequired>
+  <secretstore>0</secretstore>
+  <type>100000000</type>
+</environmentvariabledefinition>

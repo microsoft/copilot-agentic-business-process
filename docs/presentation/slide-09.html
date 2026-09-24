@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+(() => {
+  const param = new URLSearchParams(window.location.search).get("scoutTheme");
+  const theme = param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  document.documentElement.setAttribute("data-theme", theme);
+})();
+</script><title>9. Put work in the right hands</title><link rel="icon" href="data:,"><link rel="stylesheet" href="base.css"><link rel="stylesheet" href="styles.css"></head>
+<body class="viewer">
+<header class="toolbar" aria-label="Presentation controls">
+  <a class="brand" href="index.html">Agentic business processes <span>HTML review / FY27 style</span></a>
+  <nav aria-label="Slide navigation">
+    <a class="nav-button" id="previous" href="slide-08.html" aria-label="Previous slide">&#8592; Previous</a>
+    <label class="sr-only" for="slide-picker">Choose slide</label><select id="slide-picker"><option value="slide-01.html">01 - From AI agents to accountable agentic business processes.</option><option value="slide-02.html">02 - Where standalone agents are not enough</option><option value="slide-03.html">03 - One reusable core. Your business logic on top.</option><option value="slide-04.html">04 - Agentified Order Processing Intake</option><option value="slide-05.html">05 - Less re-keying. Better-informed decisions.</option><option value="slide-06.html">06 - From incoming order to SAP-ready payload</option><option value="slide-07.html">07 - Review what the agent actually read</option><option value="slide-08.html">08 - Validate business rules - not just fields</option><option selected value="slide-09.html">09 - Put work in the right hands</option><option value="slide-10.html">10 - Ask where work is stuck</option><option value="slide-11.html">11 - High-Level Solution &amp; Reusable Core</option><option value="slide-12.html">12 - Agentic Order Intake Processing - High-Level Solution</option><option value="slide-13.html">13 - How the solution fits together</option><option value="slide-14.html">14 - What you do not have to build again</option><option value="slide-15.html">15 - Reference patterns worth repeating</option><option value="slide-16.html">16 - Build your next process - not another runtime</option><option value="slide-17.html">17 - Demo</option><option value="slide-18.html">18 - Contoso Order Intake team</option><option value="slide-19.html">19 - Getting Started</option><option value="slide-20.html">20 - Deploy Core once. Add the process. Verify.</option><option value="slide-21.html">21 - What you need to run - and move beyond - the demo</option><option value="slide-22.html">22 - Add a new business process</option><option value="slide-23.html">23 - Thank you</option></select>
+    <a class="nav-button" id="next" href="slide-10.html" aria-label="Next slide">Next &#8594;</a>
+    <button id="fullscreen" type="button" aria-label="Enter fullscreen">Present</button>
+  </nav>
+</header>
+<main class="stage" aria-label="Slide 9 of 23">
+  <div class="slide-frame">
+    <article class="slide screenshot-slide screenshot-wide fy27-showcase" aria-labelledby="slide-title">
+      
+      
+      <div class="slide-content"><div class="showcase"><aside class="showcase-points"><header class="screenshot-heading"><h1 id="slide-title">Put work in the right hands</h1><p>A shared operating experience, with a clear task owner</p></header><div class="talking-points"><div class="point"><h2>Route by capability</h2><p>Order Reviewer and Order Approver roles determine task routing.</p></div><div class="point"><h2>Notify in Teams</h2><p>Eligible users receive a deep link to the exact task.</p></div><div class="point"><h2>Claim. Start. Complete.</h2><p>Concurrency checks and transactional completion protect the decision.</p></div></div><div class="takeaway">People can change. <strong>The process does not need a named person hard-coded into it.</strong></div></aside><figure class="product-screenshot"><img src="../task-queue.png" alt="Workflow Console My tasks queue with All open, Assigned to me, My teams and By role filters; an assigned extraction-review task and a waiting evaluation-review task."><figcaption class="sr-only">Workflow Console task queue, ownership and role-based routing.</figcaption></figure></div></div>
+      
+    </article>
+  </div>
+</main>
+<aside class="review">
+  <details><summary>Presenter notes &amp; sources</summary><div class="notes-body"><p>The supplied task-queue.png shows My tasks filters, an extraction-review task assigned to the current user, and an evaluation-review task waiting for the Order Approver role. Point to the Status, Assigned, Required role and Actions columns. Teams notifications are a related capability, not shown in this screenshot. Role-based routing does not grant row access: Dataverse privileges and app sharing are separate requirements. Claims use row-version checks and completion writes the outcome, outputs and step closure transactionally.</p><ul><li><a href="../../README.md" target="_blank" rel="noopener">Repository overview - reusable Core, architecture, deployment and licensing</a></li><li><a href="../../business-processes/order-processing/README.md" target="_blank" rel="noopener">Order Processing - process, agents, human gates and sample limitations</a></li></ul></div></details>
+  <span>Arrow keys: navigate &nbsp; Home / End: first / last &nbsp; F: present</span>
+</aside>
+<p id="viewer-error" class="viewer-error" role="alert" hidden></p>
+<script src="viewer.js"></script></body></html>

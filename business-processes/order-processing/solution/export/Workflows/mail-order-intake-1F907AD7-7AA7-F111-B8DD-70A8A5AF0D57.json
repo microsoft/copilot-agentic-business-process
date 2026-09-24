@@ -1,0 +1,2124 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_office365": {
+        "api": {
+          "name": "shared_office365"
+        },
+        "connection": {
+          "connectionReferenceLogicalName": "faf001_sharedoffice365"
+        },
+        "runtimeSource": "embedded"
+      },
+      "shared_commondataserviceforapps": {
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        },
+        "connection": {
+          "connectionReferenceLogicalName": "faf001_sharedcommondataserviceforapps"
+        },
+        "runtimeSource": "embedded"
+      },
+      "shared_commondataserviceforapps-1": {
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        },
+        "connection": {
+          "connectionReferenceLogicalName": "faf001_sharedcommondataserviceforapps"
+        },
+        "runtimeSource": "embedded"
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "Order Mailbox Address (faf001_OrderMailboxAddress)": {
+          "defaultValue": "",
+          "type": "String",
+          "metadata": {
+            "schemaName": "faf001_OrderMailboxAddress"
+          }
+        }
+      },
+      "triggers": {
+        "When_a_new_email_arrives_in_a_shared_mailbox": {
+          "type": "OpenApiConnection",
+          "inputs": {
+            "parameters": {
+              "mailboxAddress": "@parameters('Order Mailbox Address (faf001_OrderMailboxAddress)')",
+              "folderId": "Inbox",
+              "importance": "Any",
+              "hasAttachments": false,
+              "includeAttachments": true
+            },
+            "host": {
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_office365",
+              "operationId": "SharedMailboxOnNewEmailV2",
+              "connectionName": "shared_office365"
+            },
+            "authentication": "@parameters('$authentication')"
+          },
+          "recurrence": {
+            "frequency": "Minute",
+            "interval": 1
+          },
+          "splitOn": "@triggerOutputs()?['body/value']",
+          "metadata": {
+            "associatedData": {
+              "graph": {
+                "name": "mail-order-intake",
+                "nodes": [
+                  {
+                    "id": "start-945faf75-7f7e-4633-99b0-ed86372b1587",
+                    "name": "When a new email arrives in a shared mailbox",
+                    "type": "start",
+                    "version": 1,
+                    "position": {
+                      "x": 250,
+                      "y": 356.5
+                    },
+                    "data": {
+                      "config": {
+                        "triggerType": "connector",
+                        "connector": {
+                          "apiName": "shared_office365",
+                          "operationName": "SharedMailboxOnNewEmailV2",
+                          "connectionName": "shared_office365",
+                          "displayName": "When a new email arrives in a shared mailbox (V2)",
+                          "iconUri": "https://static.powerapps.com/resource/ppcr/releases/v1.0.1819/1.0.1819.4795/office365/icon.png",
+                          "brandColor": "#0078D4",
+                          "operationType": "OpenApiConnectionNotification",
+                          "inputs": {
+                            "mailboxAddress": "@parameters('Order Mailbox Address (faf001_OrderMailboxAddress)')",
+                            "folderId": "Inbox",
+                            "importance": "Any",
+                            "hasAttachments": false,
+                            "includeAttachments": true
+                          },
+                          "parametersSchema": {
+                            "type": "object",
+                            "properties": {
+                              "mailboxAddress": {
+                                "type": "string",
+                                "title": "Original Mailbox Address"
+                              },
+                              "folderId": {
+                                "type": "string",
+                                "title": "Folder"
+                              },
+                              "importance": {
+                                "type": "string",
+                                "title": "Importance"
+                              },
+                              "hasAttachments": {
+                                "type": "boolean",
+                                "title": "Only with Attachments"
+                              },
+                              "includeAttachments": {
+                                "type": "boolean",
+                                "title": "Include Attachments"
+                              }
+                            },
+                            "required": [
+                              "mailboxAddress"
+                            ]
+                          }
+                        }
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default",
+                          "outcomeSchema": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "title": "Message Id"
+                              },
+                              "internetMessageId": {
+                                "type": "string",
+                                "title": "Internet Message Id"
+                              },
+                              "from": {
+                                "type": "string",
+                                "title": "From"
+                              },
+                              "subject": {
+                                "type": "string",
+                                "title": "Subject"
+                              },
+                              "receivedDateTime": {
+                                "type": "string",
+                                "format": "date-time",
+                                "title": "Received Time"
+                              },
+                              "attachments": {
+                                "type": "array",
+                                "title": "Attachments",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string",
+                                      "title": "Attachment Id"
+                                    },
+                                    "name": {
+                                      "type": "string",
+                                      "title": "Name"
+                                    },
+                                    "contentType": {
+                                      "type": "string",
+                                      "title": "Content Type"
+                                    },
+                                    "size": {
+                                      "type": "integer",
+                                      "format": "int64",
+                                      "title": "Size"
+                                    },
+                                    "contentBytes": {
+                                      "type": "string",
+                                      "format": "byte",
+                                      "title": "Content"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "measured": {
+                      "width": 320,
+                      "height": 66
+                    }
+                  },
+                  {
+                    "id": "connector-2b7184ca-f3f6-4a78-b191-823682a40366",
+                    "name": "Create business process instance",
+                    "type": "connector",
+                    "version": 1,
+                    "position": {
+                      "x": 646,
+                      "y": 356.5
+                    },
+                    "data": {
+                      "config": {
+                        "apiName": "shared_commondataserviceforapps",
+                        "displayName": "Microsoft Dataverse",
+                        "iconUri": "https://static.powerapps.com/resource/ppcr/releases/v1.0.1825/1.0.1825.4855/commondataserviceforapps/icon.png",
+                        "brandColor": "#088142",
+                        "operationName": "CreateRecord",
+                        "connectionName": "shared_commondataserviceforapps-1",
+                        "operationType": "OpenApiConnection",
+                        "parameters": {
+                          "entityName": "faf001_bpinstances",
+                          "item/faf001_businesskey": "@concat(coalesce(triggerOutputs()?['body/from'], ''), '|', coalesce(triggerOutputs()?['body/subject'], ''))",
+                          "item/faf001_channel": 324010005,
+                          "item/faf001_initiatorexternal": "@coalesce(triggerOutputs()?['body/from'], '')",
+                          "item/faf001_lastupdated": "@utcNow()",
+                          "item/faf001_processdescription": "@{concat('Order intake from email: ', coalesce(triggerOutputs()?['body/subject'], '(no subject)'))}",
+                          "item/faf001_processname": "Order Processing Intake",
+                          "item/faf001_processversion": "1.0",
+                          "item/faf001_starttime": "@{triggerOutputs()?['body/receivedDateTime']}",
+                          "item/faf001_status": 324010001,
+                          "item/faf001_statusmessage": "validating mail order"
+                        },
+                        "parametersSchema": {
+                          "type": "object",
+                          "properties": {
+                            "x-ms-odata-metadata-full": {
+                              "type": "boolean",
+                              "title": "Return Full Metadata",
+                              "description": "The header parameter to customer to opt-in returning full odata metadata in response.",
+                              "x-ms-visibility": "advanced",
+                              "x-ms-property-name-alias": "x-ms-odata-metadata-full"
+                            },
+                            "entityName": {
+                              "type": "string",
+                              "title": "Table name",
+                              "x-ms-dynamic-list": {
+                                "operationId": "GetEntities",
+                                "parameters": {},
+                                "itemsPath": "value",
+                                "itemValuePath": "EntitySetName",
+                                "itemTitlePath": "DisplayCollectionName/UserLocalizedLabel/Label"
+                              },
+                              "description": "Choose a table",
+                              "minLength": 1,
+                              "x-ms-property-name-alias": "entityName"
+                            },
+                            "item": {
+                              "type": "object",
+                              "title": "Row Item",
+                              "x-ms-dynamic-properties": {
+                                "operationId": "GetMetadataForPostEntity",
+                                "parameters": {
+                                  "entityName": {
+                                    "parameterReference": "entityName",
+                                    "required": true
+                                  }
+                                },
+                                "itemValuePath": "schema"
+                              },
+                              "description": "Row to create",
+                              "x-ms-property-name-alias": "item"
+                            }
+                          },
+                          "required": [
+                            "entityName",
+                            "item"
+                          ]
+                        },
+                        "resolvedDynamicSchemas": {
+                          "item": {
+                            "type": "object",
+                            "properties": {
+                              "faf001_businesskey": {
+                                "type": "string",
+                                "title": "Business Key",
+                                "maxLength": 850,
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "faf001_businesskey"
+                              },
+                              "faf001_bpinstanceid": {
+                                "type": "string",
+                                "title": "Business Process Instance",
+                                "format": "guid",
+                                "description": "Unique identifier for entity instances",
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "faf001_bpinstanceid"
+                              },
+                              "faf001_channel": {
+                                "type": "integer",
+                                "title": "Channel",
+                                "x-ms-dynamic-list": {
+                                  "operationId": "GetOptionSetMetadataWithEntitySetName",
+                                  "parameters": {
+                                    "entityName": {
+                                      "parameterReference": "entityName",
+                                      "required": true
+                                    },
+                                    "attributeMetadataId": {
+                                      "value": "4f804e45-f3a6-f111-b8de-70a8a5af0d57"
+                                    },
+                                    "type": {
+                                      "value": "Picklist"
+                                    }
+                                  },
+                                  "itemsPath": "value",
+                                  "itemValuePath": "value",
+                                  "itemTitlePath": "Label/UserLocalizedLabel/Label"
+                                },
+                                "format": "int32",
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "faf001_channel"
+                              },
+                              "faf001_duedate": {
+                                "type": "string",
+                                "title": "Due Date",
+                                "format": "date-time",
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "faf001_duedate"
+                              },
+                              "faf001_endtime": {
+                                "type": "string",
+                                "title": "End Time",
+                                "format": "date-time",
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "faf001_endtime"
+                              },
+                              "faf001_errorcode": {
+                                "type": "string",
+                                "title": "Error Code",
+                                "maxLength": 100,
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "faf001_errorcode"
+                              },
+                              "faf001_errormessage": {
+                                "type": "string",
+                                "title": "Error Message",
+                                "maxLength": 4000,
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "faf001_errormessage"
+                              },
+                              "importsequencenumber": {
+                                "type": "integer",
+                                "title": "Import Sequence Number",
+                                "format": "int32",
+                                "description": "Sequence number of the import that created this record.",
+                                "maximum": 2147483647,
+                                "minimum": -2147483648,
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "importsequencenumber"
+                              },
+                              "faf001_initiatedby@odata.bind": {
+                                "type": "string",
+                                "title": "Initiated By (Users)",
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "faf001_initiatedby@odata.bind"
+                              },
+                              "faf001_initiatorexternal": {
+                                "type": "string",
+                                "title": "Initiator (External)",
+                                "maxLength": 200,
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "faf001_initiatorexternal"
+                              },
+                              "faf001_lastcompletedstepid@odata.bind": {
+                                "type": "string",
+                                "title": "Last Completed Step (Process Step Executions)",
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "faf001_lastcompletedstepid@odata.bind"
+                              },
+                              "faf001_lastupdated": {
+                                "type": "string",
+                                "title": "Last Updated",
+                                "format": "date-time",
+                                "description": "When a workflow last advanced this instance. Written explicitly; distinct from the platform modifiedon.",
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "faf001_lastupdated"
+                              },
+                              "ownerid@odata.bind": {
+                                "type": "string",
+                                "title": "Owner (Owners)",
+                                "description": "Owner Id",
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "ownerid@odata.bind"
+                              },
+                              "faf001_priority": {
+                                "type": "integer",
+                                "title": "Priority",
+                                "x-ms-dynamic-list": {
+                                  "operationId": "GetOptionSetMetadataWithEntitySetName",
+                                  "parameters": {
+                                    "entityName": {
+                                      "parameterReference": "entityName",
+                                      "required": true
+                                    },
+                                    "attributeMetadataId": {
+                                      "value": "62a76829-f3a6-f111-b8de-70a8a5af0d57"
+                                    },
+                                    "type": {
+                                      "value": "Picklist"
+                                    }
+                                  },
+                                  "itemsPath": "value",
+                                  "itemValuePath": "value",
+                                  "itemTitlePath": "Label/UserLocalizedLabel/Label"
+                                },
+                                "format": "int32",
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "faf001_priority"
+                              },
+                              "faf001_processdescription": {
+                                "type": "string",
+                                "title": "Process Description",
+                                "maxLength": 200,
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "faf001_processdescription"
+                              },
+                              "faf001_processname": {
+                                "type": "string",
+                                "title": "Process Name",
+                                "description": "Primary name column for Business Process Instance.",
+                                "maxLength": 100,
+                                "x-ms-visibility": "important",
+                                "x-ms-property-name-alias": "faf001_processname"
+                              },
+                              "faf001_processversion": {
+                                "type": "string",
+                                "title": "Process Version",
+                                "maxLength": 20,
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "faf001_processversion"
+                              },
+                              "overriddencreatedon": {
+                                "type": "string",
+                                "title": "Record Created On",
+                                "format": "date-time",
+                                "description": "Date and time that the record was migrated.",
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "overriddencreatedon"
+                              },
+                              "faf001_starttime": {
+                                "type": "string",
+                                "title": "Start Time",
+                                "format": "date-time",
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "faf001_starttime"
+                              },
+                              "faf001_status": {
+                                "type": "integer",
+                                "title": "Status",
+                                "x-ms-dynamic-list": {
+                                  "operationId": "GetOptionSetMetadataWithEntitySetName",
+                                  "parameters": {
+                                    "entityName": {
+                                      "parameterReference": "entityName",
+                                      "required": true
+                                    },
+                                    "attributeMetadataId": {
+                                      "value": "1da73b23-f3a6-f111-b8de-70a8a5af0d57"
+                                    },
+                                    "type": {
+                                      "value": "Picklist"
+                                    }
+                                  },
+                                  "itemsPath": "value",
+                                  "itemValuePath": "value",
+                                  "itemTitlePath": "Label/UserLocalizedLabel/Label"
+                                },
+                                "format": "int32",
+                                "x-ms-visibility": "important",
+                                "x-ms-property-name-alias": "faf001_status"
+                              },
+                              "faf001_statusmessage": {
+                                "type": "string",
+                                "title": "Status Message",
+                                "description": "Human-readable explanation of the current instance status, set by the workflow that last advanced the process.",
+                                "maxLength": 200,
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "faf001_statusmessage"
+                              },
+                              "statuscode": {
+                                "type": "integer",
+                                "title": "Status Reason",
+                                "x-ms-dynamic-list": {
+                                  "operationId": "GetOptionSetMetadataWithEntitySetName",
+                                  "parameters": {
+                                    "entityName": {
+                                      "parameterReference": "entityName",
+                                      "required": true
+                                    },
+                                    "attributeMetadataId": {
+                                      "value": "61ca26b8-5f97-4528-997f-5753f567650d"
+                                    },
+                                    "type": {
+                                      "value": "Status"
+                                    }
+                                  },
+                                  "itemsPath": "value",
+                                  "itemValuePath": "value",
+                                  "itemTitlePath": "Label/UserLocalizedLabel/Label"
+                                },
+                                "format": "int32",
+                                "description": "Reason for the status of the Business Process Instance",
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "statuscode"
+                              },
+                              "timezoneruleversionnumber": {
+                                "type": "integer",
+                                "title": "Time Zone Rule Version Number",
+                                "format": "int32",
+                                "description": "For internal use only.",
+                                "maximum": 2147483647,
+                                "minimum": -1,
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "timezoneruleversionnumber"
+                              },
+                              "utcconversiontimezonecode": {
+                                "type": "integer",
+                                "title": "UTC Conversion Time Zone Code",
+                                "format": "int32",
+                                "description": "Time zone code that was in use when the record was created.",
+                                "maximum": 2147483647,
+                                "minimum": -1,
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "utcconversiontimezonecode"
+                              }
+                            },
+                            "required": [
+                              "faf001_processname",
+                              "faf001_status"
+                            ]
+                          }
+                        }
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default",
+                          "outcomeSchema": {
+                            "type": "object",
+                            "properties": {
+                              "faf001_businesskey": {
+                                "type": "string",
+                                "title": "Business Key",
+                                "maxLength": 850,
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "body/faf001_businesskey"
+                              },
+                              "faf001_bpinstanceid": {
+                                "type": "string",
+                                "title": "Business Process Instance",
+                                "format": "guid",
+                                "description": "Unique identifier for entity instances",
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "body/faf001_bpinstanceid"
+                              },
+                              "faf001_channel": {
+                                "type": "integer",
+                                "title": "Channel",
+                                "x-ms-dynamic-list": {
+                                  "operationId": "GetOptionSetMetadataWithEntitySetName",
+                                  "parameters": {
+                                    "entityName": {
+                                      "parameterReference": "entityName",
+                                      "required": true
+                                    },
+                                    "attributeMetadataId": {
+                                      "value": "4f804e45-f3a6-f111-b8de-70a8a5af0d57"
+                                    },
+                                    "type": {
+                                      "value": "Picklist"
+                                    }
+                                  },
+                                  "itemsPath": "value",
+                                  "itemValuePath": "value",
+                                  "itemTitlePath": "Label/UserLocalizedLabel/Label"
+                                },
+                                "format": "int32",
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "body/faf001_channel"
+                              },
+                              "_createdonbehalfby_value@Microsoft.Dynamics.CRM.lookuplogicalname": {
+                                "type": "string",
+                                "title": "Created By (Delegate) (Type)",
+                                "description": "Unique identifier of the delegate user who created the record.",
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "body/_createdonbehalfby_value@Microsoft.Dynamics.CRM.lookuplogicalname"
+                              },
+                              "_createdonbehalfby_value": {
+                                "type": "string",
+                                "title": "Created By (Delegate) (Value)",
+                                "description": "Unique identifier of the delegate user who created the record.",
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "body/_createdonbehalfby_value"
+                              },
+                              "_createdby_value@Microsoft.Dynamics.CRM.lookuplogicalname": {
+                                "type": "string",
+                                "title": "Created By (Type)",
+                                "description": "Unique identifier of the user who created the record.",
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "body/_createdby_value@Microsoft.Dynamics.CRM.lookuplogicalname"
+                              },
+                              "_createdby_value": {
+                                "type": "string",
+                                "title": "Created By (Value)",
+                                "description": "Unique identifier of the user who created the record.",
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "body/_createdby_value"
+                              },
+                              "createdon": {
+                                "type": "string",
+                                "title": "Created On",
+                                "format": "date-time",
+                                "description": "Date and time when the record was created.",
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "body/createdon"
+                              },
+                              "faf001_duedate": {
+                                "type": "string",
+                                "title": "Due Date",
+                                "format": "date-time",
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "body/faf001_duedate"
+                              },
+                              "faf001_endtime": {
+                                "type": "string",
+                                "title": "End Time",
+                                "format": "date-time",
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "body/faf001_endtime"
+                              },
+                              "faf001_errorcode": {
+                                "type": "string",
+                                "title": "Error Code",
+                                "maxLength": 100,
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "body/faf001_errorcode"
+                              },
+                              "faf001_errormessage": {
+                                "type": "string",
+                                "title": "Error Message",
+                                "maxLength": 4000,
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "body/faf001_errormessage"
+                              },
+                              "importsequencenumber": {
+                                "type": "integer",
+                                "title": "Import Sequence Number",
+                                "format": "int32",
+                                "description": "Sequence number of the import that created this record.",
+                                "maximum": 2147483647,
+                                "minimum": -2147483648,
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "body/importsequencenumber"
+                              },
+                              "_faf001_initiatedby_value@Microsoft.Dynamics.CRM.lookuplogicalname": {
+                                "type": "string",
+                                "title": "Initiated By (Type)",
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "body/_faf001_initiatedby_value@Microsoft.Dynamics.CRM.lookuplogicalname"
+                              },
+                              "_faf001_initiatedby_value": {
+                                "type": "string",
+                                "title": "Initiated By (Value)",
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "body/_faf001_initiatedby_value"
+                              },
+                              "faf001_initiatorexternal": {
+                                "type": "string",
+                                "title": "Initiator (External)",
+                                "maxLength": 200,
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "body/faf001_initiatorexternal"
+                              },
+                              "_faf001_lastcompletedstepid_value@Microsoft.Dynamics.CRM.lookuplogicalname": {
+                                "type": "string",
+                                "title": "Last Completed Step (Type)",
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "body/_faf001_lastcompletedstepid_value@Microsoft.Dynamics.CRM.lookuplogicalname"
+                              },
+                              "_faf001_lastcompletedstepid_value": {
+                                "type": "string",
+                                "title": "Last Completed Step (Value)",
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "body/_faf001_lastcompletedstepid_value"
+                              },
+                              "faf001_lastupdated": {
+                                "type": "string",
+                                "title": "Last Updated",
+                                "format": "date-time",
+                                "description": "When a workflow last advanced this instance. Written explicitly; distinct from the platform modifiedon.",
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "body/faf001_lastupdated"
+                              },
+                              "_modifiedonbehalfby_value@Microsoft.Dynamics.CRM.lookuplogicalname": {
+                                "type": "string",
+                                "title": "Modified By (Delegate) (Type)",
+                                "description": "Unique identifier of the delegate user who modified the record.",
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "body/_modifiedonbehalfby_value@Microsoft.Dynamics.CRM.lookuplogicalname"
+                              },
+                              "_modifiedonbehalfby_value": {
+                                "type": "string",
+                                "title": "Modified By (Delegate) (Value)",
+                                "description": "Unique identifier of the delegate user who modified the record.",
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "body/_modifiedonbehalfby_value"
+                              },
+                              "_modifiedby_value@Microsoft.Dynamics.CRM.lookuplogicalname": {
+                                "type": "string",
+                                "title": "Modified By (Type)",
+                                "description": "Unique identifier of the user who modified the record.",
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "body/_modifiedby_value@Microsoft.Dynamics.CRM.lookuplogicalname"
+                              },
+                              "_modifiedby_value": {
+                                "type": "string",
+                                "title": "Modified By (Value)",
+                                "description": "Unique identifier of the user who modified the record.",
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "body/_modifiedby_value"
+                              },
+                              "modifiedon": {
+                                "type": "string",
+                                "title": "Modified On",
+                                "format": "date-time",
+                                "description": "Date and time when the record was modified.",
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "body/modifiedon"
+                              },
+                              "@odata.id": {
+                                "type": "string",
+                                "title": "OData Id",
+                                "description": "OData row id",
+                                "x-ms-visibility": "important",
+                                "x-ms-property-name-alias": "body/@odata.id"
+                              },
+                              "_ownerid_value@Microsoft.Dynamics.CRM.lookuplogicalname": {
+                                "type": "string",
+                                "title": "Owner (Type)",
+                                "description": "Owner Id",
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "body/_ownerid_value@Microsoft.Dynamics.CRM.lookuplogicalname"
+                              },
+                              "_ownerid_value": {
+                                "type": "string",
+                                "title": "Owner (Value)",
+                                "description": "Owner Id",
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "body/_ownerid_value"
+                              },
+                              "_owningbusinessunit_value@Microsoft.Dynamics.CRM.lookuplogicalname": {
+                                "type": "string",
+                                "title": "Owning Business Unit (Type)",
+                                "description": "Unique identifier for the business unit that owns the record",
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "body/_owningbusinessunit_value@Microsoft.Dynamics.CRM.lookuplogicalname"
+                              },
+                              "_owningbusinessunit_value": {
+                                "type": "string",
+                                "title": "Owning Business Unit (Value)",
+                                "description": "Unique identifier for the business unit that owns the record",
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "body/_owningbusinessunit_value"
+                              },
+                              "_owningteam_value@Microsoft.Dynamics.CRM.lookuplogicalname": {
+                                "type": "string",
+                                "title": "Owning Team (Type)",
+                                "description": "Unique identifier for the team that owns the record.",
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "body/_owningteam_value@Microsoft.Dynamics.CRM.lookuplogicalname"
+                              },
+                              "_owningteam_value": {
+                                "type": "string",
+                                "title": "Owning Team (Value)",
+                                "description": "Unique identifier for the team that owns the record.",
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "body/_owningteam_value"
+                              },
+                              "_owninguser_value@Microsoft.Dynamics.CRM.lookuplogicalname": {
+                                "type": "string",
+                                "title": "Owning User (Type)",
+                                "description": "Unique identifier for the user that owns the record.",
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "body/_owninguser_value@Microsoft.Dynamics.CRM.lookuplogicalname"
+                              },
+                              "_owninguser_value": {
+                                "type": "string",
+                                "title": "Owning User (Value)",
+                                "description": "Unique identifier for the user that owns the record.",
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "body/_owninguser_value"
+                              },
+                              "faf001_priority": {
+                                "type": "integer",
+                                "title": "Priority",
+                                "x-ms-dynamic-list": {
+                                  "operationId": "GetOptionSetMetadataWithEntitySetName",
+                                  "parameters": {
+                                    "entityName": {
+                                      "parameterReference": "entityName",
+                                      "required": true
+                                    },
+                                    "attributeMetadataId": {
+                                      "value": "62a76829-f3a6-f111-b8de-70a8a5af0d57"
+                                    },
+                                    "type": {
+                                      "value": "Picklist"
+                                    }
+                                  },
+                                  "itemsPath": "value",
+                                  "itemValuePath": "value",
+                                  "itemTitlePath": "Label/UserLocalizedLabel/Label"
+                                },
+                                "format": "int32",
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "body/faf001_priority"
+                              },
+                              "faf001_processdescription": {
+                                "type": "string",
+                                "title": "Process Description",
+                                "maxLength": 200,
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "body/faf001_processdescription"
+                              },
+                              "faf001_processname": {
+                                "type": "string",
+                                "title": "Process Name",
+                                "description": "Primary name column for Business Process Instance.",
+                                "maxLength": 100,
+                                "x-ms-visibility": "important",
+                                "x-ms-property-name-alias": "body/faf001_processname"
+                              },
+                              "faf001_processversion": {
+                                "type": "string",
+                                "title": "Process Version",
+                                "maxLength": 20,
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "body/faf001_processversion"
+                              },
+                              "overriddencreatedon": {
+                                "type": "string",
+                                "title": "Record Created On",
+                                "format": "date-time",
+                                "description": "Date and time that the record was migrated.",
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "body/overriddencreatedon"
+                              },
+                              "faf001_starttime": {
+                                "type": "string",
+                                "title": "Start Time",
+                                "format": "date-time",
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "body/faf001_starttime"
+                              },
+                              "faf001_status": {
+                                "type": "integer",
+                                "title": "Status",
+                                "x-ms-dynamic-list": {
+                                  "operationId": "GetOptionSetMetadataWithEntitySetName",
+                                  "parameters": {
+                                    "entityName": {
+                                      "parameterReference": "entityName",
+                                      "required": true
+                                    },
+                                    "attributeMetadataId": {
+                                      "value": "1da73b23-f3a6-f111-b8de-70a8a5af0d57"
+                                    },
+                                    "type": {
+                                      "value": "Picklist"
+                                    }
+                                  },
+                                  "itemsPath": "value",
+                                  "itemValuePath": "value",
+                                  "itemTitlePath": "Label/UserLocalizedLabel/Label"
+                                },
+                                "format": "int32",
+                                "x-ms-visibility": "important",
+                                "x-ms-property-name-alias": "body/faf001_status"
+                              },
+                              "statecode": {
+                                "type": "integer",
+                                "title": "Status",
+                                "x-ms-dynamic-list": {
+                                  "operationId": "GetOptionSetMetadataWithEntitySetName",
+                                  "parameters": {
+                                    "entityName": {
+                                      "parameterReference": "entityName",
+                                      "required": true
+                                    },
+                                    "attributeMetadataId": {
+                                      "value": "a4b7f1a5-767a-4e24-a413-0f4d46a217a5"
+                                    },
+                                    "type": {
+                                      "value": "State"
+                                    }
+                                  },
+                                  "itemsPath": "value",
+                                  "itemValuePath": "value",
+                                  "itemTitlePath": "Label/UserLocalizedLabel/Label"
+                                },
+                                "format": "int32",
+                                "description": "Status of the Business Process Instance",
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "body/statecode"
+                              },
+                              "faf001_statusmessage": {
+                                "type": "string",
+                                "title": "Status Message",
+                                "description": "Human-readable explanation of the current instance status, set by the workflow that last advanced the process.",
+                                "maxLength": 200,
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "body/faf001_statusmessage"
+                              },
+                              "statuscode": {
+                                "type": "integer",
+                                "title": "Status Reason",
+                                "x-ms-dynamic-list": {
+                                  "operationId": "GetOptionSetMetadataWithEntitySetName",
+                                  "parameters": {
+                                    "entityName": {
+                                      "parameterReference": "entityName",
+                                      "required": true
+                                    },
+                                    "attributeMetadataId": {
+                                      "value": "61ca26b8-5f97-4528-997f-5753f567650d"
+                                    },
+                                    "type": {
+                                      "value": "Status"
+                                    }
+                                  },
+                                  "itemsPath": "value",
+                                  "itemValuePath": "value",
+                                  "itemTitlePath": "Label/UserLocalizedLabel/Label"
+                                },
+                                "format": "int32",
+                                "description": "Reason for the status of the Business Process Instance",
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "body/statuscode"
+                              },
+                              "timezoneruleversionnumber": {
+                                "type": "integer",
+                                "title": "Time Zone Rule Version Number",
+                                "format": "int32",
+                                "description": "For internal use only.",
+                                "maximum": 2147483647,
+                                "minimum": -1,
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "body/timezoneruleversionnumber"
+                              },
+                              "utcconversiontimezonecode": {
+                                "type": "integer",
+                                "title": "UTC Conversion Time Zone Code",
+                                "format": "int32",
+                                "description": "Time zone code that was in use when the record was created.",
+                                "maximum": 2147483647,
+                                "minimum": -1,
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "body/utcconversiontimezonecode"
+                              },
+                              "versionnumber": {
+                                "type": "integer",
+                                "title": "Version Number",
+                                "format": "int64",
+                                "description": "Version Number",
+                                "maximum": 9223372036854776000,
+                                "minimum": -9223372036854776000,
+                                "x-ms-visibility": "advanced",
+                                "x-ms-property-name-alias": "body/versionnumber"
+                              }
+                            },
+                            "required": []
+                          }
+                        }
+                      ]
+                    },
+                    "measured": {
+                      "width": 285,
+                      "height": 66
+                    },
+                    "selected": true
+                  },
+                  {
+                    "id": "ifElse-e9c5ad42-86bb-4c25-8072-2d6ef0dc4610",
+                    "name": "Validate order attachment",
+                    "type": "ifElse",
+                    "version": 1,
+                    "position": {
+                      "x": 1002,
+                      "y": 356.5
+                    },
+                    "data": {
+                      "config": {
+                        "conditions": [
+                          {
+                            "id": "34abf78d-4000-4efd-a48e-12da6ce0ac2f",
+                            "name": "Valid order input",
+                            "expression": "{\r\n  \"and\": [\r\n    {\r\n      \"equals\": [\r\n        \"@length(coalesce(triggerOutputs()?['body/attachments'], json('[]')))\",\r\n        1\r\n      ]\r\n    },\r\n    {\r\n      \"startsWith\": [\r\n        \"@toLower(coalesce(first(coalesce(triggerOutputs()?['body/attachments'], json('[]')))?['contentType'], ''))\",\r\n        \"image/\"\r\n      ]\r\n    }\r\n  ]\r\n}"
+                          }
+                        ]
+                      },
+                      "outcomes": [
+                        {
+                          "id": "condition:34abf78d-4000-4efd-a48e-12da6ce0ac2f",
+                          "label": "Valid order input"
+                        },
+                        {
+                          "id": "else",
+                          "label": "Else"
+                        }
+                      ]
+                    },
+                    "measured": {
+                      "width": 241,
+                      "height": 169
+                    }
+                  },
+                  {
+                    "id": "connector-e4c8d3e7-0d59-4ceb-8fb3-a86f95676f7b",
+                    "name": "Create process attachment",
+                    "type": "connector",
+                    "version": 1,
+                    "position": {
+                      "x": 1318,
+                      "y": 356.5
+                    },
+                    "data": {
+                      "config": {
+                        "apiName": "shared_commondataserviceforapps",
+                        "displayName": "Microsoft Dataverse",
+                        "iconUri": "https://static.powerapps.com/resource/ppcr/releases/v1.0.1825/1.0.1825.4855/commondataserviceforapps/icon.png",
+                        "brandColor": "#088142",
+                        "operationName": "CreateRecord",
+                        "connectionName": "shared_commondataserviceforapps",
+                        "operationType": "OpenApiConnection",
+                        "parameters": {
+                          "entityName": "faf001_bpattachments",
+                          "item/faf001_attachmenttype": 324010001,
+                          "item/faf001_bpinstanceid@odata.bind": "@concat('/faf001_bpinstances(', outputs('Create_business_process_instance')?['body/faf001_bpinstanceid'], ')')",
+                          "item/faf001_description": "@concat('Received by mail-order-intake. Subject: ', coalesce(triggerOutputs()?['body/subject'], '(no subject)'))",
+                          "item/faf001_filename": "@coalesce(first(coalesce(triggerOutputs()?['body/attachments'], json('[]')))?['name'], 'attachment')",
+                          "item/faf001_filesize": "@first(coalesce(triggerOutputs()?['body/attachments'], json('[]')))?['size']",
+                          "item/faf001_mimetype": "@first(coalesce(triggerOutputs()?['body/attachments'], json('[]')))?['contentType']",
+                          "item/faf001_receivedon": "@triggerOutputs()?['body/receivedDateTime']",
+                          "item/faf001_source": 324010000,
+                          "item/faf001_storagetype": 324010002
+                        },
+                        "parametersSchema": {
+                          "type": "object",
+                          "properties": {
+                            "entityName": {
+                              "type": "string",
+                              "title": "Table name"
+                            },
+                            "item": {
+                              "type": "object",
+                              "title": "Row"
+                            }
+                          },
+                          "required": []
+                        }
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default",
+                          "outcomeSchema": {
+                            "type": "object",
+                            "properties": {
+                              "faf001_bpattachmentid": {
+                                "type": "string",
+                                "format": "uuid",
+                                "title": "Process Attachment"
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "measured": {
+                      "width": 248,
+                      "height": 66
+                    }
+                  },
+                  {
+                    "id": "connector-546672bf-07eb-4a9f-a004-4c6935b5aeed",
+                    "name": "Upload attachment file",
+                    "type": "connector",
+                    "version": 1,
+                    "position": {
+                      "x": 1637,
+                      "y": 356.5
+                    },
+                    "data": {
+                      "config": {
+                        "apiName": "shared_commondataserviceforapps",
+                        "displayName": "Microsoft Dataverse",
+                        "iconUri": "https://static.powerapps.com/resource/ppcr/releases/v1.0.1825/1.0.1825.4855/commondataserviceforapps/icon.png",
+                        "brandColor": "#088142",
+                        "operationName": "UpdateEntityFileImageFieldContent",
+                        "connectionName": "shared_commondataserviceforapps",
+                        "operationType": "OpenApiConnection",
+                        "parameters": {
+                          "entityName": "faf001_bpattachments",
+                          "fileImageFieldName": "faf001_file",
+                          "item": "@base64ToBinary(first(coalesce(triggerOutputs()?['body/attachments'], json('[]')))?['contentBytes'])",
+                          "recordId": "@outputs('Create_process_attachment')?['body/faf001_bpattachmentid']",
+                          "x-ms-file-name": "@coalesce(first(coalesce(triggerOutputs()?['body/attachments'], json('[]')))?['name'], 'attachment')"
+                        },
+                        "parametersSchema": {
+                          "type": "object",
+                          "properties": {
+                            "entityName": {
+                              "type": "string",
+                              "title": "Table name"
+                            },
+                            "recordId": {
+                              "type": "string",
+                              "title": "Row ID"
+                            },
+                            "fileImageFieldName": {
+                              "type": "string",
+                              "title": "Column name"
+                            },
+                            "item": {
+                              "type": "string",
+                              "format": "binary",
+                              "title": "File content"
+                            },
+                            "x-ms-file-name": {
+                              "type": "string",
+                              "title": "File name"
+                            }
+                          },
+                          "required": []
+                        }
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default",
+                          "outcomeSchema": {
+                            "type": "object",
+                            "properties": {}
+                          }
+                        }
+                      ]
+                    },
+                    "measured": {
+                      "width": 240,
+                      "height": 66
+                    }
+                  },
+                  {
+                    "id": "connector-a1d54b90-3e27-4c68-9f02-7b6e5d41c8a3",
+                    "name": "Complete validation step",
+                    "type": "connector",
+                    "version": 1,
+                    "position": {
+                      "x": 1948,
+                      "y": 356.5
+                    },
+                    "data": {
+                      "config": {
+                        "apiName": "shared_commondataserviceforapps",
+                        "displayName": "Microsoft Dataverse",
+                        "iconUri": "https://static.powerapps.com/resource/ppcr/releases/v1.0.1825/1.0.1825.4855/commondataserviceforapps/icon.png",
+                        "brandColor": "#088142",
+                        "operationName": "CreateRecord",
+                        "connectionName": "shared_commondataserviceforapps",
+                        "operationType": "OpenApiConnection",
+                        "parameters": {
+                          "entityName": "faf001_bpsteps",
+                          "item/faf001_bpinstanceid@odata.bind": "@concat('/faf001_bpinstances(', outputs('Create_business_process_instance')?['body/faf001_bpinstanceid'], ')')",
+                          "item/faf001_endtime": "@utcNow()",
+                          "item/faf001_starttime": "@triggerOutputs()?['body/receivedDateTime']",
+                          "item/faf001_status": 324010003,
+                          "item/faf001_stepname": "Order Intake Validation",
+                          "item/faf001_steptype": 324010000
+                        },
+                        "parametersSchema": {
+                          "type": "object",
+                          "properties": {
+                            "entityName": {
+                              "type": "string",
+                              "title": "Table name"
+                            },
+                            "item": {
+                              "type": "object",
+                              "title": "Row"
+                            }
+                          },
+                          "required": []
+                        }
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default",
+                          "outcomeSchema": {
+                            "type": "object",
+                            "properties": {
+                              "faf001_bpstepid": {
+                                "type": "string",
+                                "format": "uuid",
+                                "title": "Process Step Execution"
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "measured": {
+                      "width": 240,
+                      "height": 66
+                    }
+                  },
+                  {
+                    "id": "connector-f30b6c95-4a71-4e28-b5d0-8c1e7a49d263",
+                    "name": "Track validation step",
+                    "type": "connector",
+                    "version": 1,
+                    "position": {
+                      "x": 2259,
+                      "y": 356.5
+                    },
+                    "data": {
+                      "config": {
+                        "apiName": "shared_commondataserviceforapps",
+                        "displayName": "Microsoft Dataverse",
+                        "iconUri": "https://static.powerapps.com/resource/ppcr/releases/v1.0.1825/1.0.1825.4855/commondataserviceforapps/icon.png",
+                        "brandColor": "#088142",
+                        "operationName": "UpdateOnlyRecord",
+                        "connectionName": "shared_commondataserviceforapps",
+                        "operationType": "OpenApiConnection",
+                        "parameters": {
+                          "entityName": "faf001_bpinstances",
+                          "recordId": "@outputs('Create_business_process_instance')?['body/faf001_bpinstanceid']",
+                          "item/faf001_lastupdated": "@utcNow()",
+                          "item/faf001_statusmessage": "order intake validated"
+                        },
+                        "parametersSchema": {
+                          "type": "object",
+                          "properties": {
+                            "entityName": {
+                              "type": "string",
+                              "title": "Table name"
+                            },
+                            "recordId": {
+                              "type": "string",
+                              "title": "Row ID"
+                            },
+                            "item": {
+                              "type": "object",
+                              "title": "Row"
+                            }
+                          },
+                          "required": []
+                        }
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default",
+                          "outcomeSchema": {
+                            "type": "object",
+                            "properties": {}
+                          }
+                        }
+                      ]
+                    },
+                    "measured": {
+                      "width": 240,
+                      "height": 66
+                    }
+                  },
+                  {
+                    "id": "connector-b7e39c15-8a40-4d92-b1c6-0f2a94e37d58",
+                    "name": "Create extraction step",
+                    "type": "connector",
+                    "version": 1,
+                    "position": {
+                      "x": 2570,
+                      "y": 356.5
+                    },
+                    "data": {
+                      "config": {
+                        "apiName": "shared_commondataserviceforapps",
+                        "displayName": "Microsoft Dataverse",
+                        "iconUri": "https://static.powerapps.com/resource/ppcr/releases/v1.0.1825/1.0.1825.4855/commondataserviceforapps/icon.png",
+                        "brandColor": "#088142",
+                        "operationName": "CreateRecord",
+                        "connectionName": "shared_commondataserviceforapps",
+                        "operationType": "OpenApiConnection",
+                        "parameters": {
+                          "entityName": "faf001_bpsteps",
+                          "item/faf001_bpinstanceid@odata.bind": "@concat('/faf001_bpinstances(', outputs('Create_business_process_instance')?['body/faf001_bpinstanceid'], ')')",
+                          "item/faf001_status": 324010000,
+                          "item/faf001_stepname": "Order Extraction Step",
+                          "item/faf001_steptype": 324010006
+                        },
+                        "parametersSchema": {
+                          "type": "object",
+                          "properties": {
+                            "entityName": {
+                              "type": "string",
+                              "title": "Table name"
+                            },
+                            "item": {
+                              "type": "object",
+                              "title": "Row"
+                            }
+                          },
+                          "required": []
+                        }
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default",
+                          "outcomeSchema": {
+                            "type": "object",
+                            "properties": {
+                              "faf001_bpstepid": {
+                                "type": "string",
+                                "format": "uuid",
+                                "title": "Process Step Execution"
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "measured": {
+                      "width": 240,
+                      "height": 66
+                    }
+                  },
+                  {
+                    "id": "connector-4d82e0a7-9c56-4b31-87fa-2e64b0d95c18",
+                    "name": "Track extraction step",
+                    "type": "connector",
+                    "version": 1,
+                    "position": {
+                      "x": 2881,
+                      "y": 356.5
+                    },
+                    "data": {
+                      "config": {
+                        "apiName": "shared_commondataserviceforapps",
+                        "displayName": "Microsoft Dataverse",
+                        "iconUri": "https://static.powerapps.com/resource/ppcr/releases/v1.0.1825/1.0.1825.4855/commondataserviceforapps/icon.png",
+                        "brandColor": "#088142",
+                        "operationName": "UpdateOnlyRecord",
+                        "connectionName": "shared_commondataserviceforapps",
+                        "operationType": "OpenApiConnection",
+                        "parameters": {
+                          "entityName": "faf001_bpinstances",
+                          "recordId": "@outputs('Create_business_process_instance')?['body/faf001_bpinstanceid']",
+                          "item/faf001_lastupdated": "@utcNow()",
+                          "item/faf001_statusmessage": "waiting for order data extraction"
+                        },
+                        "parametersSchema": {
+                          "type": "object",
+                          "properties": {
+                            "entityName": {
+                              "type": "string",
+                              "title": "Table name"
+                            },
+                            "recordId": {
+                              "type": "string",
+                              "title": "Row ID"
+                            },
+                            "item": {
+                              "type": "object",
+                              "title": "Row"
+                            }
+                          },
+                          "required": []
+                        }
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default",
+                          "outcomeSchema": {
+                            "type": "object",
+                            "properties": {}
+                          }
+                        }
+                      ]
+                    },
+                    "measured": {
+                      "width": 240,
+                      "height": 66
+                    }
+                  },
+                  {
+                    "id": "end-208c8574-572c-49ce-a908-13fb0b927d7f",
+                    "name": "Complete intake",
+                    "type": "end",
+                    "version": 1,
+                    "position": {
+                      "x": 3192,
+                      "y": 356.5
+                    },
+                    "data": {
+                      "config": {
+                        "runStatus": "Succeeded"
+                      },
+                      "outcomes": []
+                    },
+                    "measured": {
+                      "width": 240,
+                      "height": 66
+                    }
+                  },
+                  {
+                    "id": "connector-c2f81a63-5d94-4e07-8a3b-6e91c05f24d7",
+                    "name": "Fail validation step",
+                    "type": "connector",
+                    "version": 1,
+                    "position": {
+                      "x": 1318,
+                      "y": 650
+                    },
+                    "data": {
+                      "config": {
+                        "apiName": "shared_commondataserviceforapps",
+                        "displayName": "Microsoft Dataverse",
+                        "iconUri": "https://static.powerapps.com/resource/ppcr/releases/v1.0.1825/1.0.1825.4855/commondataserviceforapps/icon.png",
+                        "brandColor": "#088142",
+                        "operationName": "CreateRecord",
+                        "connectionName": "shared_commondataserviceforapps",
+                        "operationType": "OpenApiConnection",
+                        "parameters": {
+                          "entityName": "faf001_bpsteps",
+                          "item/faf001_bpinstanceid@odata.bind": "@concat('/faf001_bpinstances(', outputs('Create_business_process_instance')?['body/faf001_bpinstanceid'], ')')",
+                          "item/faf001_endtime": "@utcNow()",
+                          "item/faf001_errorcode": "ATTACHMENT_VALIDATION_FAILED",
+                          "item/faf001_errormessage": "@if(not(equals(length(coalesce(triggerOutputs()?['body/attachments'], json('[]'))), 1)), concat('Expected exactly 1 attachment, but the message contained ', string(length(coalesce(triggerOutputs()?['body/attachments'], json('[]')))), '.'), concat('The attachment ', coalesce(first(coalesce(triggerOutputs()?['body/attachments'], json('[]')))?['name'], '(unnamed)'), ' is not an image. Detected content type: ', coalesce(first(coalesce(triggerOutputs()?['body/attachments'], json('[]')))?['contentType'], '(unknown)'), '.'))",
+                          "item/faf001_starttime": "@triggerOutputs()?['body/receivedDateTime']",
+                          "item/faf001_status": 324010004,
+                          "item/faf001_stepname": "Order Intake Validation",
+                          "item/faf001_steptype": 324010002
+                        },
+                        "parametersSchema": {
+                          "type": "object",
+                          "properties": {
+                            "entityName": {
+                              "type": "string",
+                              "title": "Table name"
+                            },
+                            "item": {
+                              "type": "object",
+                              "title": "Row"
+                            }
+                          },
+                          "required": []
+                        }
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default",
+                          "outcomeSchema": {
+                            "type": "object",
+                            "properties": {
+                              "faf001_bpstepid": {
+                                "type": "string",
+                                "format": "uuid",
+                                "title": "Process Step Execution"
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "measured": {
+                      "width": 240,
+                      "height": 66
+                    }
+                  },
+                  {
+                    "id": "connector-d9a06e42-1c78-45b3-97e5-2b4f8d63a015",
+                    "name": "Fail business process instance",
+                    "type": "connector",
+                    "version": 1,
+                    "position": {
+                      "x": 1629,
+                      "y": 650
+                    },
+                    "data": {
+                      "config": {
+                        "apiName": "shared_commondataserviceforapps",
+                        "displayName": "Microsoft Dataverse",
+                        "iconUri": "https://static.powerapps.com/resource/ppcr/releases/v1.0.1825/1.0.1825.4855/commondataserviceforapps/icon.png",
+                        "brandColor": "#088142",
+                        "operationName": "UpdateOnlyRecord",
+                        "connectionName": "shared_commondataserviceforapps",
+                        "operationType": "OpenApiConnection",
+                        "parameters": {
+                          "entityName": "faf001_bpinstances",
+                          "recordId": "@outputs('Create_business_process_instance')?['body/faf001_bpinstanceid']",
+                          "item/faf001_endtime": "@utcNow()",
+                          "item/faf001_errorcode": "ATTACHMENT_VALIDATION_FAILED",
+                          "item/faf001_errormessage": "@if(not(equals(length(coalesce(triggerOutputs()?['body/attachments'], json('[]'))), 1)), concat('Expected exactly 1 attachment, but the message contained ', string(length(coalesce(triggerOutputs()?['body/attachments'], json('[]')))), '.'), concat('The attachment ', coalesce(first(coalesce(triggerOutputs()?['body/attachments'], json('[]')))?['name'], '(unnamed)'), ' is not an image. Detected content type: ', coalesce(first(coalesce(triggerOutputs()?['body/attachments'], json('[]')))?['contentType'], '(unknown)'), '.'))",
+                          "item/faf001_lastupdated": "@utcNow()",
+                          "item/faf001_status": 324010005,
+                          "item/faf001_statusmessage": "order intake validation failed"
+                        },
+                        "parametersSchema": {
+                          "type": "object",
+                          "properties": {
+                            "entityName": {
+                              "type": "string",
+                              "title": "Table name"
+                            },
+                            "recordId": {
+                              "type": "string",
+                              "title": "Row ID"
+                            },
+                            "item": {
+                              "type": "object",
+                              "title": "Row"
+                            }
+                          },
+                          "required": []
+                        }
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default",
+                          "outcomeSchema": {
+                            "type": "object",
+                            "properties": {}
+                          }
+                        }
+                      ]
+                    },
+                    "measured": {
+                      "width": 265,
+                      "height": 66
+                    }
+                  },
+                  {
+                    "id": "connector-17b9055b-7bfc-4700-9123-939c0fffe0f2",
+                    "name": "Reply with validation error",
+                    "type": "connector",
+                    "version": 1,
+                    "position": {
+                      "x": 1965,
+                      "y": 650
+                    },
+                    "data": {
+                      "config": {
+                        "apiName": "shared_office365",
+                        "displayName": "Office 365 Outlook",
+                        "iconUri": "https://static.powerapps.com/resource/ppcr/releases/v1.0.1819/1.0.1819.4795/office365/icon.png",
+                        "brandColor": "#0078D4",
+                        "operationName": "ReplyToV3",
+                        "connectionName": "shared_office365",
+                        "operationType": "OpenApiConnection",
+                        "parameters": {
+                          "messageId": "@triggerOutputs()?['body/id']",
+                          "mailboxAddress": "@parameters('Order Mailbox Address (faf001_OrderMailboxAddress)')",
+                          "replyParameters/Body": "<p>Your message could not be processed by the order intake process.</p><p><b>Reason:</b> @{if(not(equals(length(coalesce(triggerOutputs()?['body/attachments'], json('[]'))), 1)), concat('Expected exactly 1 attachment, but the message contained ', string(length(coalesce(triggerOutputs()?['body/attachments'], json('[]')))), '.'), concat('The attachment ', coalesce(first(coalesce(triggerOutputs()?['body/attachments'], json('[]')))?['name'], '(unnamed)'), ' is not an image. Detected content type: ', coalesce(first(coalesce(triggerOutputs()?['body/attachments'], json('[]')))?['contentType'], '(unknown)'), '.'))}</p><p>Please resend the order with exactly one image attachment.</p>",
+                          "replyParameters/Importance": "Normal",
+                          "replyParameters/ReplyAll": false
+                        },
+                        "parametersSchema": {
+                          "type": "object",
+                          "properties": {
+                            "messageId": {
+                              "type": "string",
+                              "title": "Message Id"
+                            },
+                            "mailboxAddress": {
+                              "type": "string",
+                              "title": "Original Mailbox Address"
+                            },
+                            "replyParameters": {
+                              "type": "object",
+                              "title": "Reply"
+                            }
+                          },
+                          "required": []
+                        }
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default",
+                          "outcomeSchema": {
+                            "type": "object",
+                            "properties": {}
+                          }
+                        }
+                      ]
+                    },
+                    "measured": {
+                      "width": 245,
+                      "height": 66
+                    }
+                  },
+                  {
+                    "id": "end-1ed92540-5fdc-4174-a0ea-3485a18f1a2f",
+                    "name": "Stop rejected order",
+                    "type": "end",
+                    "version": 1,
+                    "position": {
+                      "x": 2281,
+                      "y": 650
+                    },
+                    "data": {
+                      "config": {
+                        "runStatus": "Succeeded"
+                      },
+                      "outcomes": []
+                    },
+                    "measured": {
+                      "width": 240,
+                      "height": 66
+                    }
+                  }
+                ],
+                "edges": [
+                  {
+                    "id": "edge-start-945faf75-7f7e-4633-99b0-ed86372b1587-connector-2b7184ca-f3f6-4a78-b191-823682a40366",
+                    "source": "start-945faf75-7f7e-4633-99b0-ed86372b1587",
+                    "target": "connector-2b7184ca-f3f6-4a78-b191-823682a40366"
+                  },
+                  {
+                    "id": "edge-connector-2b7184ca-f3f6-4a78-b191-823682a40366-ifElse-e9c5ad42-86bb-4c25-8072-2d6ef0dc4610",
+                    "source": "connector-2b7184ca-f3f6-4a78-b191-823682a40366",
+                    "target": "ifElse-e9c5ad42-86bb-4c25-8072-2d6ef0dc4610"
+                  },
+                  {
+                    "id": "edge-ifElse-e9c5ad42-86bb-4c25-8072-2d6ef0dc4610-condition:34abf78d-4000-4efd-a48e-12da6ce0ac2f-connector-e4c8d3e7-0d59-4ceb-8fb3-a86f95676f7b",
+                    "source": "ifElse-e9c5ad42-86bb-4c25-8072-2d6ef0dc4610",
+                    "target": "connector-e4c8d3e7-0d59-4ceb-8fb3-a86f95676f7b",
+                    "sourceHandle": "condition:34abf78d-4000-4efd-a48e-12da6ce0ac2f"
+                  },
+                  {
+                    "id": "edge-connector-e4c8d3e7-0d59-4ceb-8fb3-a86f95676f7b-connector-546672bf-07eb-4a9f-a004-4c6935b5aeed",
+                    "source": "connector-e4c8d3e7-0d59-4ceb-8fb3-a86f95676f7b",
+                    "target": "connector-546672bf-07eb-4a9f-a004-4c6935b5aeed"
+                  },
+                  {
+                    "id": "edge-connector-546672bf-07eb-4a9f-a004-4c6935b5aeed-connector-a1d54b90-3e27-4c68-9f02-7b6e5d41c8a3",
+                    "source": "connector-546672bf-07eb-4a9f-a004-4c6935b5aeed",
+                    "target": "connector-a1d54b90-3e27-4c68-9f02-7b6e5d41c8a3"
+                  },
+                  {
+                    "id": "edge-connector-a1d54b90-3e27-4c68-9f02-7b6e5d41c8a3-connector-f30b6c95-4a71-4e28-b5d0-8c1e7a49d263",
+                    "source": "connector-a1d54b90-3e27-4c68-9f02-7b6e5d41c8a3",
+                    "target": "connector-f30b6c95-4a71-4e28-b5d0-8c1e7a49d263"
+                  },
+                  {
+                    "id": "edge-connector-f30b6c95-4a71-4e28-b5d0-8c1e7a49d263-connector-b7e39c15-8a40-4d92-b1c6-0f2a94e37d58",
+                    "source": "connector-f30b6c95-4a71-4e28-b5d0-8c1e7a49d263",
+                    "target": "connector-b7e39c15-8a40-4d92-b1c6-0f2a94e37d58"
+                  },
+                  {
+                    "id": "edge-connector-b7e39c15-8a40-4d92-b1c6-0f2a94e37d58-connector-4d82e0a7-9c56-4b31-87fa-2e64b0d95c18",
+                    "source": "connector-b7e39c15-8a40-4d92-b1c6-0f2a94e37d58",
+                    "target": "connector-4d82e0a7-9c56-4b31-87fa-2e64b0d95c18"
+                  },
+                  {
+                    "id": "edge-connector-4d82e0a7-9c56-4b31-87fa-2e64b0d95c18-end-208c8574-572c-49ce-a908-13fb0b927d7f",
+                    "source": "connector-4d82e0a7-9c56-4b31-87fa-2e64b0d95c18",
+                    "target": "end-208c8574-572c-49ce-a908-13fb0b927d7f"
+                  },
+                  {
+                    "id": "edge-ifElse-e9c5ad42-86bb-4c25-8072-2d6ef0dc4610-else-connector-c2f81a63-5d94-4e07-8a3b-6e91c05f24d7",
+                    "source": "ifElse-e9c5ad42-86bb-4c25-8072-2d6ef0dc4610",
+                    "target": "connector-c2f81a63-5d94-4e07-8a3b-6e91c05f24d7",
+                    "sourceHandle": "else"
+                  },
+                  {
+                    "id": "edge-connector-c2f81a63-5d94-4e07-8a3b-6e91c05f24d7-connector-d9a06e42-1c78-45b3-97e5-2b4f8d63a015",
+                    "source": "connector-c2f81a63-5d94-4e07-8a3b-6e91c05f24d7",
+                    "target": "connector-d9a06e42-1c78-45b3-97e5-2b4f8d63a015"
+                  },
+                  {
+                    "id": "edge-connector-d9a06e42-1c78-45b3-97e5-2b4f8d63a015-connector-17b9055b-7bfc-4700-9123-939c0fffe0f2",
+                    "source": "connector-d9a06e42-1c78-45b3-97e5-2b4f8d63a015",
+                    "target": "connector-17b9055b-7bfc-4700-9123-939c0fffe0f2"
+                  },
+                  {
+                    "id": "edge-connector-17b9055b-7bfc-4700-9123-939c0fffe0f2-end-1ed92540-5fdc-4174-a0ea-3485a18f1a2f",
+                    "source": "connector-17b9055b-7bfc-4700-9123-939c0fffe0f2",
+                    "target": "end-1ed92540-5fdc-4174-a0ea-3485a18f1a2f"
+                  }
+                ],
+                "connectionReferences": {
+                  "shared_office365": {
+                    "api": {
+                      "name": "shared_office365"
+                    },
+                    "connection": {
+                      "connectionReferenceLogicalName": "faf001_sharedoffice365"
+                    },
+                    "runtimeSource": "embedded"
+                  },
+                  "shared_commondataserviceforapps": {
+                    "api": {
+                      "name": "shared_commondataserviceforapps"
+                    },
+                    "connection": {
+                      "connectionReferenceLogicalName": "faf001_sharedcommondataserviceforapps"
+                    },
+                    "runtimeSource": "embedded"
+                  },
+                  "shared_commondataserviceforapps-1": {
+                    "api": {
+                      "name": "shared_commondataserviceforapps"
+                    },
+                    "connection": {
+                      "connectionReferenceLogicalName": "faf001_sharedcommondataserviceforapps"
+                    },
+                    "runtimeSource": "embedded"
+                  }
+                }
+              },
+              "nodeActionMapping": {
+                "connector-2b7184ca-f3f6-4a78-b191-823682a40366": [
+                  "Create_business_process_instance"
+                ],
+                "connector-e4c8d3e7-0d59-4ceb-8fb3-a86f95676f7b": [
+                  "Create_process_attachment"
+                ],
+                "connector-546672bf-07eb-4a9f-a004-4c6935b5aeed": [
+                  "Upload_attachment_file"
+                ],
+                "connector-a1d54b90-3e27-4c68-9f02-7b6e5d41c8a3": [
+                  "Complete_validation_step"
+                ],
+                "connector-f30b6c95-4a71-4e28-b5d0-8c1e7a49d263": [
+                  "Track_validation_step"
+                ],
+                "connector-b7e39c15-8a40-4d92-b1c6-0f2a94e37d58": [
+                  "Create_extraction_step"
+                ],
+                "connector-4d82e0a7-9c56-4b31-87fa-2e64b0d95c18": [
+                  "Track_extraction_step"
+                ],
+                "end-208c8574-572c-49ce-a908-13fb0b927d7f": [
+                  "end-208c8574-572c-49ce-a908-13fb0b927d7f"
+                ],
+                "connector-c2f81a63-5d94-4e07-8a3b-6e91c05f24d7": [
+                  "Fail_validation_step"
+                ],
+                "connector-d9a06e42-1c78-45b3-97e5-2b4f8d63a015": [
+                  "Fail_business_process_instance"
+                ],
+                "connector-17b9055b-7bfc-4700-9123-939c0fffe0f2": [
+                  "Reply_with_validation_error"
+                ],
+                "end-1ed92540-5fdc-4174-a0ea-3485a18f1a2f": [
+                  "end-1ed92540-5fdc-4174-a0ea-3485a18f1a2f"
+                ],
+                "ifElse-e9c5ad42-86bb-4c25-8072-2d6ef0dc4610": [
+                  "Validate_order_attachment"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "actions": {
+        "Create_business_process_instance": {
+          "type": "OpenApiConnection",
+          "inputs": {
+            "parameters": {
+              "entityName": "faf001_bpinstances",
+              "item/faf001_businesskey": "@concat(coalesce(triggerOutputs()?['body/from'], ''), '|', coalesce(triggerOutputs()?['body/subject'], ''))",
+              "item/faf001_channel": 324010005,
+              "item/faf001_initiatorexternal": "@coalesce(triggerOutputs()?['body/from'], '')",
+              "item/faf001_lastupdated": "@utcNow()",
+              "item/faf001_processdescription": "@{concat('Order intake from email: ', coalesce(triggerOutputs()?['body/subject'], '(no subject)'))}",
+              "item/faf001_processname": "Order Processing Intake",
+              "item/faf001_processversion": "1.0",
+              "item/faf001_starttime": "@{triggerOutputs()?['body/receivedDateTime']}",
+              "item/faf001_status": 324010001,
+              "item/faf001_statusmessage": "validating mail order"
+            },
+            "host": {
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+              "connectionName": "shared_commondataserviceforapps-1",
+              "operationId": "CreateRecord"
+            }
+          },
+          "metadata": {
+            "description": "Create business process instance",
+            "nodeId": "connector-2b7184ca-f3f6-4a78-b191-823682a40366"
+          }
+        },
+        "Validate_order_attachment": {
+          "type": "If",
+          "expression": {
+            "and": [
+              {
+                "equals": [
+                  "@length(coalesce(triggerOutputs()?['body/attachments'], json('[]')))",
+                  1
+                ]
+              },
+              {
+                "startsWith": [
+                  "@toLower(coalesce(first(coalesce(triggerOutputs()?['body/attachments'], json('[]')))?['contentType'], ''))",
+                  "image/"
+                ]
+              }
+            ]
+          },
+          "actions": {
+            "Create_process_attachment": {
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "entityName": "faf001_bpattachments",
+                  "item/faf001_attachmenttype": 324010001,
+                  "item/faf001_bpinstanceid@odata.bind": "@concat('/faf001_bpinstances(', outputs('Create_business_process_instance')?['body/faf001_bpinstanceid'], ')')",
+                  "item/faf001_description": "@concat('Received by mail-order-intake. Subject: ', coalesce(triggerOutputs()?['body/subject'], '(no subject)'))",
+                  "item/faf001_filename": "@coalesce(first(coalesce(triggerOutputs()?['body/attachments'], json('[]')))?['name'], 'attachment')",
+                  "item/faf001_filesize": "@first(coalesce(triggerOutputs()?['body/attachments'], json('[]')))?['size']",
+                  "item/faf001_mimetype": "@first(coalesce(triggerOutputs()?['body/attachments'], json('[]')))?['contentType']",
+                  "item/faf001_receivedon": "@triggerOutputs()?['body/receivedDateTime']",
+                  "item/faf001_source": 324010000,
+                  "item/faf001_storagetype": 324010002
+                },
+                "host": {
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "CreateRecord"
+                }
+              },
+              "metadata": {
+                "description": "Create process attachment",
+                "nodeId": "connector-e4c8d3e7-0d59-4ceb-8fb3-a86f95676f7b"
+              }
+            },
+            "Upload_attachment_file": {
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "entityName": "faf001_bpattachments",
+                  "fileImageFieldName": "faf001_file",
+                  "item": "@base64ToBinary(first(coalesce(triggerOutputs()?['body/attachments'], json('[]')))?['contentBytes'])",
+                  "recordId": "@outputs('Create_process_attachment')?['body/faf001_bpattachmentid']",
+                  "x-ms-file-name": "@coalesce(first(coalesce(triggerOutputs()?['body/attachments'], json('[]')))?['name'], 'attachment')"
+                },
+                "host": {
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "UpdateEntityFileImageFieldContent"
+                }
+              },
+              "runAfter": {
+                "Create_process_attachment": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "description": "Upload attachment file",
+                "nodeId": "connector-546672bf-07eb-4a9f-a004-4c6935b5aeed"
+              }
+            },
+            "Complete_validation_step": {
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "entityName": "faf001_bpsteps",
+                  "item/faf001_bpinstanceid@odata.bind": "@concat('/faf001_bpinstances(', outputs('Create_business_process_instance')?['body/faf001_bpinstanceid'], ')')",
+                  "item/faf001_endtime": "@utcNow()",
+                  "item/faf001_starttime": "@triggerOutputs()?['body/receivedDateTime']",
+                  "item/faf001_status": 324010003,
+                  "item/faf001_stepname": "Order Intake Validation",
+                  "item/faf001_steptype": 324010000
+                },
+                "host": {
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "CreateRecord"
+                }
+              },
+              "runAfter": {
+                "Upload_attachment_file": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "description": "Complete validation step",
+                "nodeId": "connector-a1d54b90-3e27-4c68-9f02-7b6e5d41c8a3"
+              }
+            },
+            "Track_validation_step": {
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "entityName": "faf001_bpinstances",
+                  "recordId": "@outputs('Create_business_process_instance')?['body/faf001_bpinstanceid']",
+                  "item/faf001_lastupdated": "@utcNow()",
+                  "item/faf001_statusmessage": "order intake validated"
+                },
+                "host": {
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "UpdateOnlyRecord"
+                }
+              },
+              "runAfter": {
+                "Complete_validation_step": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "description": "Track validation step",
+                "nodeId": "connector-f30b6c95-4a71-4e28-b5d0-8c1e7a49d263"
+              }
+            },
+            "Create_extraction_step": {
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "entityName": "faf001_bpsteps",
+                  "item/faf001_bpinstanceid@odata.bind": "@concat('/faf001_bpinstances(', outputs('Create_business_process_instance')?['body/faf001_bpinstanceid'], ')')",
+                  "item/faf001_status": 324010000,
+                  "item/faf001_stepname": "Order Extraction Step",
+                  "item/faf001_steptype": 324010006
+                },
+                "host": {
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "CreateRecord"
+                }
+              },
+              "runAfter": {
+                "Track_validation_step": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "description": "Create extraction step",
+                "nodeId": "connector-b7e39c15-8a40-4d92-b1c6-0f2a94e37d58"
+              }
+            },
+            "Track_extraction_step": {
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "entityName": "faf001_bpinstances",
+                  "recordId": "@outputs('Create_business_process_instance')?['body/faf001_bpinstanceid']",
+                  "item/faf001_lastupdated": "@utcNow()",
+                  "item/faf001_statusmessage": "waiting for order data extraction"
+                },
+                "host": {
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "UpdateOnlyRecord"
+                }
+              },
+              "runAfter": {
+                "Create_extraction_step": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "description": "Track extraction step",
+                "nodeId": "connector-4d82e0a7-9c56-4b31-87fa-2e64b0d95c18"
+              }
+            },
+            "end-208c8574-572c-49ce-a908-13fb0b927d7f": {
+              "type": "Terminate",
+              "inputs": {
+                "runStatus": "Succeeded"
+              },
+              "runAfter": {
+                "Track_extraction_step": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "description": "Complete intake",
+                "nodeId": "end-208c8574-572c-49ce-a908-13fb0b927d7f"
+              }
+            }
+          },
+          "else": {
+            "actions": {
+              "Fail_validation_step": {
+                "type": "OpenApiConnection",
+                "inputs": {
+                  "parameters": {
+                    "entityName": "faf001_bpsteps",
+                    "item/faf001_bpinstanceid@odata.bind": "@concat('/faf001_bpinstances(', outputs('Create_business_process_instance')?['body/faf001_bpinstanceid'], ')')",
+                    "item/faf001_endtime": "@utcNow()",
+                    "item/faf001_errorcode": "ATTACHMENT_VALIDATION_FAILED",
+                    "item/faf001_errormessage": "@if(not(equals(length(coalesce(triggerOutputs()?['body/attachments'], json('[]'))), 1)), concat('Expected exactly 1 attachment, but the message contained ', string(length(coalesce(triggerOutputs()?['body/attachments'], json('[]')))), '.'), concat('The attachment ', coalesce(first(coalesce(triggerOutputs()?['body/attachments'], json('[]')))?['name'], '(unnamed)'), ' is not an image. Detected content type: ', coalesce(first(coalesce(triggerOutputs()?['body/attachments'], json('[]')))?['contentType'], '(unknown)'), '.'))",
+                    "item/faf001_starttime": "@triggerOutputs()?['body/receivedDateTime']",
+                    "item/faf001_status": 324010004,
+                    "item/faf001_stepname": "Order Intake Validation",
+                    "item/faf001_steptype": 324010002
+                  },
+                  "host": {
+                    "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                    "connectionName": "shared_commondataserviceforapps",
+                    "operationId": "CreateRecord"
+                  }
+                },
+                "metadata": {
+                  "description": "Fail validation step",
+                  "nodeId": "connector-c2f81a63-5d94-4e07-8a3b-6e91c05f24d7"
+                }
+              },
+              "Fail_business_process_instance": {
+                "type": "OpenApiConnection",
+                "inputs": {
+                  "parameters": {
+                    "entityName": "faf001_bpinstances",
+                    "recordId": "@outputs('Create_business_process_instance')?['body/faf001_bpinstanceid']",
+                    "item/faf001_endtime": "@utcNow()",
+                    "item/faf001_errorcode": "ATTACHMENT_VALIDATION_FAILED",
+                    "item/faf001_errormessage": "@if(not(equals(length(coalesce(triggerOutputs()?['body/attachments'], json('[]'))), 1)), concat('Expected exactly 1 attachment, but the message contained ', string(length(coalesce(triggerOutputs()?['body/attachments'], json('[]')))), '.'), concat('The attachment ', coalesce(first(coalesce(triggerOutputs()?['body/attachments'], json('[]')))?['name'], '(unnamed)'), ' is not an image. Detected content type: ', coalesce(first(coalesce(triggerOutputs()?['body/attachments'], json('[]')))?['contentType'], '(unknown)'), '.'))",
+                    "item/faf001_lastupdated": "@utcNow()",
+                    "item/faf001_status": 324010005,
+                    "item/faf001_statusmessage": "order intake validation failed"
+                  },
+                  "host": {
+                    "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                    "connectionName": "shared_commondataserviceforapps",
+                    "operationId": "UpdateOnlyRecord"
+                  }
+                },
+                "runAfter": {
+                  "Fail_validation_step": [
+                    "Succeeded"
+                  ]
+                },
+                "metadata": {
+                  "description": "Fail business process instance",
+                  "nodeId": "connector-d9a06e42-1c78-45b3-97e5-2b4f8d63a015"
+                }
+              },
+              "Reply_with_validation_error": {
+                "type": "OpenApiConnection",
+                "inputs": {
+                  "parameters": {
+                    "messageId": "@triggerOutputs()?['body/id']",
+                    "mailboxAddress": "@parameters('Order Mailbox Address (faf001_OrderMailboxAddress)')",
+                    "replyParameters/Body": "<p>Your message could not be processed by the order intake process.</p><p><b>Reason:</b> @{if(not(equals(length(coalesce(triggerOutputs()?['body/attachments'], json('[]'))), 1)), concat('Expected exactly 1 attachment, but the message contained ', string(length(coalesce(triggerOutputs()?['body/attachments'], json('[]')))), '.'), concat('The attachment ', coalesce(first(coalesce(triggerOutputs()?['body/attachments'], json('[]')))?['name'], '(unnamed)'), ' is not an image. Detected content type: ', coalesce(first(coalesce(triggerOutputs()?['body/attachments'], json('[]')))?['contentType'], '(unknown)'), '.'))}</p><p>Please resend the order with exactly one image attachment.</p>",
+                    "replyParameters/Importance": "Normal",
+                    "replyParameters/ReplyAll": false
+                  },
+                  "host": {
+                    "apiId": "/providers/Microsoft.PowerApps/apis/shared_office365",
+                    "connectionName": "shared_office365",
+                    "operationId": "ReplyToV3"
+                  }
+                },
+                "runAfter": {
+                  "Fail_business_process_instance": [
+                    "Succeeded"
+                  ]
+                },
+                "metadata": {
+                  "description": "Reply with validation error",
+                  "nodeId": "connector-17b9055b-7bfc-4700-9123-939c0fffe0f2"
+                }
+              },
+              "end-1ed92540-5fdc-4174-a0ea-3485a18f1a2f": {
+                "type": "Terminate",
+                "inputs": {
+                  "runStatus": "Succeeded"
+                },
+                "runAfter": {
+                  "Reply_with_validation_error": [
+                    "Succeeded"
+                  ]
+                },
+                "metadata": {
+                  "description": "Stop rejected order",
+                  "nodeId": "end-1ed92540-5fdc-4174-a0ea-3485a18f1a2f"
+                }
+              }
+            }
+          },
+          "runAfter": {
+            "Create_business_process_instance": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "description": "Validate order attachment",
+            "nodeId": "ifElse-e9c5ad42-86bb-4c25-8072-2d6ef0dc4610"
+          }
+        }
+      },
+      "outputs": {},
+      "metadata": {
+        "telemetryMetadata": {
+          "modifiedSources": "WorkflowDesigner"
+        }
+      }
+    },
+    "templateName": null
+  },
+  "schemaVersion": "1.0.0.0"
+}

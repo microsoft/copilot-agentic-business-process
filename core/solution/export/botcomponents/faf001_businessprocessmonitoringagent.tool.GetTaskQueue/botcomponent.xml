@@ -1,0 +1,11 @@
+<botcomponent schemaname="faf001_businessprocessmonitoringagent.tool.GetTaskQueue">
+  <componenttype>9</componenttype>
+  <description>Return a paged list of human tasks with the task visibility rules applied. The connector cannot look up this action's input schema in this environment, so ignore that failure and use exactly these parameter names. Set the action parameters to {"faf001_ProcessInstanceId":"&lt;guid&gt;","faf001_Status":&lt;task status integer&gt;,"faf001_AssignedUserId":"&lt;guid&gt;","faf001_AssignedTeamId":"&lt;guid&gt;","faf001_PageSize":&lt;1-500&gt;,"faf001_ContinuationToken":"&lt;token&gt;"}; all parameters are optional and absent ones are not filtered on. Returns faf001_Tasks, faf001_HasMore, and faf001_NextToken. Task input payloads are excluded from this list.</description>
+  <iscustomizable>1</iscustomizable>
+  <name>Get task queue</name>
+  <parentbotid>
+    <schemaname>faf001_businessprocessmonitoringagent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

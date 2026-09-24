@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<botcomponent schemaname="faf001_sapfileintegrationagent.file.sapordertemplatexlsx_YLyTQ">
+  <componenttype>14</componenttype>
+  <filedata mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">sap-order-template.xlsx</filedata>
+  <iscustomizable>0</iscustomizable>
+  <name>./references/sap-order-template.xlsx</name>
+  <parentbotcomponentid>
+    <schemaname>faf001_sapfileintegrationagent.skill.sap-order-excel_KGN</schemaname>
+  </parentbotcomponentid>
+  <parentbotid>
+    <schemaname>faf001_sapfileintegrationagent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

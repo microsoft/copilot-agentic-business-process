@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<optionset Name="faf001_bppriority" localizedName="BP Priority" description="Global choice for the business process tracking model." xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <OptionSetType>picklist</OptionSetType>
+  <IsGlobal>1</IsGlobal>
+  <IntroducedVersion>1.0.0.0</IntroducedVersion>
+  <IsCustomizable>1</IsCustomizable>
+  <displaynames>
+    <displayname description="BP Priority" languagecode="1033" />
+  </displaynames>
+  <Descriptions>
+    <Description description="Global choice for the business process tracking model." languagecode="1033" />
+  </Descriptions>
+  <options>
+    <option value="324010000" ExternalValue="" IsHidden="0">
+      <labels>
+        <label description="Low" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="324010001" ExternalValue="" IsHidden="0">
+      <labels>
+        <label description="Normal" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="324010002" ExternalValue="" IsHidden="0">
+      <labels>
+        <label description="High" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="324010003" ExternalValue="" IsHidden="0">
+      <labels>
+        <label description="Critical" languagecode="1033" />
+      </labels>
+    </option>
+  </options>
+</optionset>

@@ -1,0 +1,11 @@
+<customapiresponseproperty uniquename="faf001_TaskId">
+  <description default="Claimed task GUID. Repeated claim by its current assignee does not modify the task.">
+    <label description="Claimed task GUID. Repeated claim by its current assignee does not modify the task." languagecode="1033" />
+  </description>
+  <displayname default="Task ID">
+    <label description="Task ID" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <name>faf001_AssignTask.faf001_TaskId</name>
+  <type>12</type>
+</customapiresponseproperty>

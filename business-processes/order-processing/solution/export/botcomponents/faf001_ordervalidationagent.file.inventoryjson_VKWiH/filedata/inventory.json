@@ -1,0 +1,19 @@
+{
+  "record_id": "INVENTORY-DEMO-V1",
+  "mode": "mock",
+  "provenance": "Entirely fictional inventory; no stock values were present in the source orders.",
+  "snapshot_at": "2026-02-19T00:00:00Z",
+  "warehouse_id": "DEMO-WH-01",
+  "policy": { "fulfillment": "immediate", "partial_fulfillment": false, "backorders": false, "reservation_performed": false, "freshness": "fixed_demo_scenario_only", "uom": "EA" },
+  "stock": [
+    { "record_id": "STOCK-JM-001", "product_id": "DEMO-JM-001", "uom": "EA", "on_hand": 50, "reserved": 4 },
+    { "record_id": "STOCK-JM-002", "product_id": "DEMO-JM-002", "uom": "EA", "on_hand": 30, "reserved": 2 },
+    { "record_id": "STOCK-JM-003", "product_id": "DEMO-JM-003", "uom": "EA", "on_hand": 12, "reserved": 2 },
+    { "record_id": "STOCK-JM-004", "product_id": "DEMO-JM-004", "uom": "EA", "on_hand": 8, "reserved": 1 },
+    { "record_id": "STOCK-JM-005", "product_id": "DEMO-JM-005", "uom": "EA", "on_hand": 30, "reserved": 4 },
+    { "record_id": "STOCK-JM-006", "product_id": "DEMO-JM-006", "uom": "EA", "on_hand": 15, "reserved": 3 },
+    { "record_id": "STOCK-EL-001", "product_id": "DEMO-EL-001", "uom": "EA", "on_hand": 12, "reserved": 2 },
+    { "record_id": "STOCK-EL-002", "product_id": "DEMO-EL-002", "uom": "EA", "on_hand": 20, "reserved": 0 },
+    { "record_id": "STOCK-EL-003", "product_id": "DEMO-EL-003", "uom": "EA", "on_hand": 10, "reserved": 1 }
+  ]
+}

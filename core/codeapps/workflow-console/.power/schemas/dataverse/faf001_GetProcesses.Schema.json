@@ -1,0 +1,59 @@
+{
+  "name": "faf001_GetProcesses",
+  "title": "faf001_GetProcesses",
+  "type": "Microsoft.PowerApps/dataverseOperation",
+  "properties": {
+    "displayName": "faf001_GetProcesses",
+    "swagger": {
+      "swagger": "2.0",
+      "info": {
+        "title": "faf001_GetProcesses",
+        "version": "1.0"
+      },
+      "basePath": "/api/data/v9.2",
+      "paths": {
+        "/faf001_GetProcesses": {
+          "post": {
+            "operationId": "faf001_GetProcesses",
+            "parameters": [
+              {
+                "name": "faf001_Status",
+                "in": "body",
+                "required": false,
+                "type": "number",
+                "x-ms-dataverse-type": "IntegerType",
+                "x-ms-csdl-type": "Edm.Int32"
+              },
+              {
+                "name": "faf001_PageSize",
+                "in": "body",
+                "required": false,
+                "type": "number",
+                "x-ms-dataverse-type": "IntegerType",
+                "x-ms-csdl-type": "Edm.Int32"
+              },
+              {
+                "name": "faf001_ContinuationToken",
+                "in": "body",
+                "required": false,
+                "type": "string",
+                "x-ms-dataverse-type": "StringType",
+                "x-ms-csdl-type": "Edm.String"
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Success",
+                "schema": {
+                  "type": "object",
+                  "x-ms-dataverse-type": "LookupType",
+                  "x-ms-csdl-type": "mscrm.faf001_GetProcessesResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

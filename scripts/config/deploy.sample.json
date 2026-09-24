@@ -1,0 +1,70 @@
+{
+  "$comment": [
+    "Copy this file to config/deploy.<envAlias>.json and fill in the values.",
+    "Relative paths are resolved against the repository root (nearest ancestor containing .git).",
+    "Secrets are NEVER stored here - only the NAME of the environment variable holding them."
+  ],
+
+  "authProfile": {
+    "name": "pp-deploy",
+    "kind": "interactive",
+    "tenantId": ""
+  },
+
+  "environment": {
+    "name": "my-target-environment",
+    "url": "",
+    "id": "",
+    "createIfMissing": false,
+    "create": {
+      "region": "unitedstates",
+      "type": "Sandbox",
+      "currency": "USD",
+      "language": "English",
+      "domain": ""
+    }
+  },
+
+  "servicePrincipal": {
+    "enabled": true,
+    "appName": "pp-deploy-spn",
+    "role": "System Administrator",
+    "tenantId": "",
+    "clientId": "",
+    "clientSecretEnvVar": "PP_SPN_CLIENT_SECRET"
+  },
+
+  "solution": {
+    "name": "MySolution",
+    "zipPath": "path/to/MySolution_1_0_0_0_unmanaged.zip",
+    "activatePlugins": true,
+    "forceOverwrite": true,
+    "publishAfterImport": true,
+    "skipDependencyCheck": false,
+    "maxAsyncWaitMinutes": 60
+  },
+
+  "connections": [
+    {
+      "connectionReference": "publisher_sharedcommondataserviceforapps",
+      "connectorId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+      "connectionName": "pp-deploy-dataverse",
+      "connectionId": "",
+      "useServicePrincipal": true
+    }
+  ],
+
+  "environmentVariables": [
+    {
+      "schemaName": "publisher_SomeVariable",
+      "value": "",
+      "importPlaceholder": "https://apps.powerapps.com/",
+      "resolveFrom": {
+        "type": "canvasAppUrl",
+        "appName": "publisher_myapp_abc12"
+      }
+    }
+  ],
+
+  "copilotAgents": []
+}

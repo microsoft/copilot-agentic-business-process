@@ -1,0 +1,11 @@
+<customapiresponseproperty uniquename="faf001_Processes">
+  <description default="One page of caller-accessible faf001_bpinstance rows. Does not include child records.">
+    <label description="One page of caller-accessible faf001_bpinstance rows. Does not include child records." languagecode="1033" />
+  </description>
+  <displayname default="Processes">
+    <label description="Processes" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <name>faf001_GetProcesses.faf001_Processes</name>
+  <type>4</type>
+</customapiresponseproperty>

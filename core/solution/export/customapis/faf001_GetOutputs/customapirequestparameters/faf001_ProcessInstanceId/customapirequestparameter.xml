@@ -1,0 +1,12 @@
+<customapirequestparameter uniquename="faf001_ProcessInstanceId">
+  <description default="Required nonempty process instance GUID.">
+    <label description="Required nonempty process instance GUID." languagecode="1033" />
+  </description>
+  <displayname default="Process Instance ID">
+    <label description="Process Instance ID" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <isoptional>0</isoptional>
+  <name>faf001_GetOutputs.faf001_ProcessInstanceId</name>
+  <type>12</type>
+</customapirequestparameter>

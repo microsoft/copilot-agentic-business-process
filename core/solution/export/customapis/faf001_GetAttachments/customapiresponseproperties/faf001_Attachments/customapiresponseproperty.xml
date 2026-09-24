@@ -1,0 +1,11 @@
+<customapiresponseproperty uniquename="faf001_Attachments">
+  <description default="Attachment IDs, filename, type, storage metadata and related references. No file content.">
+    <label description="Attachment IDs, filename, type, storage metadata and related references. No file content." languagecode="1033" />
+  </description>
+  <displayname default="Attachments">
+    <label description="Attachments" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <name>faf001_GetAttachments.faf001_Attachments</name>
+  <type>4</type>
+</customapiresponseproperty>

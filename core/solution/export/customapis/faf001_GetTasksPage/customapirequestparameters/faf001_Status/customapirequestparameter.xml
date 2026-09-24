@@ -1,0 +1,12 @@
+<customapirequestparameter uniquename="faf001_Status">
+  <description default="Optional integer BP Task Status choice value, not the built-in state or status reason.">
+    <label description="Optional integer BP Task Status choice value, not the built-in state or status reason." languagecode="1033" />
+  </description>
+  <displayname default="Task Status">
+    <label description="Task Status" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <isoptional>1</isoptional>
+  <name>faf001_GetTasksPage.faf001_Status</name>
+  <type>7</type>
+</customapirequestparameter>

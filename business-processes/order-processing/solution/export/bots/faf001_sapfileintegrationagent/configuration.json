@@ -1,0 +1,26 @@
+{
+  "$kind": "BotConfiguration",
+  "recognizer": {
+    "$kind": "CLICopilotRecognizer"
+  },
+  "agentSettings": {
+    "$kind": "AgentSettings",
+    "model": {
+      "$kind": "ModelConfig",
+      "series": "claude-opus-5"
+    },
+    "instructions": {
+      "$kind": "Instructions",
+      "segments": [
+        {
+          "$kind": "StaticSegment",
+          "value": "you are a file generator agent that can generate multiple file types starting from a data source. \nyou are equipped with different skills with different contents you can generate.\nrun at best effort when generating content and files, don\u0027t block generation on missing data.\n"
+        }
+      ]
+    },
+    "web": {
+      "$kind": "WebSettings",
+      "enableWebSearch": false
+    }
+  }
+}

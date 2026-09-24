@@ -1,0 +1,14 @@
+<botcomponent schemaname="faf001_ordervalidationagent.file.skillmd_pbl69">
+  <componenttype>14</componenttype>
+  <filedata mimetype="application/octet-stream">SKILL.md</filedata>
+  <iscustomizable>1</iscustomizable>
+  <name>./SKILL.md</name>
+  <parentbotcomponentid>
+    <schemaname>faf001_ordervalidationagent.skill.validate-order-product-availability_MH1</schemaname>
+  </parentbotcomponentid>
+  <parentbotid>
+    <schemaname>faf001_ordervalidationagent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

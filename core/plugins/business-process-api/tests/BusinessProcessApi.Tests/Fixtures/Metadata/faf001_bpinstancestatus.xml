@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<optionset Name="faf001_bpinstancestatus">
+  <options>
+    <option value="324010000" />
+    <option value="324010001" />
+    <option value="324010002" />
+    <option value="324010003" />
+    <option value="324010004" />
+    <option value="324010005" />
+    <option value="324010006" />
+    <option value="324010007" />
+  </options>
+</optionset>

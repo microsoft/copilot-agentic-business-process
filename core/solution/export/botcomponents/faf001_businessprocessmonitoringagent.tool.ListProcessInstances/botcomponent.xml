@@ -1,0 +1,11 @@
+<botcomponent schemaname="faf001_businessprocessmonitoringagent.tool.ListProcessInstances">
+  <componenttype>9</componenttype>
+  <description>List business process runs from the bpinstance table. Use for finding a run, for cross-run reporting, counting, and sorting. Useful columns: faf001_processname, faf001_businesskey, faf001_status, faf001_statusmessage, faf001_priority, faf001_starttime, faf001_endtime, faf001_duedate, faf001_lastupdated, faf001_errorcode, faf001_errormessage, faf001_channel, _faf001_lastcompletedstepid_value, _faf001_initiatedby_value, faf001_initiatorexternal, faf001_bpinstanceid. Always pass $select and $top.</description>
+  <iscustomizable>1</iscustomizable>
+  <name>List process instance rows</name>
+  <parentbotid>
+    <schemaname>faf001_businessprocessmonitoringagent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

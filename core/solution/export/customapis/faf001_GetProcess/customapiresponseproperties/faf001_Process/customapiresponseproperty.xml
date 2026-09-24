@@ -1,0 +1,11 @@
+<customapiresponseproperty uniquename="faf001_Process">
+  <description default="Caller-accessible process instance data.">
+    <label description="Caller-accessible process instance data." languagecode="1033" />
+  </description>
+  <displayname default="Process">
+    <label description="Process" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <name>faf001_GetProcess.faf001_Process</name>
+  <type>3</type>
+</customapiresponseproperty>

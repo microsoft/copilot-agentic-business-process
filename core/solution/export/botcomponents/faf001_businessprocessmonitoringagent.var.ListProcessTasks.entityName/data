@@ -1,0 +1,4 @@
+kind: AgentVariable
+name: ListProcessTasks.entityName
+type: "{\"type\":\"string\",\"title\":\"Table name\",\"x-ms-dynamic-list\":{\"operationId\":\"GetEntities\",\"parameters\":{},\"itemsPath\":\"value\",\"itemValuePath\":\"EntitySetName\",\"itemTitlePath\":\"DisplayCollectionName/UserLocalizedLabel/Label\"},\"description\":\"Choose a table\",\"minLength\":1,\"x-ms-property-name-alias\":\"entityName\"}"
+defaultValue: faf001_bptasks

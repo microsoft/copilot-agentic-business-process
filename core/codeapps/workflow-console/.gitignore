@@ -1,0 +1,36 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+*.tsbuildinfo
+.env
+.env.*
+!.env.example
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Claude Code
+.claude/settings.local.json
+
+# Power Apps code app: holds the app id, environment id and connection ids.
+# Regenerate with `pa app init` + `pa app add data-source` -- see README.md.
+# `.power/` and `src/generated/` are committed: the build imports them and they carry no env-specific ids.
+power.config.json

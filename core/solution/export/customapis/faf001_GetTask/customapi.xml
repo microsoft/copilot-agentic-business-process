@@ -1,0 +1,18 @@
+<customapi uniquename="faf001_GetTask">
+  <allowedcustomprocessingsteptype>0</allowedcustomprocessingsteptype>
+  <bindingtype>0</bindingtype>
+  <description default="Read task detail including input data and widget ID. Caller must be the assigned user and have Dataverse read privileges.">
+    <label description="Read task detail including input data and widget ID. Caller must be the assigned user and have Dataverse read privileges." languagecode="1033" />
+  </description>
+  <displayname default="Get Task Detail">
+    <label description="Get Task Detail" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <isfunction>0</isfunction>
+  <isprivate>0</isprivate>
+  <name>faf001_GetTask</name>
+  <plugintypeid>
+    <plugintypeexportkey>91FE400EA3BF60AC6D454437CC9B9BC85A251B1F7970674B19201E88C9B52B67</plugintypeexportkey>
+  </plugintypeid>
+  <workflowsdkstepenabled>0</workflowsdkstepenabled>
+</customapi>

@@ -1,0 +1,61 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "restore",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "restore",
+                "${workspaceFolder}/business-process-api.sln",
+                "--locked-mode"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/business-process-api.sln",
+                "--configuration",
+                "Release",
+                "--no-restore"
+            ],
+            "dependsOn": "restore",
+            "problemMatcher": "$msCompile",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "test",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "test",
+                "${workspaceFolder}/business-process-api.sln",
+                "--configuration",
+                "Release",
+                "--no-restore"
+            ],
+            "dependsOn": "build",
+            "problemMatcher": "$msCompile",
+            "group": "test"
+        },
+        {
+            "label": "package",
+            "command": "pwsh",
+            "type": "process",
+            "args": [
+                "-NoProfile",
+                "-File",
+                "${workspaceFolder}/scripts/build-package.ps1"
+            ],
+            "dependsOn": "test",
+            "problemMatcher": []
+        }
+    ]
+}

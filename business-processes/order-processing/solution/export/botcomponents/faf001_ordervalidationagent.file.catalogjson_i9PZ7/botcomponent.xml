@@ -1,0 +1,14 @@
+<botcomponent schemaname="faf001_ordervalidationagent.file.catalogjson_i9PZ7">
+  <componenttype>14</componenttype>
+  <filedata mimetype="application/json">catalog.json</filedata>
+  <iscustomizable>1</iscustomizable>
+  <name>./assets/catalog.json</name>
+  <parentbotcomponentid>
+    <schemaname>faf001_ordervalidationagent.skill.validate-order-product-identity_ezO</schemaname>
+  </parentbotcomponentid>
+  <parentbotid>
+    <schemaname>faf001_ordervalidationagent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

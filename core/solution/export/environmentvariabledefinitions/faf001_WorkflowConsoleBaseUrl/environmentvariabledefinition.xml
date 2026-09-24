@@ -1,0 +1,14 @@
+<environmentvariabledefinition schemaname="faf001_WorkflowConsoleBaseUrl">
+  <defaultvalue>https://apps.powerapps.com/</defaultvalue>
+  <description default="Base launch URL for the Workflow Console code app. Flow notifications append taskId at runtime.">
+    <label description="Base launch URL for the Workflow Console code app. Flow notifications append taskId at runtime." languagecode="1033" />
+  </description>
+  <displayname default="Workflow Console Base URL">
+    <label description="Workflow Console Base URL" languagecode="1033" />
+  </displayname>
+  <introducedversion>1.5.0.0</introducedversion>
+  <iscustomizable>1</iscustomizable>
+  <isrequired>0</isrequired>
+  <secretstore>0</secretstore>
+  <type>100000000</type>
+</environmentvariabledefinition>

@@ -1,0 +1,10 @@
+<botcomponent schemaname="faf001_businessprocessmonitoringagent.var.ListRoles.entityName">
+  <componenttype>12</componenttype>
+  <iscustomizable>1</iscustomizable>
+  <name>roles</name>
+  <parentbotid>
+    <schemaname>faf001_businessprocessmonitoringagent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>
