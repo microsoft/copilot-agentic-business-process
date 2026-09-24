@@ -1,0 +1,7 @@
+Section icons copied unchanged from:
+https://github.com/Azure-Samples/agent-openai-python-banking-assistant/tree/main/docs/assets
+
+Files: business-scenario.png, solution-overview.png, quick-deploy.png,
+supporting-documentation.png.
+
+Distributed under the source repository's MIT license, included in LICENSE.txt.

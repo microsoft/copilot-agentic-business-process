@@ -1,22 +1,6 @@
----
-page_type: sample
-languages:
-  - typescript
-  - csharp
-  - powershell
-  - python
-products:
-  - power-platform
-  - microsoft-copilot-studio
-  - power-automate
-  - power-apps
-  - microsoft-dataverse
-urlFragment: copilot-agentic-business-process
-name: Agentic Business Process Automation on Copilot Studio 
-description: A reusable Power Platform core for long-running, human-gated agentic business processes, with an email-to-SAP order processing solution as the reference implementation.
----
-
 # Agentic Business Process Automation on Copilot Studio
+
+![Copilot Agentic Business Process: Copilot Studio agents powered by the GitHub Copilot harness, with a reusable core for long-running business processes.](docs/readme-header-microsoft.png)
 
 Copilot Studio makes it easy to build an agent. It does not, on its own, give you a
 **business process**  : a long-running, resumable, auditable unit of work that spans
@@ -52,7 +36,10 @@ ever-longer prompt.
 > [Microsoft Copilot Studio](https://learn.microsoft.com/microsoft-copilot-studio/responsible-ai-overview)
 > and [agents in sensitive domains](https://learn.microsoft.com/azure/ai-foundry/responsible-ai/agents/transparency-note).
 
-## Business scenario
+<a name="business-scenario"></a>
+<h2><img src="docs/section-icons/business-scenario.png" width="48" alt="" /> Business scenario</h2>
+
+![Reusable Business Process Core and Order Processing solution: the Workflow Console and Monitoring Agent use the Business Process API and Dataverse state, while domain workflows invoke Copilot Studio agents and skills through the GitHub Copilot harness.](docs/business-scenario.png)
 
 **BusinessProcessCore** is a process-agnostic runtime for agentic business processes on
 Power Platform. It ships:
@@ -166,7 +153,8 @@ before touching anything that is not ready — or follow the same steps by hand 
 deployment guides.
 </details>
 
-## Solution overview
+<a name="solution-overview"></a>
+<h2><img src="docs/section-icons/solution-overview.png" width="48" alt="" /> Solution overview</h2>
 
 The core owns **state, identity, and experience**. A business process owns **its own
 logic**. The two meet at the process tracking model: a workflow records what it did as a
@@ -272,7 +260,8 @@ to copy when adding your own.
 | Notification and conversational access | Microsoft Teams |
 | Deployment and automation | Power Platform CLI, PowerShell 7, Python, and GitHub Copilot deployment skills |
 
-## Quick deploy
+<a name="quick-deploy"></a>
+<h2><img src="docs/section-icons/quick-deploy.png" width="48" alt="" /> Quick deploy</h2>
 
 Deployment happens in two stages: install **BusinessProcessCore** once per environment,
 then install each business process on top of it.
@@ -334,7 +323,8 @@ implementation, see
 > To avoid ongoing consumption, delete the environment or uninstall the solutions when
 > you are done evaluating.
 
-## Supporting documentation
+<a name="supporting-documentation"></a>
+<h2><img src="docs/section-icons/supporting-documentation.png" width="48" alt="" /> Supporting documentation</h2>
 
 | Document | What it covers |
 | --- | --- |
@@ -504,5 +494,3 @@ THE SOFTWARE IS AT YOUR OWN RISK.
 ## License
 
 Released under the [MIT License](LICENSE).
-
-

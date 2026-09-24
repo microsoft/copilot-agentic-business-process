@@ -55,47 +55,9 @@ process artifact.
 
 ## Process flow
 
-```mermaid
-flowchart TD
-    MAIL([Purchase order arrives<br/>in shared mailbox]) --> INTAKE
+![Order processing flow: Receive, Extract, human Review, Validate, human Approve, and Finalize a downloadable SAP JSON payload. Rejection at either human gate stops the order.](docs/process-flow.png)
 
-    subgraph F1["<b>mail-order-intake</b>"]
-        INTAKE[Open process instance<br/>store attachment]
-    end
-
-    INTAKE --> F2
-
-    subgraph F2["<b>extract-order-data</b>"]
-        EXTRACT[Extraction agent<br/>document → structured order JSON]
-    end
-
-    F2 --> REVIEW{{"<b>Human gate 1</b><br/>Order Reviewer<br/>verify extracted data"}}
-
-    REVIEW -->|Rejected| STOP1([Process closed])
-    REVIEW -->|Approved| F3
-
-    subgraph F3["<b>validate-order</b>"]
-        VALIDATE[Order Validation Agent<br/>identity · availability · promotions]
-    end
-
-    F3 --> APPROVE{{"<b>Human gate 2</b><br/>Order Approver<br/>accept the evaluation"}}
-
-    APPROVE -->|Rejected| STOP2([Order Rejected])
-    APPROVE -->|Approved| F4
-
-    subgraph F4["<b>finalize-order</b>"]
-        SAP[SAP File Integration Agent<br/>→ SAP sales order payload]
-    end
-
-    F4 --> DONE([SAP_SalesOrder.json<br/>stored as process artifact])
-
-    classDef gate fill:#fff4ce,stroke:#c19c00,color:#3b3b3b
-    classDef terminal fill:#eef4ff,stroke:#5b8def,color:#1b1b1b
-    class REVIEW,APPROVE gate
-    class MAIL,DONE,STOP1,STOP2 terminal
-```
-
-Each box is a Copilot Studio workflow. No workflow calls the next one directly: every one
+The four workflow stages run in Copilot Studio, with two explicit human gates. No workflow calls the next one directly: every one
 of them ends by writing a `faf001_bpstep` row to Dataverse, and the next workflow is
 triggered by that row. A process can therefore sit for days between stages, survive a
 failure at any point, and resume exactly where it stopped.
