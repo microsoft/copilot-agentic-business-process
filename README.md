@@ -69,7 +69,7 @@ Current available reference implementations:
 and promotion data, two human gates approve the result, and a final agent emits an
 SAP-ready sales order.
 
-- **Car Insurance Claim Processing**: car insurance claims arrive as email attachments, agents extract car incident images, provide a damage assessment and validate them against policy and claim data, two human gates approve the result, and a final agent emits a claim settlement. This scenario is working in progress.
+- **Car Insurance Claim Processing** — 🚧 **Work in progress (WIP)**: car insurance claims arrive as email attachments, agents extract car incident images, provide a damage assessment and validate them against policy and claim data, two human gates approve the result, and a final agent emits a claim settlement.
 
 ### Key Features
 
