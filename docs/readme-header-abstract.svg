@@ -1,0 +1,194 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="800" viewBox="0 0 1800 800" fill="none">
+  <title>Accelerate agentic development with a reusable Business Process Core</title>
+  <desc>A luminous Copilot Studio GitHub Copilot harness connects to a reusable, layered Business Process Core. Shared patterns fan out into multiple long-running, high-value business processes. Human oversight, durable state and auditability are represented by small person, clock and shield symbols.</desc>
+  <defs>
+    <linearGradient id="bg" x2="1800" y2="800" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F4F0FA"/><stop offset=".5" stop-color="#E5EDFC"/><stop offset="1" stop-color="#CDEAF7"/>
+    </linearGradient>
+    <radialGradient id="sky">
+      <stop stop-color="#A0E7F9" stop-opacity=".8"/><stop offset="1" stop-color="#A0E7F9" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="violetGlow">
+      <stop stop-color="#B5A0FF" stop-opacity=".5"/><stop offset="1" stop-color="#B5A0FF" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="white" x2=".9" y2="1">
+      <stop stop-color="#FFFFFF"/><stop offset="1" stop-color="#DFE9FF"/>
+    </linearGradient>
+    <linearGradient id="plinth" x2="1" y2=".4">
+      <stop stop-color="#CDD9EF"/><stop offset=".35" stop-color="#FFFFFF"/><stop offset="1" stop-color="#9CBFE4"/>
+    </linearGradient>
+    <linearGradient id="hex" x1=".1" y1="0" x2=".85" y2="1">
+      <stop stop-color="#40D6FA"/><stop offset=".4" stop-color="#2479EE"/><stop offset=".75" stop-color="#5051D7"/><stop offset="1" stop-color="#9A4DEA"/>
+    </linearGradient>
+    <linearGradient id="coreTop" x1="0" y1="0" x2="1" y2=".9">
+      <stop stop-color="#A5FFF4"/><stop offset=".5" stop-color="#42D8D0"/><stop offset="1" stop-color="#19A5BD"/>
+    </linearGradient>
+    <linearGradient id="coreFace">
+      <stop stop-color="#167FB7"/><stop offset=".5" stop-color="#197AAB"/><stop offset="1" stop-color="#0C617E"/>
+    </linearGradient>
+    <linearGradient id="coreMid">
+      <stop stop-color="#2789E9"/><stop offset=".5" stop-color="#2364BC"/><stop offset="1" stop-color="#335A9D"/>
+    </linearGradient>
+    <linearGradient id="stream">
+      <stop stop-color="#BC98FF"/><stop offset=".36" stop-color="#87F5FF"/><stop offset=".7" stop-color="#2CBFEE"/><stop offset="1" stop-color="#D8FFFF"/>
+    </linearGradient>
+    <linearGradient id="streamViolet">
+      <stop stop-color="#ACF9FA"/><stop offset=".5" stop-color="#69A2F7"/><stop offset="1" stop-color="#A28FFF"/>
+    </linearGradient>
+    <filter id="shadow" x="-40%" y="-50%" width="180%" height="220%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="17" stdDeviation="17" flood-color="#466CA6" flood-opacity=".2"/>
+    </filter>
+    <filter id="soft" x="-50%" y="-100%" width="200%" height="300%">
+      <feGaussianBlur stdDeviation="17"/>
+    </filter>
+    <filter id="bloom" x="-30%" y="-100%" width="160%" height="300%">
+      <feGaussianBlur stdDeviation="4"/>
+    </filter>
+    <filter id="smallShadow" x="-50%" y="-50%" width="200%" height="220%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#6C80AE" flood-opacity=".2"/>
+    </filter>
+    <g id="clock" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+      <circle r="19"/><path d="M0-11V0l9 5"/>
+    </g>
+    <g id="human" stroke="currentColor" stroke-width="3.3" stroke-linecap="round">
+      <circle cy="-9" r="8" fill="currentColor" fill-opacity=".12"/>
+      <path d="M-17 18v-4C-17 4-9-1 0-1s17 5 17 15v4" fill="currentColor" fill-opacity=".12"/>
+    </g>
+    <g id="shield" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+      <path d="m0-21 18 7v12c0 10-7 18-18 24C-11 16-18 8-18-2v-12Z" fill="currentColor" fill-opacity=".1"/>
+      <path d="m-8 0 6 6 11-13"/>
+    </g>
+    <g id="pattern">
+      <path d="M42 87h46l22-28h44l25 28h36" stroke="#B5C9E9" stroke-width="4" stroke-linejoin="round"/>
+      <rect x="27" y="71" width="32" height="32" rx="10" fill="#E8E1FF" stroke="#A49AE4" stroke-width="2"/>
+      <path d="m43 78 3 6 6 3-6 3-3 6-3-6-6-3 6-3Z" fill="#9182D6"/>
+      <circle cx="128" cy="59" r="17" fill="#DDF7F2" stroke="#77C7C5" stroke-width="2"/>
+      <use href="#human" transform="translate(128 59) scale(.57)" color="#28A5A7"/>
+      <rect x="200" y="71" width="32" height="32" rx="10" fill="#DCEEFE" stroke="#95B8E5" stroke-width="2"/>
+      <path d="m208 87 5 5 10-11" stroke="#4D8DCF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+    <g id="process">
+      <rect x="7" y="7" width="260" height="146" rx="20" fill="#AFC5E7"/>
+      <rect width="260" height="146" rx="20" fill="url(#white)" stroke="white" stroke-width="2"/>
+      <path d="M25 24h47" stroke="currentColor" stroke-width="5" stroke-linecap="round" opacity=".65"/>
+      <use href="#clock" transform="translate(230 26) scale(.4)" color="#91AACB"/>
+      <use href="#pattern"/>
+      <path d="M28 124h84m10 0h30" stroke="#CAD9EE" stroke-width="4" stroke-linecap="round"/>
+    </g>
+  </defs>
+
+  <rect width="1800" height="800" rx="30" fill="url(#bg)"/>
+  <ellipse cx="1260" cy="320" rx="670" ry="420" fill="url(#sky)"/>
+  <ellipse cx="430" cy="570" rx="550" ry="300" fill="url(#violetGlow)"/>
+  <path d="M0 632c460-88 784 91 1800-22v190H0Z" fill="white" fill-opacity=".13"/>
+  <g font-family="Segoe UI, Arial, sans-serif">
+    <text x="90" y="109" font-size="53" font-weight="650" letter-spacing="-1.1" fill="#23365D">Accelerate agentic development.</text>
+    <text x="92" y="155" font-size="27" font-weight="400" fill="#526886">Reusable patterns. Lasting business value.</text>
+
+    <!-- Light carries the same reusable pattern into several distinct processes. -->
+    <g stroke-linecap="round">
+      <g stroke="url(#stream)" stroke-width="18" opacity=".45" filter="url(#bloom)">
+        <path d="M358 461C507 451 534 504 662 476"/>
+        <path d="M918 445C1111 444 1054 291 1254 292"/>
+        <path d="M930 472C1134 480 1217 444 1422 423"/>
+        <path d="M919 492C1092 499 1137 586 1260 586"/>
+      </g>
+      <g stroke="white" stroke-width="2" opacity=".7">
+        <path d="M352 436C506 428 542 480 662 454"/>
+        <path d="M358 483C507 475 542 530 662 498"/>
+        <path d="M922 423C1091 428 1059 264 1248 266"/>
+        <path d="M927 516C1093 520 1138 611 1251 612"/>
+      </g>
+      <g stroke="url(#stream)" stroke-width="4">
+        <path d="M358 448C507 441 534 492 662 466"/>
+        <path d="M358 463C507 455 534 507 662 481"/>
+        <path d="M358 477C507 469 534 521 662 495"/>
+        <path d="M918 437C1098 437 1053 280 1254 281"/>
+        <path d="M918 451C1113 451 1065 300 1254 302"/>
+        <path d="M928 471C1126 484 1209 433 1422 410"/>
+        <path d="M928 486C1138 496 1217 449 1422 432"/>
+      </g>
+      <g stroke="url(#streamViolet)" stroke-width="4">
+        <path d="M919 496C1090 504 1137 574 1260 574"/>
+        <path d="M919 511C1090 520 1137 594 1260 594"/>
+      </g>
+    </g>
+    <g fill="white" filter="url(#smallShadow)">
+      <circle cx="452" cy="453" r="4"/><circle cx="496" cy="477" r="3"/>
+      <circle cx="580" cy="485" r="4"/><circle cx="1102" cy="349" r="4"/>
+      <circle cx="1196" cy="299" r="4"/><circle cx="1181" cy="471" r="4"/>
+      <circle cx="1108" cy="545" r="4"/>
+    </g>
+    <g fill="#58C9ED">
+      <path d="m1164 297 20-7-10 18-1-10Z"/>
+      <path d="m1330 424 20 1-16 12 4-8Z"/>
+    </g>
+
+    <!-- A dimensional agent emblem, deliberately not an imitation product logo. -->
+    <ellipse cx="270" cy="588" rx="150" ry="24" fill="#7188BC" opacity=".21" filter="url(#soft)"/>
+    <path d="M117 563v18c0 39 306 39 306 0v-18" fill="url(#plinth)"/>
+    <ellipse cx="270" cy="563" rx="153" ry="31" fill="url(#white)" stroke="white" stroke-width="2"/>
+    <ellipse cx="270" cy="561" rx="111" ry="19" fill="#C2C4FF"/>
+    <ellipse cx="270" cy="559" rx="104" ry="15" fill="#E4E5FF" stroke="#AFA7F6" stroke-width="2"/>
+    <g stroke="white" stroke-opacity=".4">
+      <circle cx="270" cy="423" r="147"/><circle cx="270" cy="423" r="167"/>
+    </g>
+    <path d="M278 293q9 0 18 5l86 50q11 6 11 20v105q0 13-11 20l-86 49q-17 10-32 0l-86-49q-11-6-11-20V368q0-14 11-20l86-50q7-5 14-5Z" fill="#B3B0F1" opacity=".6"/>
+    <path d="M267 286q9 0 18 5l86 50q11 6 11 20v105q0 13-11 20l-86 49q-17 10-32 0l-86-49q-11-6-11-20V361q0-14 11-20l86-50q7-5 14-5Z" fill="url(#hex)" stroke="#E3F8FF" stroke-width="2.5" filter="url(#shadow)"/>
+    <path d="M220 371h92a22 22 0 0 1 22 22v44a22 22 0 0 1-22 22h-16l-28 24v-24h-48a22 22 0 0 1-22-22v-44a22 22 0 0 1 22-22Z" fill="white" fill-opacity=".96"/>
+    <path d="m266 384 9 22 22 9-22 9-9 22-9-22-22-9 22-9Z" fill="#6467DA"/>
+    <path d="M315 349v18m-9-9h18" stroke="#E4FFFF" stroke-width="3.5" stroke-linecap="round"/>
+
+    <!-- Layered building blocks suggest a reusable foundation rather than a database. -->
+    <ellipse cx="795" cy="619" rx="208" ry="30" fill="#6182B1" opacity=".23" filter="url(#soft)"/>
+    <path d="M601 578v24q0 12 19 18l155 44q20 5 40 0l154-44q20-6 20-18v-24" fill="url(#plinth)"/>
+    <path d="m620 553 155-44q20-5 40 0l154 44q40 12 0 24l-154 44q-20 5-40 0l-155-44q-38-12 0-24Z" fill="url(#white)" stroke="white" stroke-width="2"/>
+    <path d="M635 509v41q0 11 17 16l125 36q18 5 36 0l125-36q17-5 17-16v-41" fill="url(#coreMid)" stroke="#A5D6F9" stroke-width="1.5"/>
+    <path d="m652 494 125-36q18-5 36 0l125 36q34 10 0 20l-125 36q-18 5-36 0l-125-36q-34-10 0-20Z" fill="#55B5EF" stroke="#AEEDFF" stroke-width="2"/>
+    <path d="M635 459v39q0 11 17 16l125 36q18 5 36 0l125-36q17-5 17-16v-39" fill="url(#coreFace)"/>
+    <path d="m652 443 125-36q18-5 36 0l125 36q34 10 0 20l-125 36q-18 5-36 0l-125-36q-34-10 0-20Z" fill="#59DBE0" stroke="#B0FAF7" stroke-width="2"/>
+    <path d="M635 406v42q0 11 17 16l125 36q18 5 36 0l125-36q17-5 17-16v-42" fill="url(#coreFace)"/>
+    <path d="m652 390 125-36q18-5 36 0l125 36q34 10 0 20l-125 36q-18 5-36 0l-125-36q-34-10 0-20Z" fill="url(#coreTop)" stroke="#CBFFF9" stroke-width="2.5" filter="url(#smallShadow)"/>
+    <path d="M651 401 781 438q14 4 28 0l129-37" stroke="#CAFFF9" stroke-opacity=".75" stroke-width="2"/>
+    <g transform="translate(794 398) scale(1 .58)" stroke="white" stroke-width="9" stroke-linecap="round">
+      <path d="M0 0C-19-29-53-28-53 0S-19 29 0 0 53-28 53 0 19 29 0 0Z"/>
+    </g>
+    <g fill="#97F7F3">
+      <circle cx="850" cy="471" r="3"/><circle cx="865" cy="467" r="3"/><circle cx="880" cy="463" r="3"/>
+    </g>
+
+    <!-- Quiet symbols for durability, accountability and human oversight. -->
+    <g stroke="#7CBED6" stroke-opacity=".65" stroke-width="1.5" stroke-dasharray="3 5">
+      <path d="M654 302v79M794 259v94M942 302v76"/>
+    </g>
+    <g filter="url(#smallShadow)">
+      <circle cx="654" cy="282" r="35" fill="url(#white)" stroke="white" stroke-width="2"/>
+      <circle cx="794" cy="233" r="35" fill="url(#white)" stroke="white" stroke-width="2"/>
+      <circle cx="942" cy="279" r="35" fill="url(#white)" stroke="white" stroke-width="2"/>
+    </g>
+    <use href="#clock" transform="translate(654 282)" color="#568DD9"/>
+    <use href="#shield" transform="translate(794 233)" color="#8172D0"/>
+    <use href="#human" transform="translate(942 279)" color="#22AAA9"/>
+
+    <!-- Repeated motifs communicate reuse without prescribing a business scenario. -->
+    <g filter="url(#shadow)">
+      <use href="#process" transform="translate(1204 234) skewY(-8)" color="#469FDB"/>
+      <use href="#process" transform="translate(1423 398) skewY(-8)" color="#20B9B9"/>
+      <use href="#process" transform="translate(1155 512) skewY(-8)" color="#8D75D6"/>
+    </g>
+    <g fill="white" stroke="#CFDDF2" stroke-width="2" filter="url(#smallShadow)">
+      <circle cx="1510" cy="280" r="26"/><circle cx="1657" cy="354" r="21"/>
+    </g>
+    <path d="m1499 280 7 7 14-16" stroke="#19ACAB" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M1657 345v18m-9-9h18" stroke="#8C80D5" stroke-width="3" stroke-linecap="round"/>
+
+    <g text-anchor="middle">
+      <text x="270" y="700" font-size="30" font-weight="650" fill="#293E6D">Copilot Studio</text>
+      <text x="270" y="744" font-size="26" font-weight="600" fill="#5369A5">GitHub Copilot harness</text>
+      <text x="795" y="700" font-size="30" font-weight="650" fill="#293E6D">Reusable</text>
+      <text x="795" y="744" font-size="29" font-weight="600" fill="#315878">Business Process Core</text>
+      <text x="1455" y="700" font-size="29" font-weight="650" fill="#293E6D">Long-running, high-value</text>
+      <text x="1455" y="744" font-size="29" font-weight="600" fill="#315878">business processes</text>
+    </g>
+  </g>
+</svg>
