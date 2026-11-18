@@ -1,0 +1,55 @@
+{
+  "title": "End / Terminate",
+  "notes": "Each end node maps to itself in `nodeActionMapping`. Terminate `runStatus` `Succeeded` or `Failed`.",
+  "runtimeActionName": "end-c74c57d9-83b1-5b7e-a0c8-363e835172a2",
+  "runtimeAction": {
+    "type": "Terminate",
+    "inputs": {
+      "runStatus": "Succeeded"
+    },
+    "runAfter": {
+      "Track_completeness_step": [
+        "Succeeded"
+      ]
+    },
+    "metadata": {
+      "description": "Complete claim intake",
+      "nodeId": "end-c74c57d9-83b1-5b7e-a0c8-363e835172a2"
+    }
+  },
+  "designerNodes": [
+    {
+      "id": "end-c74c57d9-83b1-5b7e-a0c8-363e835172a2",
+      "name": "Complete claim intake",
+      "type": "end",
+      "version": 1,
+      "position": {
+        "x": 5446,
+        "y": 356.5
+      },
+      "data": {
+        "config": {
+          "runStatus": "Succeeded"
+        },
+        "outcomes": []
+      },
+      "measured": {
+        "width": 240,
+        "height": 66
+      }
+    }
+  ],
+  "edgesInsideBlock": [],
+  "edgesCrossingBlockBoundary_examples": [
+    {
+      "id": "edge-connector-9d230c00-63fd-588e-9146-8079dc695e13-end-c74c57d9-83b1-5b7e-a0c8-363e835172a2",
+      "source": "connector-9d230c00-63fd-588e-9146-8079dc695e13",
+      "target": "end-c74c57d9-83b1-5b7e-a0c8-363e835172a2"
+    }
+  ],
+  "nodeActionMapping": {
+    "end-c74c57d9-83b1-5b7e-a0c8-363e835172a2": [
+      "end-c74c57d9-83b1-5b7e-a0c8-363e835172a2"
+    ]
+  }
+}

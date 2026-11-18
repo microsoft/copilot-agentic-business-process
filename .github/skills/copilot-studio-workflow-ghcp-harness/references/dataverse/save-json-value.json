@@ -1,0 +1,117 @@
+{
+  "title": "Dataverse: store a JSON value (agent result or data)",
+  "notes": "Creates a data value row with `faf001_valuejson = string(structuredOutput)`.",
+  "runtimeActionName": "Save_extracted_order",
+  "runtimeAction": {
+    "type": "OpenApiConnection",
+    "inputs": {
+      "parameters": {
+        "entityName": "faf001_bpdatavalues",
+        "item/faf001_bpinstanceid@odata.bind": "@concat('/faf001_bpinstances(', triggerOutputs()?['body/_faf001_bpinstanceid_value'], ')')",
+        "item/faf001_bpstepid@odata.bind": "@concat('/faf001_bpsteps(', triggerOutputs()?['body/faf001_bpstepid'], ')')",
+        "item/faf001_datakey": "extracted-order",
+        "item/faf001_datatype": 324010004,
+        "item/faf001_description": "Structured order data produced by the Extraction Agent.",
+        "item/faf001_valuejson": "@{string(body('Extraction_Agent')?['structuredOutput'])}"
+      },
+      "host": {
+        "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+        "connectionName": "shared_commondataserviceforapps",
+        "operationId": "CreateRecord"
+      }
+    },
+    "runAfter": {
+      "Extraction_Agent": [
+        "Succeeded"
+      ]
+    },
+    "metadata": {
+      "description": "Save extracted order",
+      "nodeId": "connector-7b5f9c20-4a68-41d3-92e7-0c8b3d6a15f9"
+    }
+  },
+  "designerNodes": [
+    {
+      "id": "connector-7b5f9c20-4a68-41d3-92e7-0c8b3d6a15f9",
+      "name": "Save extracted order",
+      "type": "connector",
+      "version": 1,
+      "position": {
+        "x": 2206,
+        "y": 356.5
+      },
+      "data": {
+        "config": {
+          "apiName": "shared_commondataserviceforapps",
+          "displayName": "Microsoft Dataverse",
+          "iconUri": "https://static.powerapps.com/resource/ppcr/releases/v1.0.1825/1.0.1825.4855/commondataserviceforapps/icon.png",
+          "brandColor": "#088142",
+          "operationName": "CreateRecord",
+          "connectionName": "shared_commondataserviceforapps",
+          "operationType": "OpenApiConnection",
+          "parameters": {
+            "entityName": "faf001_bpdatavalues",
+            "item/faf001_bpinstanceid@odata.bind": "@concat('/faf001_bpinstances(', triggerOutputs()?['body/_faf001_bpinstanceid_value'], ')')",
+            "item/faf001_bpstepid@odata.bind": "@concat('/faf001_bpsteps(', triggerOutputs()?['body/faf001_bpstepid'], ')')",
+            "item/faf001_datakey": "extracted-order",
+            "item/faf001_datatype": 324010004,
+            "item/faf001_description": "Structured order data produced by the Extraction Agent.",
+            "item/faf001_valuejson": "@{string(body('Extraction_Agent')?['structuredOutput'])}"
+          },
+          "parametersSchema": {
+            "type": "object",
+            "properties": {
+              "entityName": {
+                "type": "string",
+                "title": "Table name"
+              },
+              "item": {
+                "type": "object",
+                "title": "Row"
+              }
+            },
+            "required": []
+          }
+        },
+        "outcomes": [
+          {
+            "id": "default",
+            "label": "Default",
+            "outcomeSchema": {
+              "type": "object",
+              "properties": {
+                "faf001_bpdatavalueid": {
+                  "type": "string",
+                  "format": "uuid",
+                  "title": "Process Data Value"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "measured": {
+        "width": 240,
+        "height": 66
+      }
+    }
+  ],
+  "edgesInsideBlock": [],
+  "edgesCrossingBlockBoundary_examples": [
+    {
+      "id": "edge-agent-2f8d41b6-c507-4e39-a1b8-9d63e07c4b52-connector-7b5f9c20-4a68-41d3-92e7-0c8b3d6a15f9",
+      "source": "agent-2f8d41b6-c507-4e39-a1b8-9d63e07c4b52",
+      "target": "connector-7b5f9c20-4a68-41d3-92e7-0c8b3d6a15f9"
+    },
+    {
+      "id": "edge-connector-7b5f9c20-4a68-41d3-92e7-0c8b3d6a15f9-connector-3d6a8e94-1f52-4b07-86c9-2e5b7a04c9d3",
+      "source": "connector-7b5f9c20-4a68-41d3-92e7-0c8b3d6a15f9",
+      "target": "connector-3d6a8e94-1f52-4b07-86c9-2e5b7a04c9d3"
+    }
+  ],
+  "nodeActionMapping": {
+    "connector-7b5f9c20-4a68-41d3-92e7-0c8b3d6a15f9": [
+      "Save_extracted_order"
+    ]
+  }
+}

@@ -1,0 +1,658 @@
+{
+  "title": "Dataverse trigger: row modified",
+  "notes": "Stage trigger that starts when a column of a row changes (message 3) with `filteringattributes`.",
+  "triggerKey": "When_a_row_is_added__modified_or_deleted",
+  "runtimeTrigger": {
+    "type": "OpenApiConnectionWebhook",
+    "inputs": {
+      "parameters": {
+        "subscriptionRequest/message": 3,
+        "subscriptionRequest/entityname": "faf001_bpstep",
+        "subscriptionRequest/scope": 4,
+        "subscriptionRequest/filteringattributes": "faf001_status",
+        "subscriptionRequest/filterexpression": "faf001_stepname eq 'Extracted Order Data Review' and faf001_steptype eq 324010001 and faf001_status eq 324010003"
+      },
+      "host": {
+        "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+        "operationId": "SubscribeWebhookTrigger",
+        "connectionName": "shared_commondataserviceforapps-1"
+      }
+    },
+    "metadata": {
+      "associatedData": "<graph and nodeActionMapping live here; see workflow-envelope.json>"
+    }
+  },
+  "designerStartNode": {
+    "id": "start-0a5c7e31-42b9-4d68-8f17-3c6e05b9a4d2",
+    "name": "When a row is added, modified or deleted",
+    "type": "start",
+    "version": 1,
+    "position": {
+      "x": 250,
+      "y": 356.5
+    },
+    "data": {
+      "config": {
+        "triggerType": "connector",
+        "connector": {
+          "apiName": "shared_commondataserviceforapps",
+          "operationName": "SubscribeWebhookTrigger",
+          "connectionName": "shared_commondataserviceforapps-1",
+          "inputs": {
+            "subscriptionRequest/message": 3,
+            "subscriptionRequest/entityname": "faf001_bpstep",
+            "subscriptionRequest/scope": 4,
+            "subscriptionRequest/filteringattributes": "faf001_status",
+            "subscriptionRequest/filterexpression": "faf001_stepname eq 'Extracted Order Data Review' and faf001_steptype eq 324010001 and faf001_status eq 324010003"
+          },
+          "displayName": "When a row is added, modified or deleted",
+          "iconUri": "https://static.powerapps.com/resource/ppcr/releases/v1.0.1825/1.0.1825.4855/commondataserviceforapps/icon.png",
+          "brandColor": "",
+          "operationType": "OpenApiConnectionWebhook",
+          "parametersSchema": {
+            "type": "object",
+            "properties": {
+              "subscriptionRequest": {
+                "type": "object",
+                "title": "Subscription request",
+                "properties": {
+                  "message": {
+                    "type": "integer",
+                    "title": "Change type",
+                    "x-ms-dynamic-list": {
+                      "operationId": "GetOptionSetMetadata",
+                      "parameters": {
+                        "entityName": {
+                          "value": "callbackregistration"
+                        },
+                        "attributeMetadataId": {
+                          "value": "58bac6af-4394-424f-bbc8-e64843941942"
+                        },
+                        "type": {
+                          "value": "Picklist"
+                        }
+                      },
+                      "itemsPath": "value",
+                      "itemValuePath": "value",
+                      "itemTitlePath": "label/userLocalizedLabel/label"
+                    },
+                    "description": "Choose when the flow triggers",
+                    "x-ms-visibility": "important",
+                    "x-ms-property-name-alias": "subscriptionRequest/message"
+                  },
+                  "entityname": {
+                    "type": "string",
+                    "title": "Table name",
+                    "x-ms-dynamic-list": {
+                      "operationId": "GetEntities",
+                      "parameters": {},
+                      "itemsPath": "value",
+                      "itemValuePath": "LogicalName",
+                      "itemTitlePath": "DisplayCollectionName/UserLocalizedLabel/Label"
+                    },
+                    "description": "Choose a table",
+                    "x-ms-visibility": "important",
+                    "x-ms-property-name-alias": "subscriptionRequest/entityname"
+                  },
+                  "scope": {
+                    "type": "integer",
+                    "title": "Scope",
+                    "x-ms-dynamic-list": {
+                      "operationId": "GetScopeFilters",
+                      "parameters": {
+                        "entityName": {
+                          "parameterReference": "subscriptionRequest/entityname",
+                          "required": true
+                        }
+                      },
+                      "itemsPath": "value",
+                      "itemValuePath": "Value",
+                      "itemTitlePath": "DisplayName"
+                    },
+                    "description": "Choose a scope to limit which rows can trigger the flow",
+                    "x-ms-visibility": "important",
+                    "x-ms-property-name-alias": "subscriptionRequest/scope"
+                  },
+                  "filteringattributes": {
+                    "type": "string",
+                    "title": "Select columns",
+                    "description": "Enter a comma-separated list of column unique names. The flow triggers if any of the columns is present in the update payload regardless of if data is modified",
+                    "x-ms-visibility": "important",
+                    "x-ms-property-name-alias": "subscriptionRequest/filteringattributes"
+                  },
+                  "filterexpression": {
+                    "type": "string",
+                    "title": "Filter rows",
+                    "description": "Odata expression to limit rows that can trigger the flow, eg. statecode eq 0",
+                    "x-ms-visibility": "important",
+                    "x-ms-property-name-alias": "subscriptionRequest/filterexpression"
+                  },
+                  "postponeuntil": {
+                    "type": "string",
+                    "title": "Delay until",
+                    "description": "Enter a time to delay the trigger evaluation, eg. 2020-01-01T10:10:00Z",
+                    "x-ms-visibility": "advanced",
+                    "x-ms-property-name-alias": "subscriptionRequest/postponeuntil"
+                  },
+                  "runas": {
+                    "type": "integer",
+                    "title": "Run as",
+                    "x-ms-dynamic-list": {
+                      "operationId": "GetOptionSetMetadata",
+                      "parameters": {
+                        "entityName": {
+                          "value": "callbackregistration"
+                        },
+                        "attributeMetadataId": {
+                          "value": "8249fb1c-94a3-4e5b-9869-c1f61d7c1047"
+                        },
+                        "type": {
+                          "value": "Picklist"
+                        }
+                      },
+                      "itemsPath": "value",
+                      "itemValuePath": "value",
+                      "itemTitlePath": "label/userLocalizedLabel/label"
+                    },
+                    "description": "Choose the running user for steps where invoker connections are used",
+                    "x-ms-visibility": "advanced",
+                    "x-ms-property-name-alias": "subscriptionRequest/runas"
+                  },
+                  "name": {
+                    "type": "string",
+                    "title": "Name",
+                    "description": "Callback registration name. Value will be replaced with workflow id",
+                    "x-ms-visibility": "internal",
+                    "x-ms-property-name-alias": "subscriptionRequest/name"
+                  }
+                },
+                "required": [
+                  "entityname",
+                  "message",
+                  "scope"
+                ],
+                "description": "Subscription request",
+                "x-ms-property-name-alias": "subscriptionRequest"
+              }
+            },
+            "required": [
+              "subscriptionRequest"
+            ]
+          },
+          "triggerBatchMode": "Single",
+          "outputSchema": {
+            "webhook": {
+              "type": "object",
+              "properties": {
+                "body": {
+                  "type": "object",
+                  "x-ms-dynamic-properties": {
+                    "operationId": "GetMetadataForGetEntityCUDTrigger",
+                    "parameters": {
+                      "entityName": {
+                        "parameterReference": "subscriptionRequest/entityname",
+                        "required": true
+                      }
+                    },
+                    "itemValuePath": "schema"
+                  },
+                  "description": "A Table item.",
+                  "x-ms-property-name-alias": "body"
+                }
+              }
+            }
+          }
+        }
+      },
+      "outcomes": [
+        {
+          "id": "default",
+          "label": "Default",
+          "outcomeSchema": {
+            "type": "object",
+            "properties": {
+              "_faf001_bpinstanceid_type": {
+                "type": "string",
+                "title": "Business Process Instance (Table Name)",
+                "x-ms-visibility": "important",
+                "x-ms-property-name-alias": "body/_faf001_bpinstanceid_type"
+              },
+              "_faf001_bpinstanceid_value@Microsoft.Dynamics.CRM.lookuplogicalname": {
+                "type": "string",
+                "title": "Business Process Instance (Type)",
+                "x-ms-visibility": "important",
+                "x-ms-property-name-alias": "body/_faf001_bpinstanceid_value@Microsoft.Dynamics.CRM.lookuplogicalname"
+              },
+              "_faf001_bpinstanceid_value": {
+                "type": "string",
+                "title": "Business Process Instance (Value)",
+                "x-ms-visibility": "important",
+                "x-ms-property-name-alias": "body/_faf001_bpinstanceid_value"
+              },
+              "_createdonbehalfby_type": {
+                "type": "string",
+                "title": "Created By (Delegate) (Table Name)",
+                "description": "Unique identifier of the delegate user who created the record.",
+                "x-ms-visibility": "advanced",
+                "x-ms-property-name-alias": "body/_createdonbehalfby_type"
+              },
+              "_createdonbehalfby_value@Microsoft.Dynamics.CRM.lookuplogicalname": {
+                "type": "string",
+                "title": "Created By (Delegate) (Type)",
+                "description": "Unique identifier of the delegate user who created the record.",
+                "x-ms-visibility": "advanced",
+                "x-ms-property-name-alias": "body/_createdonbehalfby_value@Microsoft.Dynamics.CRM.lookuplogicalname"
+              },
+              "_createdonbehalfby_value": {
+                "type": "string",
+                "title": "Created By (Delegate) (Value)",
+                "description": "Unique identifier of the delegate user who created the record.",
+                "x-ms-visibility": "advanced",
+                "x-ms-property-name-alias": "body/_createdonbehalfby_value"
+              },
+              "_createdby_type": {
+                "type": "string",
+                "title": "Created By (Table Name)",
+                "description": "Unique identifier of the user who created the record.",
+                "x-ms-visibility": "advanced",
+                "x-ms-property-name-alias": "body/_createdby_type"
+              },
+              "_createdby_value@Microsoft.Dynamics.CRM.lookuplogicalname": {
+                "type": "string",
+                "title": "Created By (Type)",
+                "description": "Unique identifier of the user who created the record.",
+                "x-ms-visibility": "advanced",
+                "x-ms-property-name-alias": "body/_createdby_value@Microsoft.Dynamics.CRM.lookuplogicalname"
+              },
+              "_createdby_value": {
+                "type": "string",
+                "title": "Created By (Value)",
+                "description": "Unique identifier of the user who created the record.",
+                "x-ms-visibility": "advanced",
+                "x-ms-property-name-alias": "body/_createdby_value"
+              },
+              "createdon": {
+                "type": "string",
+                "title": "Created On",
+                "format": "date-time",
+                "description": "Date and time when the record was created.",
+                "x-ms-visibility": "advanced",
+                "x-ms-property-name-alias": "body/createdon"
+              },
+              "faf001_endtime": {
+                "type": "string",
+                "title": "End Time",
+                "format": "date-time",
+                "x-ms-visibility": "advanced",
+                "x-ms-property-name-alias": "body/faf001_endtime"
+              },
+              "faf001_errorcode": {
+                "type": "string",
+                "title": "Error Code",
+                "maxLength": 100,
+                "x-ms-visibility": "advanced",
+                "x-ms-property-name-alias": "body/faf001_errorcode"
+              },
+              "faf001_errormessage": {
+                "type": "string",
+                "title": "Error Message",
+                "maxLength": 4000,
+                "x-ms-visibility": "advanced",
+                "x-ms-property-name-alias": "body/faf001_errormessage"
+              },
+              "_faf001_executedby_type": {
+                "type": "string",
+                "title": "Executed By (Table Name)",
+                "x-ms-visibility": "advanced",
+                "x-ms-property-name-alias": "body/_faf001_executedby_type"
+              },
+              "_faf001_executedby_value@Microsoft.Dynamics.CRM.lookuplogicalname": {
+                "type": "string",
+                "title": "Executed By (Type)",
+                "x-ms-visibility": "advanced",
+                "x-ms-property-name-alias": "body/_faf001_executedby_value@Microsoft.Dynamics.CRM.lookuplogicalname"
+              },
+              "_faf001_executedby_value": {
+                "type": "string",
+                "title": "Executed By (Value)",
+                "x-ms-visibility": "advanced",
+                "x-ms-property-name-alias": "body/_faf001_executedby_value"
+              },
+              "_faf001_flowrunid_type": {
+                "type": "string",
+                "title": "Flow Run (Table Name)",
+                "x-ms-visibility": "advanced",
+                "x-ms-property-name-alias": "body/_faf001_flowrunid_type"
+              },
+              "_faf001_flowrunid_value@Microsoft.Dynamics.CRM.lookuplogicalname": {
+                "type": "string",
+                "title": "Flow Run (Type)",
+                "x-ms-visibility": "advanced",
+                "x-ms-property-name-alias": "body/_faf001_flowrunid_value@Microsoft.Dynamics.CRM.lookuplogicalname"
+              },
+              "_faf001_flowrunid_value": {
+                "type": "string",
+                "title": "Flow Run (Value)",
+                "x-ms-visibility": "advanced",
+                "x-ms-property-name-alias": "body/_faf001_flowrunid_value"
+              },
+              "importsequencenumber": {
+                "type": "integer",
+                "title": "Import Sequence Number",
+                "format": "int32",
+                "description": "Sequence number of the import that created this record.",
+                "maximum": 2147483647,
+                "minimum": -2147483648,
+                "x-ms-visibility": "advanced",
+                "x-ms-property-name-alias": "body/importsequencenumber"
+              },
+              "_modifiedonbehalfby_type": {
+                "type": "string",
+                "title": "Modified By (Delegate) (Table Name)",
+                "description": "Unique identifier of the delegate user who modified the record.",
+                "x-ms-visibility": "advanced",
+                "x-ms-property-name-alias": "body/_modifiedonbehalfby_type"
+              },
+              "_modifiedonbehalfby_value@Microsoft.Dynamics.CRM.lookuplogicalname": {
+                "type": "string",
+                "title": "Modified By (Delegate) (Type)",
+                "description": "Unique identifier of the delegate user who modified the record.",
+                "x-ms-visibility": "advanced",
+                "x-ms-property-name-alias": "body/_modifiedonbehalfby_value@Microsoft.Dynamics.CRM.lookuplogicalname"
+              },
+              "_modifiedonbehalfby_value": {
+                "type": "string",
+                "title": "Modified By (Delegate) (Value)",
+                "description": "Unique identifier of the delegate user who modified the record.",
+                "x-ms-visibility": "advanced",
+                "x-ms-property-name-alias": "body/_modifiedonbehalfby_value"
+              },
+              "_modifiedby_type": {
+                "type": "string",
+                "title": "Modified By (Table Name)",
+                "description": "Unique identifier of the user who modified the record.",
+                "x-ms-visibility": "advanced",
+                "x-ms-property-name-alias": "body/_modifiedby_type"
+              },
+              "_modifiedby_value@Microsoft.Dynamics.CRM.lookuplogicalname": {
+                "type": "string",
+                "title": "Modified By (Type)",
+                "description": "Unique identifier of the user who modified the record.",
+                "x-ms-visibility": "advanced",
+                "x-ms-property-name-alias": "body/_modifiedby_value@Microsoft.Dynamics.CRM.lookuplogicalname"
+              },
+              "_modifiedby_value": {
+                "type": "string",
+                "title": "Modified By (Value)",
+                "description": "Unique identifier of the user who modified the record.",
+                "x-ms-visibility": "advanced",
+                "x-ms-property-name-alias": "body/_modifiedby_value"
+              },
+              "modifiedon": {
+                "type": "string",
+                "title": "Modified On",
+                "format": "date-time",
+                "description": "Date and time when the record was modified.",
+                "x-ms-visibility": "advanced",
+                "x-ms-property-name-alias": "body/modifiedon"
+              },
+              "_ownerid_type": {
+                "type": "string",
+                "title": "Owner (Table Name)",
+                "description": "Owner Id",
+                "x-ms-visibility": "advanced",
+                "x-ms-property-name-alias": "body/_ownerid_type"
+              },
+              "_ownerid_value@Microsoft.Dynamics.CRM.lookuplogicalname": {
+                "type": "string",
+                "title": "Owner (Type)",
+                "description": "Owner Id",
+                "x-ms-visibility": "advanced",
+                "x-ms-property-name-alias": "body/_ownerid_value@Microsoft.Dynamics.CRM.lookuplogicalname"
+              },
+              "_ownerid_value": {
+                "type": "string",
+                "title": "Owner (Value)",
+                "description": "Owner Id",
+                "x-ms-visibility": "advanced",
+                "x-ms-property-name-alias": "body/_ownerid_value"
+              },
+              "_owningbusinessunit_type": {
+                "type": "string",
+                "title": "Owning Business Unit (Table Name)",
+                "description": "Unique identifier for the business unit that owns the record",
+                "x-ms-visibility": "advanced",
+                "x-ms-property-name-alias": "body/_owningbusinessunit_type"
+              },
+              "_owningbusinessunit_value@Microsoft.Dynamics.CRM.lookuplogicalname": {
+                "type": "string",
+                "title": "Owning Business Unit (Type)",
+                "description": "Unique identifier for the business unit that owns the record",
+                "x-ms-visibility": "advanced",
+                "x-ms-property-name-alias": "body/_owningbusinessunit_value@Microsoft.Dynamics.CRM.lookuplogicalname"
+              },
+              "_owningbusinessunit_value": {
+                "type": "string",
+                "title": "Owning Business Unit (Value)",
+                "description": "Unique identifier for the business unit that owns the record",
+                "x-ms-visibility": "advanced",
+                "x-ms-property-name-alias": "body/_owningbusinessunit_value"
+              },
+              "_owningteam_type": {
+                "type": "string",
+                "title": "Owning Team (Table Name)",
+                "description": "Unique identifier for the team that owns the record.",
+                "x-ms-visibility": "advanced",
+                "x-ms-property-name-alias": "body/_owningteam_type"
+              },
+              "_owningteam_value@Microsoft.Dynamics.CRM.lookuplogicalname": {
+                "type": "string",
+                "title": "Owning Team (Type)",
+                "description": "Unique identifier for the team that owns the record.",
+                "x-ms-visibility": "advanced",
+                "x-ms-property-name-alias": "body/_owningteam_value@Microsoft.Dynamics.CRM.lookuplogicalname"
+              },
+              "_owningteam_value": {
+                "type": "string",
+                "title": "Owning Team (Value)",
+                "description": "Unique identifier for the team that owns the record.",
+                "x-ms-visibility": "advanced",
+                "x-ms-property-name-alias": "body/_owningteam_value"
+              },
+              "_owninguser_type": {
+                "type": "string",
+                "title": "Owning User (Table Name)",
+                "description": "Unique identifier for the user that owns the record.",
+                "x-ms-visibility": "advanced",
+                "x-ms-property-name-alias": "body/_owninguser_type"
+              },
+              "_owninguser_value@Microsoft.Dynamics.CRM.lookuplogicalname": {
+                "type": "string",
+                "title": "Owning User (Type)",
+                "description": "Unique identifier for the user that owns the record.",
+                "x-ms-visibility": "advanced",
+                "x-ms-property-name-alias": "body/_owninguser_value@Microsoft.Dynamics.CRM.lookuplogicalname"
+              },
+              "_owninguser_value": {
+                "type": "string",
+                "title": "Owning User (Value)",
+                "description": "Unique identifier for the user that owns the record.",
+                "x-ms-visibility": "advanced",
+                "x-ms-property-name-alias": "body/_owninguser_value"
+              },
+              "faf001_bpstepid": {
+                "type": "string",
+                "title": "Process Step Execution",
+                "format": "guid",
+                "description": "Unique identifier for entity instances",
+                "x-ms-visibility": "advanced",
+                "x-ms-property-name-alias": "body/faf001_bpstepid"
+              },
+              "overriddencreatedon": {
+                "type": "string",
+                "title": "Record Created On",
+                "format": "date-time",
+                "description": "Date and time that the record was migrated.",
+                "x-ms-visibility": "advanced",
+                "x-ms-property-name-alias": "body/overriddencreatedon"
+              },
+              "faf001_starttime": {
+                "type": "string",
+                "title": "Start Time",
+                "format": "date-time",
+                "x-ms-visibility": "advanced",
+                "x-ms-property-name-alias": "body/faf001_starttime"
+              },
+              "faf001_status": {
+                "type": "integer",
+                "title": "Status",
+                "x-ms-dynamic-list": {
+                  "operationId": "GetOptionSetMetadata",
+                  "parameters": {
+                    "entityName": {
+                      "parameterReference": "entityName",
+                      "required": true
+                    },
+                    "attributeMetadataId": {
+                      "value": "b2140355-f3a6-f111-b8de-70a8a5af0d57"
+                    },
+                    "type": {
+                      "value": "Picklist"
+                    }
+                  },
+                  "itemsPath": "value",
+                  "itemValuePath": "value",
+                  "itemTitlePath": "Label/UserLocalizedLabel/Label"
+                },
+                "format": "int32",
+                "x-ms-visibility": "important",
+                "x-ms-property-name-alias": "body/faf001_status"
+              },
+              "statecode": {
+                "type": "integer",
+                "title": "Status",
+                "x-ms-dynamic-list": {
+                  "operationId": "GetOptionSetMetadata",
+                  "parameters": {
+                    "entityName": {
+                      "parameterReference": "entityName",
+                      "required": true
+                    },
+                    "attributeMetadataId": {
+                      "value": "062684a9-3400-464d-b2a4-e1757542a0a4"
+                    },
+                    "type": {
+                      "value": "State"
+                    }
+                  },
+                  "itemsPath": "value",
+                  "itemValuePath": "value",
+                  "itemTitlePath": "Label/UserLocalizedLabel/Label"
+                },
+                "format": "int32",
+                "description": "Status of the Process Step Execution",
+                "x-ms-visibility": "advanced",
+                "x-ms-property-name-alias": "body/statecode"
+              },
+              "statuscode": {
+                "type": "integer",
+                "title": "Status Reason",
+                "x-ms-dynamic-list": {
+                  "operationId": "GetOptionSetMetadata",
+                  "parameters": {
+                    "entityName": {
+                      "parameterReference": "entityName",
+                      "required": true
+                    },
+                    "attributeMetadataId": {
+                      "value": "b284efe9-80ae-4cf6-83aa-b794ddeb954a"
+                    },
+                    "type": {
+                      "value": "Status"
+                    }
+                  },
+                  "itemsPath": "value",
+                  "itemValuePath": "value",
+                  "itemTitlePath": "Label/UserLocalizedLabel/Label"
+                },
+                "format": "int32",
+                "description": "Reason for the status of the Process Step Execution",
+                "x-ms-visibility": "advanced",
+                "x-ms-property-name-alias": "body/statuscode"
+              },
+              "faf001_stepname": {
+                "type": "string",
+                "title": "Step Name",
+                "description": "Primary name column for Process Step Execution.",
+                "maxLength": 100,
+                "x-ms-visibility": "important",
+                "x-ms-property-name-alias": "body/faf001_stepname"
+              },
+              "faf001_steptype": {
+                "type": "integer",
+                "title": "Step Type",
+                "x-ms-dynamic-list": {
+                  "operationId": "GetOptionSetMetadata",
+                  "parameters": {
+                    "entityName": {
+                      "parameterReference": "entityName",
+                      "required": true
+                    },
+                    "attributeMetadataId": {
+                      "value": "0c268c4b-f3a6-f111-b8de-70a8a5af0d57"
+                    },
+                    "type": {
+                      "value": "Picklist"
+                    }
+                  },
+                  "itemsPath": "value",
+                  "itemValuePath": "value",
+                  "itemTitlePath": "Label/UserLocalizedLabel/Label"
+                },
+                "format": "int32",
+                "x-ms-visibility": "advanced",
+                "x-ms-property-name-alias": "body/faf001_steptype"
+              },
+              "timezoneruleversionnumber": {
+                "type": "integer",
+                "title": "Time Zone Rule Version Number",
+                "format": "int32",
+                "description": "For internal use only.",
+                "maximum": 2147483647,
+                "minimum": -1,
+                "x-ms-visibility": "advanced",
+                "x-ms-property-name-alias": "body/timezoneruleversionnumber"
+              },
+              "utcconversiontimezonecode": {
+                "type": "integer",
+                "title": "UTC Conversion Time Zone Code",
+                "format": "int32",
+                "description": "Time zone code that was in use when the record was created.",
+                "maximum": 2147483647,
+                "minimum": -1,
+                "x-ms-visibility": "advanced",
+                "x-ms-property-name-alias": "body/utcconversiontimezonecode"
+              },
+              "versionnumber": {
+                "type": "integer",
+                "title": "Version Number",
+                "format": "int64",
+                "description": "Version Number",
+                "maximum": 9223372036854776000,
+                "minimum": -9223372036854776000,
+                "x-ms-visibility": "advanced",
+                "x-ms-property-name-alias": "body/versionnumber"
+              }
+            },
+            "required": []
+          }
+        }
+      ]
+    },
+    "measured": {
+      "width": 320,
+      "height": 66
+    },
+    "selected": false
+  }
+}

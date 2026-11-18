@@ -1,0 +1,121 @@
+{
+  "title": "Dataverse: create a row inside a loop",
+  "notes": "Uses `items('<loop action name>')` for the current element.",
+  "runtimeActionName": "Create_process_attachment",
+  "runtimeAction": {
+    "type": "OpenApiConnection",
+    "inputs": {
+      "parameters": {
+        "entityName": "faf001_bpattachments",
+        "item/faf001_attachmenttype": "@if(startsWith(toLower(coalesce(items('Store_each_attachment')?['contentType'], '')), 'image/'), 324010001, 324010000)",
+        "item/faf001_bpinstanceid@odata.bind": "@concat('/faf001_bpinstances(', outputs('Create_business_process_instance')?['body/faf001_bpinstanceid'], ')')",
+        "item/faf001_description": "@concat('Attached to claim email: ', coalesce(triggerOutputs()?['body/subject'], '(no subject)'))",
+        "item/faf001_filename": "@coalesce(items('Store_each_attachment')?['name'], 'attachment')",
+        "item/faf001_filesize": "@items('Store_each_attachment')?['size']",
+        "item/faf001_mimetype": "@items('Store_each_attachment')?['contentType']",
+        "item/faf001_receivedon": "@triggerOutputs()?['body/receivedDateTime']",
+        "item/faf001_source": 324010000,
+        "item/faf001_storagetype": 324010002
+      },
+      "host": {
+        "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+        "connectionName": "shared_commondataserviceforapps",
+        "operationId": "CreateRecord"
+      }
+    },
+    "runAfter": {},
+    "metadata": {
+      "description": "Create process attachment",
+      "nodeId": "connector-91c58f2c-776b-5a52-bdc2-3fe032466dff"
+    }
+  },
+  "designerNodes": [
+    {
+      "id": "connector-91c58f2c-776b-5a52-bdc2-3fe032466dff",
+      "name": "Create process attachment",
+      "type": "connector",
+      "version": 1,
+      "position": {
+        "x": 100,
+        "y": 100
+      },
+      "data": {
+        "config": {
+          "apiName": "shared_commondataserviceforapps",
+          "displayName": "Microsoft Dataverse",
+          "iconUri": "https://static.powerapps.com/resource/ppcr/releases/v1.0.1825/1.0.1825.4855/commondataserviceforapps/icon.png",
+          "brandColor": "#088142",
+          "operationName": "CreateRecord",
+          "connectionName": "shared_commondataserviceforapps",
+          "operationType": "OpenApiConnection",
+          "parameters": {
+            "entityName": "faf001_bpattachments",
+            "item/faf001_attachmenttype": "@if(startsWith(toLower(coalesce(items('Store_each_attachment')?['contentType'], '')), 'image/'), 324010001, 324010000)",
+            "item/faf001_bpinstanceid@odata.bind": "@concat('/faf001_bpinstances(', outputs('Create_business_process_instance')?['body/faf001_bpinstanceid'], ')')",
+            "item/faf001_description": "@concat('Attached to claim email: ', coalesce(triggerOutputs()?['body/subject'], '(no subject)'))",
+            "item/faf001_filename": "@coalesce(items('Store_each_attachment')?['name'], 'attachment')",
+            "item/faf001_filesize": "@items('Store_each_attachment')?['size']",
+            "item/faf001_mimetype": "@items('Store_each_attachment')?['contentType']",
+            "item/faf001_receivedon": "@triggerOutputs()?['body/receivedDateTime']",
+            "item/faf001_source": 324010000,
+            "item/faf001_storagetype": 324010002
+          },
+          "parametersSchema": {
+            "type": "object",
+            "properties": {
+              "entityName": {
+                "type": "string",
+                "title": "Table name"
+              },
+              "item": {
+                "type": "object",
+                "title": "Row"
+              }
+            },
+            "required": []
+          }
+        },
+        "outcomes": [
+          {
+            "id": "default",
+            "label": "Default",
+            "outcomeSchema": {
+              "type": "object",
+              "properties": {
+                "faf001_bpattachmentid": {
+                  "type": "string",
+                  "format": "uuid",
+                  "title": "Process Attachment"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "measured": {
+        "width": 248,
+        "height": 66
+      },
+      "parentId": "loop-680aadfc-53ab-5b83-be25-28c194f5c1a0"
+    }
+  ],
+  "edgesInsideBlock": [],
+  "edgesCrossingBlockBoundary_examples": [
+    {
+      "id": "edge-loop-680aadfc-53ab-5b83-be25-28c194f5c1a0-internal-source-connector-91c58f2c-776b-5a52-bdc2-3fe032466dff",
+      "source": "loop-680aadfc-53ab-5b83-be25-28c194f5c1a0",
+      "target": "connector-91c58f2c-776b-5a52-bdc2-3fe032466dff",
+      "sourceHandle": "internal-source"
+    },
+    {
+      "id": "edge-connector-91c58f2c-776b-5a52-bdc2-3fe032466dff-connector-99f51562-4ab8-5d22-9f1b-4fbbd42d1912",
+      "source": "connector-91c58f2c-776b-5a52-bdc2-3fe032466dff",
+      "target": "connector-99f51562-4ab8-5d22-9f1b-4fbbd42d1912"
+    }
+  ],
+  "nodeActionMapping": {
+    "connector-91c58f2c-776b-5a52-bdc2-3fe032466dff": [
+      "Create_process_attachment"
+    ]
+  }
+}

@@ -1,0 +1,682 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_agentnode": {
+        "api": {
+          "name": "shared_agentnode"
+        },
+        "connection": {
+          "connectionReferenceLogicalName": "<agent connection reference logical name>"
+        },
+        "runtimeSource": "embedded",
+        "connectionName": "<agent connection name>"
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        }
+      },
+      "triggers": {
+        "manual": {
+          "type": "Request",
+          "kind": "Http",
+          "inputs": {
+            "method": "POST",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "type": "string",
+                  "description": "Text to classify"
+                }
+              },
+              "required": [
+                "text"
+              ]
+            },
+            "triggerAuthenticationType": "Tenant"
+          },
+          "metadata": {
+            "associatedData": {
+              "graph": {
+                "name": "classify",
+                "nodes": [
+                  {
+                    "id": "start",
+                    "name": "HTTP Request",
+                    "type": "start",
+                    "version": 1,
+                    "position": {
+                      "x": 100,
+                      "y": 200
+                    },
+                    "data": {
+                      "config": {
+                        "triggerType": "http",
+                        "http": {
+                          "method": "POST",
+                          "schema": {
+                            "type": "object",
+                            "properties": {
+                              "text": {
+                                "type": "string",
+                                "description": "Text to classify"
+                              }
+                            },
+                            "required": [
+                              "text"
+                            ]
+                          }
+                        }
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default"
+                        }
+                      ]
+                    },
+                    "measured": {
+                      "width": 240,
+                      "height": 66
+                    }
+                  },
+                  {
+                    "id": "node-1",
+                    "name": "Initialize branch_result",
+                    "type": "variable",
+                    "version": 1,
+                    "position": {
+                      "x": 500,
+                      "y": 200
+                    },
+                    "data": {
+                      "config": {
+                        "assignments": [
+                          {
+                            "id": "var-1",
+                            "variableName": "branch_result",
+                            "mode": "initialize",
+                            "type": "string",
+                            "value": ""
+                          }
+                        ]
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default"
+                        }
+                      ]
+                    },
+                    "measured": {
+                      "width": 240,
+                      "height": 66
+                    }
+                  },
+                  {
+                    "id": "classify-aa96e2ba-1661-4fb9-8de1-141a9ad0a647",
+                    "name": "Classify Text",
+                    "type": "classifyOnInlineAgent",
+                    "version": 1,
+                    "position": {
+                      "x": 900,
+                      "y": 200
+                    },
+                    "data": {
+                      "config": {
+                        "input": "@triggerBody()?['text']",
+                        "model": "GPT55Chat",
+                        "categories": [
+                          {
+                            "id": "4af73f19-9a65-4496-8a0e-1886dd31a4bf",
+                            "name": "Positive",
+                            "description": "Happy, satisfied, or complimentary text"
+                          },
+                          {
+                            "id": "8139a00d-e99a-4ec0-acf0-ecb2a7aac001",
+                            "name": "Negative",
+                            "description": "Complaints, dissatisfied, or critical text"
+                          },
+                          {
+                            "id": "90e1f5b3-83cd-45ce-b490-7699038c8104",
+                            "name": "Neutral",
+                            "description": "Neither positive nor negative; factual or ambiguous text"
+                          }
+                        ],
+                        "examples": [],
+                        "connectionName": "shared_agentnode",
+                        "displayName": "Classify Text"
+                      },
+                      "outcomes": [
+                        {
+                          "id": "category:4af73f19-9a65-4496-8a0e-1886dd31a4bf",
+                          "label": "Positive"
+                        },
+                        {
+                          "id": "category:8139a00d-e99a-4ec0-acf0-ecb2a7aac001",
+                          "label": "Negative"
+                        },
+                        {
+                          "id": "category:90e1f5b3-83cd-45ce-b490-7699038c8104",
+                          "label": "Neutral"
+                        },
+                        {
+                          "id": "default-category",
+                          "label": "Other"
+                        }
+                      ]
+                    },
+                    "measured": {
+                      "width": 240,
+                      "height": 265
+                    }
+                  },
+                  {
+                    "id": "node-2",
+                    "name": "Set result Positive",
+                    "type": "variable",
+                    "version": 1,
+                    "position": {
+                      "x": 1300,
+                      "y": 200
+                    },
+                    "data": {
+                      "config": {
+                        "assignments": [
+                          {
+                            "id": "var-2",
+                            "variableName": "branch_result",
+                            "mode": "set",
+                            "type": "string",
+                            "value": "positive"
+                          }
+                        ]
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default"
+                        }
+                      ]
+                    },
+                    "measured": {
+                      "width": 240,
+                      "height": 66
+                    }
+                  },
+                  {
+                    "id": "node-3",
+                    "name": "Set result Negative",
+                    "type": "variable",
+                    "version": 1,
+                    "position": {
+                      "x": 1300,
+                      "y": 400
+                    },
+                    "data": {
+                      "config": {
+                        "assignments": [
+                          {
+                            "id": "var-3",
+                            "variableName": "branch_result",
+                            "mode": "set",
+                            "type": "string",
+                            "value": "negative"
+                          }
+                        ]
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default"
+                        }
+                      ]
+                    },
+                    "measured": {
+                      "width": 240,
+                      "height": 66
+                    }
+                  },
+                  {
+                    "id": "node-4",
+                    "name": "Set result Neutral",
+                    "type": "variable",
+                    "version": 1,
+                    "position": {
+                      "x": 1300,
+                      "y": 600
+                    },
+                    "data": {
+                      "config": {
+                        "assignments": [
+                          {
+                            "id": "var-4",
+                            "variableName": "branch_result",
+                            "mode": "set",
+                            "type": "string",
+                            "value": "neutral"
+                          }
+                        ]
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default"
+                        }
+                      ]
+                    },
+                    "measured": {
+                      "width": 240,
+                      "height": 66
+                    }
+                  },
+                  {
+                    "id": "node-5",
+                    "name": "Set result Other",
+                    "type": "variable",
+                    "version": 1,
+                    "position": {
+                      "x": 1300,
+                      "y": 800
+                    },
+                    "data": {
+                      "config": {
+                        "assignments": [
+                          {
+                            "id": "var-5",
+                            "variableName": "branch_result",
+                            "mode": "set",
+                            "type": "string",
+                            "value": "other"
+                          }
+                        ]
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default"
+                        }
+                      ]
+                    },
+                    "measured": {
+                      "width": 240,
+                      "height": 66
+                    }
+                  },
+                  {
+                    "id": "builtinFunction-2235411e-9f9f-41d7-94d5-51f85cb4f5d8",
+                    "name": "Response",
+                    "type": "builtinFunction",
+                    "version": 1,
+                    "position": {
+                      "x": 1700,
+                      "y": 200
+                    },
+                    "data": {
+                      "config": {
+                        "operationId": "response",
+                        "operationName": "response",
+                        "parameters": {
+                          "statusCode": 200,
+                          "body": {
+                            "category": "@outputs('Classify_Text')?['body']?['structuredOutput']?['predictedCategory']",
+                            "message": "@variables('branch_result')"
+                          }
+                        },
+                        "displayName": "Response",
+                        "description": "This is an incoming API call that could use the results of an action to trigger this flow.",
+                        "category": "providers/Microsoft.ProcessSimple/operationGroups/Request",
+                        "categoryDisplayName": "Request",
+                        "iconUri": "https://content.powerapps.com/resource/makerx/static/pauto/images/designeroperations/request.1cff129c.png",
+                        "brandColor": "#009DA5"
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default",
+                          "outcomeSchema": {
+                            "type": "object",
+                            "description": "Function output"
+                          }
+                        }
+                      ]
+                    },
+                    "measured": {
+                      "width": 240,
+                      "height": 66
+                    }
+                  }
+                ],
+                "edges": [
+                  {
+                    "id": "edge-start-node-1",
+                    "source": "start",
+                    "target": "node-1"
+                  },
+                  {
+                    "id": "edge-node-1-classify-aa96e2ba-1661-4fb9-8de1-141a9ad0a647",
+                    "source": "node-1",
+                    "target": "classify-aa96e2ba-1661-4fb9-8de1-141a9ad0a647"
+                  },
+                  {
+                    "id": "edge-classify-aa96e2ba-1661-4fb9-8de1-141a9ad0a647-category:4af73f19-9a65-4496-8a0e-1886dd31a4bf-node-2",
+                    "source": "classify-aa96e2ba-1661-4fb9-8de1-141a9ad0a647",
+                    "target": "node-2",
+                    "sourceHandle": "category:4af73f19-9a65-4496-8a0e-1886dd31a4bf"
+                  },
+                  {
+                    "id": "edge-classify-aa96e2ba-1661-4fb9-8de1-141a9ad0a647-category:8139a00d-e99a-4ec0-acf0-ecb2a7aac001-node-3",
+                    "source": "classify-aa96e2ba-1661-4fb9-8de1-141a9ad0a647",
+                    "target": "node-3",
+                    "sourceHandle": "category:8139a00d-e99a-4ec0-acf0-ecb2a7aac001"
+                  },
+                  {
+                    "id": "edge-classify-aa96e2ba-1661-4fb9-8de1-141a9ad0a647-category:90e1f5b3-83cd-45ce-b490-7699038c8104-node-4",
+                    "source": "classify-aa96e2ba-1661-4fb9-8de1-141a9ad0a647",
+                    "target": "node-4",
+                    "sourceHandle": "category:90e1f5b3-83cd-45ce-b490-7699038c8104"
+                  },
+                  {
+                    "id": "edge-classify-aa96e2ba-1661-4fb9-8de1-141a9ad0a647-default-category-node-5",
+                    "source": "classify-aa96e2ba-1661-4fb9-8de1-141a9ad0a647",
+                    "target": "node-5",
+                    "sourceHandle": "default-category"
+                  },
+                  {
+                    "id": "edge-node-2-builtinFunction-2235411e-9f9f-41d7-94d5-51f85cb4f5d8",
+                    "source": "node-2",
+                    "target": "builtinFunction-2235411e-9f9f-41d7-94d5-51f85cb4f5d8"
+                  },
+                  {
+                    "id": "edge-node-3-builtinFunction-2235411e-9f9f-41d7-94d5-51f85cb4f5d8",
+                    "source": "node-3",
+                    "target": "builtinFunction-2235411e-9f9f-41d7-94d5-51f85cb4f5d8"
+                  },
+                  {
+                    "id": "edge-node-4-builtinFunction-2235411e-9f9f-41d7-94d5-51f85cb4f5d8",
+                    "source": "node-4",
+                    "target": "builtinFunction-2235411e-9f9f-41d7-94d5-51f85cb4f5d8"
+                  },
+                  {
+                    "id": "edge-node-5-builtinFunction-2235411e-9f9f-41d7-94d5-51f85cb4f5d8",
+                    "source": "node-5",
+                    "target": "builtinFunction-2235411e-9f9f-41d7-94d5-51f85cb4f5d8"
+                  }
+                ],
+                "connectionReferences": {
+                  "shared_agentnode": {
+                    "api": {
+                      "name": "shared_agentnode"
+                    },
+                    "connection": {
+                      "connectionReferenceLogicalName": "<agent connection reference logical name>"
+                    },
+                    "runtimeSource": "embedded",
+                    "connectionName": "<agent connection name>"
+                  }
+                },
+                "parameters": {
+                  "$authentication": {
+                    "type": "SecureObject",
+                    "defaultValue": {}
+                  },
+                  "$connections": {
+                    "type": "Object",
+                    "defaultValue": {}
+                  }
+                }
+              },
+              "nodeActionMapping": {
+                "node-1": [
+                  "Initialize_branch_result"
+                ],
+                "node-2": [
+                  "Set_result_Positive"
+                ],
+                "node-3": [
+                  "Set_result_Negative"
+                ],
+                "node-4": [
+                  "Set_result_Neutral"
+                ],
+                "node-5": [
+                  "Set_result_Other"
+                ],
+                "classify-aa96e2ba-1661-4fb9-8de1-141a9ad0a647": [
+                  "Classify_Text",
+                  "Classify_Text_Switch"
+                ],
+                "builtinFunction-2235411e-9f9f-41d7-94d5-51f85cb4f5d8": [
+                  "Response"
+                ]
+              },
+              "canvasOrientation": "horizontal"
+            }
+          }
+        }
+      },
+      "actions": {
+        "Initialize_branch_result": {
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "branch_result",
+                "type": "String",
+                "value": ""
+              }
+            ]
+          },
+          "metadata": {
+            "description": "Initialize branch_result",
+            "nodeId": "node-1"
+          }
+        },
+        "Classify_Text": {
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_agentnode",
+              "connectionName": "shared_agentnode",
+              "operationId": "InvokeDefinition"
+            },
+            "parameters": {
+              "body/definition": {
+                "components": [],
+                "environmentVariables": [],
+                "flows": [],
+                "dataverseTableSearchs": [],
+                "dataverseTableSearchGlossaryConfigurations": [],
+                "dataverseTableSearchEntityConfigurations": [],
+                "dataverseTableSearchEntityColumnSynonyms": [],
+                "connectionReferences": [],
+                "connectorDefinitions": [],
+                "aIModelDefinitions": [],
+                "aIPluginOperations": [],
+                "connectedAgentDefinitions": [],
+                "componentCollections": [],
+                "connectedBots": [],
+                "diagnostics": [],
+                "entity": {
+                  "authorizedSecurityGroupIds": [],
+                  "supportedLanguages": [],
+                  "diagnostics": [],
+                  "schemaName": "workflow_classifyoninlineagent",
+                  "language": 1033,
+                  "accessControlPolicy": "Any",
+                  "authenticationMode": "Integrated",
+                  "authenticationTrigger": "Always",
+                  "synchronizationStatus": {
+                    "graphDriveItems": [],
+                    "diagnostics": [],
+                    "lastPublishedDetails": {
+                      "diagnosticDetails": [],
+                      "diagnostics": [],
+                      "authenticationMode": "Integrated",
+                      "$kind": "SuccessfulPublishResultDetails"
+                    },
+                    "$kind": "BotSynchronizationDetails"
+                  },
+                  "configuration": {
+                    "categories": [],
+                    "channels": [],
+                    "settings": {},
+                    "memoryParameters": [],
+                    "diagnostics": [],
+                    "recognizer": {
+                      "diagnostics": [],
+                      "$kind": "CLICopilotRecognizer"
+                    },
+                    "agentSettings": {
+                      "conversationStarters": [],
+                      "diagnostics": [],
+                      "model": {
+                        "diagnostics": [],
+                        "series": "GPT55Chat",
+                        "$kind": "ModelConfig"
+                      },
+                      "instructions": {
+                        "segments": [],
+                        "diagnostics": [],
+                        "$kind": "Instructions"
+                      },
+                      "output": {
+                        "diagnostics": [],
+                        "schema": "{\"type\":\"object\",\"properties\":{\"predictedCategory\":{\"type\":\"string\",\"enum\":[\"Positive\",\"Negative\",\"Neutral\",\"Other\"]}},\"required\":[\"predictedCategory\"]}",
+                        "$kind": "StructuredAgentOutput"
+                      },
+                      "$kind": "AgentSettings"
+                    },
+                    "$kind": "BotConfiguration"
+                  },
+                  "$kind": "BotEntity"
+                },
+                "$kind": "BotDefinition"
+              },
+              "body/message": "Classify the following input into one of these categories: Positive, Negative, Neutral, Other\n\nCategory definitions:\n- Positive: Happy, satisfied, or complimentary text\n- Negative: Complaints, dissatisfied, or critical text\n- Neutral: Neither positive nor negative; factual or ambiguous text\n\nInput to classify: @{triggerBody()?['text']}\n\nRespond with only the category name. If the input does not clearly match any of the categories, respond with \"Other\"."
+            }
+          },
+          "runAfter": {
+            "Initialize_branch_result": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "description": "Classify Text",
+            "nodeId": "classify-aa96e2ba-1661-4fb9-8de1-141a9ad0a647"
+          }
+        },
+        "Classify_Text_Switch": {
+          "type": "Switch",
+          "expression": "@outputs('Classify_Text')?['body']?['structuredOutput']?['predictedCategory']",
+          "cases": {
+            "Positive": {
+              "case": "Positive",
+              "actions": {
+                "Set_result_Positive": {
+                  "type": "SetVariable",
+                  "inputs": {
+                    "name": "branch_result",
+                    "value": "positive"
+                  },
+                  "metadata": {
+                    "description": "Set result Positive",
+                    "nodeId": "node-2"
+                  }
+                }
+              }
+            },
+            "Negative": {
+              "case": "Negative",
+              "actions": {
+                "Set_result_Negative": {
+                  "type": "SetVariable",
+                  "inputs": {
+                    "name": "branch_result",
+                    "value": "negative"
+                  },
+                  "metadata": {
+                    "description": "Set result Negative",
+                    "nodeId": "node-3"
+                  }
+                }
+              }
+            },
+            "Neutral": {
+              "case": "Neutral",
+              "actions": {
+                "Set_result_Neutral": {
+                  "type": "SetVariable",
+                  "inputs": {
+                    "name": "branch_result",
+                    "value": "neutral"
+                  },
+                  "metadata": {
+                    "description": "Set result Neutral",
+                    "nodeId": "node-4"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "actions": {
+              "Set_result_Other": {
+                "type": "SetVariable",
+                "inputs": {
+                  "name": "branch_result",
+                  "value": "other"
+                },
+                "metadata": {
+                  "description": "Set result Other",
+                  "nodeId": "node-5"
+                }
+              }
+            }
+          },
+          "runAfter": {
+            "Classify_Text": [
+              "Succeeded"
+            ]
+          }
+        },
+        "Response": {
+          "type": "Response",
+          "inputs": {
+            "statusCode": 200,
+            "body": {
+              "category": "@outputs('Classify_Text')?['body']?['structuredOutput']?['predictedCategory']",
+              "message": "@variables('branch_result')"
+            }
+          },
+          "runAfter": {
+            "Classify_Text_Switch": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "description": "Response",
+            "nodeId": "builtinFunction-2235411e-9f9f-41d7-94d5-51f85cb4f5d8"
+          }
+        }
+      },
+      "outputs": {},
+      "metadata": {
+        "telemetryMetadata": {
+          "modifiedSources": "WorkflowDesigner"
+        }
+      }
+    }
+  },
+  "schemaVersion": "1.0.0.0"
+}

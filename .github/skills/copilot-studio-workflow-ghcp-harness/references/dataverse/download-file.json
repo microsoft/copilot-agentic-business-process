@@ -1,0 +1,115 @@
+{
+  "title": "Dataverse: download a file column",
+  "notes": "Result is binary: use `base64(body('<name>'))` when embedding in an agent prompt.",
+  "runtimeActionName": "Download_order_file",
+  "runtimeAction": {
+    "type": "OpenApiConnection",
+    "inputs": {
+      "parameters": {
+        "entityName": "faf001_bpattachments",
+        "recordId": "@first(outputs('List_process_attachments')?['body/value'])?['faf001_bpattachmentid']",
+        "fileImageFieldName": "faf001_file"
+      },
+      "host": {
+        "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+        "connectionName": "shared_commondataserviceforapps",
+        "operationId": "GetEntityFileImageFieldContent"
+      }
+    },
+    "runAfter": {
+      "List_process_attachments": [
+        "Succeeded"
+      ]
+    },
+    "metadata": {
+      "description": "Download order file",
+      "nodeId": "connector-9a3c6e18-2b74-4d90-85f1-6c2e7b04d5a8"
+    }
+  },
+  "designerNodes": [
+    {
+      "id": "connector-9a3c6e18-2b74-4d90-85f1-6c2e7b04d5a8",
+      "name": "Download order file",
+      "type": "connector",
+      "version": 1,
+      "position": {
+        "x": 1579,
+        "y": 356.5
+      },
+      "data": {
+        "config": {
+          "apiName": "shared_commondataserviceforapps",
+          "displayName": "Microsoft Dataverse",
+          "iconUri": "https://static.powerapps.com/resource/ppcr/releases/v1.0.1825/1.0.1825.4855/commondataserviceforapps/icon.png",
+          "brandColor": "#088142",
+          "operationName": "GetEntityFileImageFieldContent",
+          "connectionName": "shared_commondataserviceforapps",
+          "operationType": "OpenApiConnection",
+          "parameters": {
+            "entityName": "faf001_bpattachments",
+            "recordId": "@first(outputs('List_process_attachments')?['body/value'])?['faf001_bpattachmentid']",
+            "fileImageFieldName": "faf001_file"
+          },
+          "parametersSchema": {
+            "type": "object",
+            "properties": {
+              "entityName": {
+                "type": "string",
+                "title": "Table name"
+              },
+              "recordId": {
+                "type": "string",
+                "title": "Row ID"
+              },
+              "fileImageFieldName": {
+                "type": "string",
+                "title": "Column name"
+              }
+            },
+            "required": []
+          }
+        },
+        "outcomes": [
+          {
+            "id": "default",
+            "label": "Default",
+            "outcomeSchema": {
+              "type": "object",
+              "properties": {
+                "body": {
+                  "type": "string",
+                  "title": "File or image content",
+                  "format": "binary",
+                  "description": "The content of the file or image",
+                  "x-ms-property-name-alias": "body"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "measured": {
+        "width": 240,
+        "height": 66
+      }
+    }
+  ],
+  "edgesInsideBlock": [],
+  "edgesCrossingBlockBoundary_examples": [
+    {
+      "id": "edge-connector-4e7b2d05-93a1-4c8f-b6d2-5f81a0c7e394-connector-9a3c6e18-2b74-4d90-85f1-6c2e7b04d5a8",
+      "source": "connector-4e7b2d05-93a1-4c8f-b6d2-5f81a0c7e394",
+      "target": "connector-9a3c6e18-2b74-4d90-85f1-6c2e7b04d5a8"
+    },
+    {
+      "id": "edge-connector-9a3c6e18-2b74-4d90-85f1-6c2e7b04d5a8-agent-2f8d41b6-c507-4e39-a1b8-9d63e07c4b52",
+      "source": "connector-9a3c6e18-2b74-4d90-85f1-6c2e7b04d5a8",
+      "target": "agent-2f8d41b6-c507-4e39-a1b8-9d63e07c4b52"
+    }
+  ],
+  "nodeActionMapping": {
+    "connector-9a3c6e18-2b74-4d90-85f1-6c2e7b04d5a8": [
+      "Download_order_file"
+    ]
+  }
+}

@@ -69,7 +69,7 @@ function Test-TenantRole {
     if ($matches.Count) {
         Add-Check $Name 'Pass' ("Active tenant-scope assignment: " + (($matches.roleDefinition.displayName | Sort-Object -Unique) -join ', '))
     } elseif ($StrictAbsence) {
-        Add-Check $Name 'Fail' 'No active Power Platform Administrator assignment at tenant scope (/). Activate an eligible assignment or use an authorized provisioning administrator.'
+        Add-Check $Name 'Fail' 'No active Power Platform Administrator or Global Administrator assignment at tenant scope (/). Activate an eligible assignment or use an authorized provisioning administrator.'
     } else {
         Add-Check $Name 'Not verified' 'No recognized tenant-wide role found; validate scoped/custom permissions or delegated administrator support.'
     }
@@ -136,7 +136,7 @@ try {
     } catch { Add-Check 'Directory role discovery' 'Not verified' (Get-ReadFailure $_) }
 
     if ($Solution -eq 'Core') {
-        Test-TenantRole 'Tenant-wide Power Platform Administrator' @('11648597-926c-4cf3-9c36-bcebb0ba8dcc') (-not $EnvironmentId) $true
+        Test-TenantRole 'Tenant-wide Power Platform Administrator' @('11648597-926c-4cf3-9c36-bcebb0ba8dcc', '62e90394-69f5-4237-9190-012177145e10') (-not $EnvironmentId) $true
         Test-TenantRole 'Runtime identity creation' @('cf1c38e5-3621-4004-a7cb-879624dced7c', '158c047a-c907-4556-b7ef-446551a6b5f7', '62e90394-69f5-4237-9190-012177145e10') $CreateRuntimeIdentity.IsPresent
     } else {
         Test-TenantRole 'Automation user administration' @('fe930be7-5e62-47db-91af-98c3a49a38b1', '62e90394-69f5-4237-9190-012177145e10') $ManageAutomationUser.IsPresent

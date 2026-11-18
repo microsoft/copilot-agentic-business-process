@@ -1,0 +1,103 @@
+{
+  "title": "Dataverse trigger: row created",
+  "notes": "Stage trigger that starts when a step row is added (message 1) with a filter. Node + runtime trigger. The start node `data.outcomes[0].outcomeSchema` lists the trigger outputs usable as `triggerOutputs()?['body/<column>']`.",
+  "triggerKey": "When_an_Order_Extraction_Step_is_created",
+  "runtimeTrigger": {
+    "type": "OpenApiConnectionWebhook",
+    "inputs": {
+      "parameters": {
+        "subscriptionRequest/message": 1,
+        "subscriptionRequest/entityname": "faf001_bpstep",
+        "subscriptionRequest/scope": 4,
+        "subscriptionRequest/filterexpression": "faf001_stepname eq 'Order Extraction Step' and faf001_status eq 324010000"
+      },
+      "host": {
+        "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+        "operationId": "SubscribeWebhookTrigger",
+        "connectionName": "shared_commondataserviceforapps"
+      }
+    },
+    "metadata": {
+      "associatedData": "<graph and nodeActionMapping live here; see workflow-envelope.json>"
+    }
+  },
+  "designerStartNode": {
+    "id": "start-6b1f0c4d-5a2e-42d7-9c83-1e4f7a90b256",
+    "name": "When an Order Extraction Step is created",
+    "type": "start",
+    "version": 1,
+    "position": {
+      "x": 250,
+      "y": 356.5
+    },
+    "data": {
+      "config": {
+        "triggerType": "connector",
+        "connector": {
+          "apiName": "shared_commondataserviceforapps",
+          "operationName": "SubscribeWebhookTrigger",
+          "connectionName": "shared_commondataserviceforapps",
+          "displayName": "When a row is added, modified or deleted",
+          "iconUri": "https://static.powerapps.com/resource/ppcr/releases/v1.0.1825/1.0.1825.4855/commondataserviceforapps/icon.png",
+          "brandColor": "#088142",
+          "operationType": "OpenApiConnectionWebhook",
+          "inputs": {
+            "subscriptionRequest/message": 1,
+            "subscriptionRequest/entityname": "faf001_bpstep",
+            "subscriptionRequest/scope": 4,
+            "subscriptionRequest/filterexpression": "faf001_stepname eq 'Order Extraction Step' and faf001_status eq 324010000"
+          },
+          "parametersSchema": {
+            "type": "object",
+            "properties": {
+              "subscriptionRequest": {
+                "type": "object",
+                "title": "Subscription request"
+              }
+            },
+            "required": [
+              "subscriptionRequest"
+            ]
+          }
+        }
+      },
+      "outcomes": [
+        {
+          "id": "default",
+          "label": "Default",
+          "outcomeSchema": {
+            "type": "object",
+            "properties": {
+              "faf001_bpstepid": {
+                "type": "string",
+                "format": "uuid",
+                "title": "Process Step Execution"
+              },
+              "faf001_stepname": {
+                "type": "string",
+                "title": "Step Name"
+              },
+              "faf001_status": {
+                "type": "integer",
+                "title": "Status"
+              },
+              "faf001_steptype": {
+                "type": "integer",
+                "title": "Step Type"
+              },
+              "_faf001_bpinstanceid_value": {
+                "type": "string",
+                "format": "uuid",
+                "title": "Business Process Instance"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "measured": {
+      "width": 320,
+      "height": 66
+    }
+  }
+}

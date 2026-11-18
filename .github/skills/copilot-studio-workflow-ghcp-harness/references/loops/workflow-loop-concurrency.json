@@ -1,0 +1,411 @@
+{
+  "properties": {
+    "connectionReferences": {},
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        }
+      },
+      "triggers": {
+        "manual": {
+          "type": "Request",
+          "kind": "Button",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {},
+              "required": []
+            }
+          },
+          "metadata": {
+            "associatedData": {
+              "graph": {
+                "name": "loop-with-concurrency",
+                "nodes": [
+                  {
+                    "id": "start",
+                    "name": "Manual Trigger",
+                    "type": "start",
+                    "version": 1,
+                    "position": {
+                      "x": 100,
+                      "y": 200
+                    },
+                    "data": {
+                      "config": {
+                        "triggerType": "manual"
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default"
+                        }
+                      ]
+                    },
+                    "measured": {
+                      "width": 240,
+                      "height": 66
+                    }
+                  },
+                  {
+                    "id": "node-1",
+                    "name": "Initialize numbers, total, processing_log",
+                    "type": "variable",
+                    "version": 1,
+                    "position": {
+                      "x": 500,
+                      "y": 200
+                    },
+                    "data": {
+                      "config": {
+                        "assignments": [
+                          {
+                            "id": "var-1-0",
+                            "variableName": "numbers",
+                            "mode": "initialize",
+                            "type": "array",
+                            "value": "[1,2,3,4,5]"
+                          },
+                          {
+                            "id": "var-1-1",
+                            "variableName": "total",
+                            "mode": "initialize",
+                            "type": "integer",
+                            "value": "0"
+                          },
+                          {
+                            "id": "var-1-2",
+                            "variableName": "processing_log",
+                            "mode": "initialize",
+                            "type": "array",
+                            "value": "[]"
+                          }
+                        ]
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default"
+                        }
+                      ]
+                    },
+                    "measured": {
+                      "width": 320,
+                      "height": 66
+                    }
+                  },
+                  {
+                    "id": "node-2",
+                    "name": "ForEach_number",
+                    "type": "loop",
+                    "version": 1,
+                    "position": {
+                      "x": 900,
+                      "y": 200
+                    },
+                    "data": {
+                      "config": {
+                        "loopType": "foreach",
+                        "foreach": "@variables('numbers')",
+                        "concurrency": 5
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default"
+                        }
+                      ]
+                    },
+                    "width": 500,
+                    "height": 300,
+                    "measured": {
+                      "width": 500,
+                      "height": 300
+                    },
+                    "style": {
+                      "width": 500,
+                      "height": 300
+                    },
+                    "selected": false
+                  },
+                  {
+                    "id": "node-3",
+                    "name": "Variables: total, processing_log",
+                    "type": "variable",
+                    "version": 1,
+                    "position": {
+                      "x": 27,
+                      "y": 80
+                    },
+                    "data": {
+                      "config": {
+                        "assignments": [
+                          {
+                            "id": "var-3-0",
+                            "variableName": "total",
+                            "mode": "increment",
+                            "type": "integer",
+                            "value": "@items('ForEach_number')"
+                          },
+                          {
+                            "id": "var-3-1",
+                            "variableName": "processing_log",
+                            "mode": "appendToArray",
+                            "type": "array",
+                            "value": "@concat('Processed ', string(items('ForEach_number')), ' - running total is now ', string(variables('total')))"
+                          }
+                        ]
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default"
+                        }
+                      ]
+                    },
+                    "parentId": "node-2",
+                    "measured": {
+                      "width": 320,
+                      "height": 66
+                    },
+                    "selected": false
+                  },
+                  {
+                    "id": "builtinFunction-25bc24b0-0dee-4a75-aae0-c924f51b4ecf",
+                    "name": "Compose summary",
+                    "type": "builtinFunction",
+                    "version": 1,
+                    "position": {
+                      "x": 1620,
+                      "y": 200
+                    },
+                    "data": {
+                      "config": {
+                        "operationId": "Compose",
+                        "operationName": "Compose",
+                        "parameters": {
+                          "inputs": "@join(variables('processing_log'), ',')"
+                        },
+                        "displayName": "Compose summary",
+                        "description": "Build a summary message describing what the loop produced.",
+                        "category": "providers/Microsoft.ProcessSimple/operationGroups/DataOperation",
+                        "categoryDisplayName": "Data Operation",
+                        "iconUri": "https://content.powerapps.com/resource/makerx/static/pauto/images/designeroperations/dataoperationedit.2c8a4d5e.png",
+                        "brandColor": "#8C6CFF"
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default",
+                          "outcomeSchema": {
+                            "type": "object",
+                            "description": "Function output"
+                          }
+                        }
+                      ]
+                    },
+                    "measured": {
+                      "width": 240,
+                      "height": 66
+                    },
+                    "selected": false
+                  }
+                ],
+                "edges": [
+                  {
+                    "id": "edge-start-node-1",
+                    "source": "start",
+                    "target": "node-1"
+                  },
+                  {
+                    "id": "edge-node-1-node-2-external-input",
+                    "source": "node-1",
+                    "target": "node-2",
+                    "targetHandle": "external-input"
+                  },
+                  {
+                    "id": "edge-node-2-internal-source-node-3",
+                    "source": "node-2",
+                    "target": "node-3",
+                    "sourceHandle": "internal-source"
+                  },
+                  {
+                    "id": "edge-node-3-node-2-internal-target",
+                    "source": "node-3",
+                    "target": "node-2",
+                    "targetHandle": "internal-target"
+                  },
+                  {
+                    "id": "edge-node-2-external-output-builtinFunction-25bc24b0-0dee-4a75-aae0-c924f51b4ecf",
+                    "source": "node-2",
+                    "target": "builtinFunction-25bc24b0-0dee-4a75-aae0-c924f51b4ecf",
+                    "sourceHandle": "external-output"
+                  }
+                ],
+                "connectionReferences": {},
+                "parameters": {
+                  "$authentication": {
+                    "type": "SecureObject",
+                    "defaultValue": {}
+                  },
+                  "$connections": {
+                    "type": "Object",
+                    "defaultValue": {}
+                  }
+                }
+              },
+              "nodeActionMapping": {
+                "node-1": [
+                  "Initialize_numbers__total__processing_log",
+                  "Initialize_numbers__total__processing_log_Init_total",
+                  "Initialize_numbers__total__processing_log_Init_processing_log"
+                ],
+                "node-3": [
+                  "Variables__total__processing_log",
+                  "Variables__total__processing_log_AppendArr_processing_log"
+                ],
+                "node-2": [
+                  "ForEach_number"
+                ],
+                "builtinFunction-25bc24b0-0dee-4a75-aae0-c924f51b4ecf": [
+                  "Compose_summary"
+                ]
+              },
+              "canvasOrientation": "horizontal"
+            }
+          }
+        }
+      },
+      "actions": {
+        "Initialize_numbers__total__processing_log": {
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "numbers",
+                "type": "Array",
+                "value": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ]
+              }
+            ]
+          },
+          "metadata": {
+            "description": "Initialize numbers, total, processing_log",
+            "nodeId": "node-1"
+          }
+        },
+        "Initialize_numbers__total__processing_log_Init_total": {
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "total",
+                "type": "Integer",
+                "value": 0
+              }
+            ]
+          },
+          "runAfter": {
+            "Initialize_numbers__total__processing_log": [
+              "Succeeded"
+            ]
+          }
+        },
+        "Initialize_numbers__total__processing_log_Init_processing_log": {
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "processing_log",
+                "type": "Array",
+                "value": []
+              }
+            ]
+          },
+          "runAfter": {
+            "Initialize_numbers__total__processing_log_Init_total": [
+              "Succeeded"
+            ]
+          }
+        },
+        "ForEach_number": {
+          "type": "Foreach",
+          "foreach": "@coalesce(variables('numbers'), json('[]'))",
+          "actions": {
+            "Variables__total__processing_log": {
+              "type": "IncrementVariable",
+              "inputs": {
+                "name": "total",
+                "value": "@items('ForEach_number')"
+              },
+              "metadata": {
+                "description": "Variables: total, processing_log",
+                "nodeId": "node-3"
+              }
+            },
+            "Variables__total__processing_log_AppendArr_processing_log": {
+              "type": "AppendToArrayVariable",
+              "inputs": {
+                "name": "processing_log",
+                "value": "@concat('Processed ', string(items('ForEach_number')), ' - running total is now ', string(variables('total')))"
+              },
+              "runAfter": {
+                "Variables__total__processing_log": [
+                  "Succeeded"
+                ]
+              }
+            }
+          },
+          "metadata": {
+            "description": "ForEach_number",
+            "nodeId": "node-2"
+          },
+          "runAfter": {
+            "Initialize_numbers__total__processing_log_Init_processing_log": [
+              "Succeeded"
+            ]
+          },
+          "runtimeConfiguration": {
+            "concurrency": {
+              "repetitions": 5
+            }
+          }
+        },
+        "Compose_summary": {
+          "type": "Compose",
+          "inputs": "@join(variables('processing_log'), ',')",
+          "runAfter": {
+            "ForEach_number": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "description": "Compose summary",
+            "nodeId": "builtinFunction-25bc24b0-0dee-4a75-aae0-c924f51b4ecf"
+          }
+        }
+      },
+      "outputs": {},
+      "metadata": {
+        "telemetryMetadata": {
+          "creationSource": "AgenticMultiArtifactBuilder",
+          "modifiedSources": "AgenticMultiArtifactBuilder,WorkflowDesigner"
+        }
+      }
+    }
+  },
+  "schemaVersion": "1.0.0.0"
+}

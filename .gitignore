@@ -9,6 +9,13 @@
 .$*.drawio.bkp
 **/.$*.drawio.bkp
 
+# Work-in-progress business process and its Workflow Console widget, kept local
+business-processes/contoso-motor-claims/
+core/codeapps/workflow-console/src/features/tasks/widgets/contoso-motor-claims/
+core/codeapps/workflow-console/tests/contoso-motor-claims-*
+core/codeapps/workflow-console/tests/damage-report-review.*
+core/codeapps/workflow-console/tests/fixtures/contoso-motor-claims-*
+
 # Python
 __pycache__/
 *.pyc

@@ -5,8 +5,8 @@ export const sources = {
   skills: { title: "Microsoft Learn - Agent skills: portable instructions, scripts and resources", url: "https://learn.microsoft.com/microsoft-copilot-studio/agents-experience/skills-overview" },
   credits: { title: "Microsoft Learn - Usage-based billing for the GitHub Copilot harness", url: "https://learn.microsoft.com/microsoft-copilot-studio/agents-experience/billing-credit-overview" },
   apps: { title: "Microsoft Learn - Power Apps code apps prerequisites and licensing", url: "https://learn.microsoft.com/power-apps/developer/code-apps/overview" },
-  deployCore: { title: "BusinessProcessCore deployment guide", url: "../../core/solution/DEPLOYMENT.md" },
-  deployOrder: { title: "OrderProcessing deployment guide", url: "../../business-processes/order-processing/solution/DEPLOYMENT.md" },
+  deployCore: { title: "BusinessProcessCore deployment guide", url: "../../.github/skills/deploy-business-process-core/references/DEPLOYMENT.md" },
+  deployOrder: { title: "OrderProcessing deployment guide", url: "../../.github/skills/deploy-order-processing/references/DEPLOYMENT.md" },
   architecture: { title: "Repository detailed solution architecture", url: "../agentic-business-process-architecture.png" }
 };
 

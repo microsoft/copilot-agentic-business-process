@@ -4,7 +4,7 @@
 | --- | --- | --- |
 | Microsoft 365 Administrator | **User Administrator** for user creation/license assignment; **Exchange Administrator** for mailbox creation/delegation, or approved delegated permissions. | Only for the operator performing these tasks; use existing Microsoft 365 administrators when handled externally. |
 | Power Platform environment administrator | **System Administrator in the target Dataverse environment**, or a validated deployment role. Environment Admin alone is insufficient for this Dataverse deployment. | For the operator importing solutions and configuring environment roles, application users, and teams. |
-| Power Platform tenant-wide administrator | **Power Platform Administrator**, or another eligible provisioning identity under [Core Appendix B](../../../../core/solution/DEPLOYMENT.md#appendix-b--creating-an-environment). | Only for environment provisioning or tenant-level changes. Use a separate platform administrator by default; the deployment operator does not need this role for an externally supplied environment. |
+| Power Platform tenant-wide administrator | **Power Platform Administrator**, or another eligible provisioning identity under [Core Appendix B](../../deploy-business-process-core/references/DEPLOYMENT.md#appendix-b--creating-an-environment). | Only for environment provisioning or tenant-level changes. Use a separate platform administrator by default; the deployment operator does not need this role for an externally supplied environment. |
 
 ## Application Users and Licensing
 

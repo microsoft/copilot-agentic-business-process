@@ -1,0 +1,1659 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_agentnode": {
+        "api": {
+          "name": "shared_agentnode"
+        },
+        "connection": {
+          "connectionReferenceLogicalName": "<agent connection reference logical name>"
+        },
+        "runtimeSource": "embedded",
+        "connectionName": "<agent connection name>"
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        }
+      },
+      "triggers": {
+        "manual": {
+          "type": "Request",
+          "kind": "Http",
+          "inputs": {
+            "method": "POST",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "imageFile": {
+                  "type": "object",
+                  "description": "Purchase order as an image",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "contentBytes": {
+                      "type": "string",
+                      "description": "Base64 content"
+                    }
+                  }
+                },
+                "pdfFile": {
+                  "type": "object",
+                  "description": "Purchase order as a PDF",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "contentBytes": {
+                      "type": "string",
+                      "description": "Base64 content"
+                    }
+                  }
+                }
+              },
+              "required": [
+                "imageFile",
+                "pdfFile"
+              ]
+            },
+            "triggerAuthenticationType": "Tenant"
+          },
+          "metadata": {
+            "associatedData": {
+              "graph": {
+                "name": "extract-purchase-order",
+                "nodes": [
+                  {
+                    "id": "start",
+                    "name": "HTTP Request",
+                    "type": "start",
+                    "version": 1,
+                    "position": {
+                      "x": 100,
+                      "y": 200
+                    },
+                    "data": {
+                      "config": {
+                        "triggerType": "http",
+                        "http": {
+                          "method": "POST",
+                          "schema": {
+                            "type": "object",
+                            "properties": {
+                              "imageFile": {
+                                "type": "object",
+                                "description": "Purchase order as an image",
+                                "properties": {
+                                  "name": {
+                                    "type": "string"
+                                  },
+                                  "contentBytes": {
+                                    "type": "string",
+                                    "description": "Base64 content"
+                                  }
+                                }
+                              },
+                              "pdfFile": {
+                                "type": "object",
+                                "description": "Purchase order as a PDF",
+                                "properties": {
+                                  "name": {
+                                    "type": "string"
+                                  },
+                                  "contentBytes": {
+                                    "type": "string",
+                                    "description": "Base64 content"
+                                  }
+                                }
+                              }
+                            },
+                            "required": [
+                              "imageFile",
+                              "pdfFile"
+                            ]
+                          }
+                        }
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default"
+                        }
+                      ]
+                    },
+                    "measured": {
+                      "width": 240,
+                      "height": 66
+                    }
+                  },
+                  {
+                    "id": "agentExtract-d96f67cd-cea7-4d46-b277-1f3cf233023c",
+                    "name": "Extract Image",
+                    "type": "agentExtract",
+                    "version": 1,
+                    "position": {
+                      "x": 500,
+                      "y": 80
+                    },
+                    "data": {
+                      "config": {
+                        "input": "@triggerBody()?['imageFile']?['contentBytes']",
+                        "outputMode": "structured-simple",
+                        "inlineModel": "claude-opus-5-5",
+                        "connectionName": "shared_agentnode",
+                        "simpleProperties": [
+                          {
+                            "id": "04a04fad-f694-4ef2-a636-cde0138251f1",
+                            "name": "supplier_name",
+                            "type": "string",
+                            "required": false,
+                            "description": "Full legal name of the supplier (labelled Supplier, Vendor or Seller; infer it from the organisation names if no label is present)"
+                          },
+                          {
+                            "id": "f88b78b4-64da-421e-bbbd-299562511416",
+                            "name": "supplier_code",
+                            "type": "string",
+                            "required": false,
+                            "description": "Supplier code, ID or legal-entity identifier such as a VAT number; empty if not present"
+                          },
+                          {
+                            "id": "200bc97f-4b51-46fc-9ef3-13feaaa397ce",
+                            "name": "supplier_address",
+                            "type": "string",
+                            "required": false,
+                            "description": "Full address of the supplier as a single string"
+                          },
+                          {
+                            "id": "0aceb6ce-1dff-461d-a997-bd09a923a4fa",
+                            "name": "supplier_contacts",
+                            "type": "list",
+                            "required": false,
+                            "description": "Contact entries of the supplier; empty list if not present",
+                            "listItems": [
+                              {
+                                "id": "f5d61dda-9676-4bbf-a192-3d38f32d7555",
+                                "name": "type",
+                                "type": "string",
+                                "required": true,
+                                "description": "Contact type, for example email, tel, fax or mobile"
+                              },
+                              {
+                                "id": "2e87ebd7-ca67-4ca9-8cae-4e50e409ebcc",
+                                "name": "value",
+                                "type": "string",
+                                "required": true,
+                                "description": "The contact value as text"
+                              }
+                            ]
+                          },
+                          {
+                            "id": "d5e34f0b-f4b7-48ca-8ec4-3bcd5a05ee8b",
+                            "name": "buyer_name",
+                            "type": "string",
+                            "required": false,
+                            "description": "Full legal name of the buyer (labelled Buyer, Customer, Bill To or Purchaser)"
+                          },
+                          {
+                            "id": "fb94f4a0-047b-4197-b40d-31e946540049",
+                            "name": "buyer_code",
+                            "type": "string",
+                            "required": false,
+                            "description": "Buyer code, ID or legal-entity identifier; empty if not present"
+                          },
+                          {
+                            "id": "1cfdeb2e-7de3-4097-9b36-87251fd5713d",
+                            "name": "buyer_address",
+                            "type": "string",
+                            "required": false,
+                            "description": "Registered or billing address of the buyer as a single string"
+                          },
+                          {
+                            "id": "00305cf0-ebeb-4ffa-9551-f33e707b0927",
+                            "name": "delivery_address",
+                            "type": "string",
+                            "required": false,
+                            "description": "Delivery or ship-to address as a single string; the buyer address if not stated"
+                          },
+                          {
+                            "id": "eea15db4-a027-4115-a5b5-694b6612de16",
+                            "name": "buyer_contacts",
+                            "type": "list",
+                            "required": false,
+                            "description": "Contact entries of the buyer; empty list if not present",
+                            "listItems": [
+                              {
+                                "id": "0fc81940-1d88-460b-a46e-1fde07ae2f80",
+                                "name": "type",
+                                "type": "string",
+                                "required": true,
+                                "description": "Contact type, for example email, tel, fax or mobile"
+                              },
+                              {
+                                "id": "42ff6e70-3af5-421c-b0fc-a05a4183f0b8",
+                                "name": "value",
+                                "type": "string",
+                                "required": true,
+                                "description": "The contact value as text"
+                              }
+                            ]
+                          },
+                          {
+                            "id": "f580eb57-c631-457e-82ea-295e56ba55f2",
+                            "name": "order_id",
+                            "type": "string",
+                            "required": false,
+                            "description": "Purchase order number or internal order identifier"
+                          },
+                          {
+                            "id": "64f309b8-b979-468c-b840-fd7de5f8195f",
+                            "name": "order_date",
+                            "type": "string",
+                            "required": false,
+                            "description": "Order date in YYYY-MM-DD format"
+                          },
+                          {
+                            "id": "9eed06fb-fed2-4587-8cd1-fdbcb4d7f39b",
+                            "name": "currency",
+                            "type": "string",
+                            "required": false,
+                            "description": "ISO 4217 currency code, for example EUR, USD or GBP"
+                          },
+                          {
+                            "id": "32717826-1fae-49d6-9952-8783dcb6a0b4",
+                            "name": "order_total",
+                            "type": "number",
+                            "required": false,
+                            "description": "Total amount of the order"
+                          },
+                          {
+                            "id": "aeca8271-fe52-436a-86e7-7a923e33ad16",
+                            "name": "line_items",
+                            "type": "list",
+                            "required": false,
+                            "description": "Ordered line items in source order",
+                            "listItems": [
+                              {
+                                "id": "ba924612-45e1-4d62-9524-80d9abe63e0d",
+                                "name": "line_number",
+                                "type": "number",
+                                "required": true,
+                                "description": "Sequential line number (whole number)"
+                              },
+                              {
+                                "id": "ef2773ac-4b3f-4ad7-930b-6412e4790319",
+                                "name": "sku",
+                                "type": "string",
+                                "required": true,
+                                "description": "Product SKU or item code"
+                              },
+                              {
+                                "id": "88eb3076-667b-4d8c-bcb3-d880a7862305",
+                                "name": "product_description",
+                                "type": "string",
+                                "required": true,
+                                "description": "Full product description"
+                              },
+                              {
+                                "id": "0441f5bf-c665-4856-900d-25cb38eb697a",
+                                "name": "quantity",
+                                "type": "number",
+                                "required": true,
+                                "description": "Ordered quantity (whole number)"
+                              },
+                              {
+                                "id": "33530be8-b5d0-43e2-990f-eb13c2095552",
+                                "name": "unit_of_measure",
+                                "type": "string",
+                                "required": true,
+                                "description": "Unit of measure, for example EA, CS or KG"
+                              },
+                              {
+                                "id": "38068196-1762-4778-bad4-1051b3c92b97",
+                                "name": "unit_price",
+                                "type": "number",
+                                "required": true,
+                                "description": "Price per unit"
+                              },
+                              {
+                                "id": "500ad280-2240-44e2-9697-04afa6f5cae4",
+                                "name": "total_price",
+                                "type": "number",
+                                "required": true,
+                                "description": "Line total (quantity x unit price)"
+                              }
+                            ]
+                          },
+                          {
+                            "id": "ba7d741e-93db-46f3-b761-eaade26d653f",
+                            "name": "additional_info",
+                            "type": "list",
+                            "required": false,
+                            "description": "Other relevant fields that fit no other property (payment terms, incoterms, requested delivery date, special instructions); keys in English",
+                            "listItems": [
+                              {
+                                "id": "7bb481c0-e53e-46ce-8403-8d94d1dcaa80",
+                                "name": "key",
+                                "type": "string",
+                                "required": true,
+                                "description": "Field name in English"
+                              },
+                              {
+                                "id": "46567d0e-8b93-439f-ae6f-0bb3be10dc9f",
+                                "name": "value",
+                                "type": "string",
+                                "required": true,
+                                "description": "Field value"
+                              }
+                            ]
+                          },
+                          {
+                            "id": "349f6705-aa9f-4cc9-b702-7bc6ab2ef010",
+                            "name": "extraction_confidence",
+                            "type": "number",
+                            "required": false,
+                            "description": "Confidence between 0.0 and 1.0 that all fields were correctly extracted"
+                          }
+                        ],
+                        "jsonSchema": {
+                          "type": "object",
+                          "properties": {
+                            "supplier_name": {
+                              "type": "string",
+                              "description": "Full legal name of the supplier (labelled Supplier, Vendor or Seller; infer it from the organisation names if no label is present)"
+                            },
+                            "supplier_code": {
+                              "type": "string",
+                              "description": "Supplier code, ID or legal-entity identifier such as a VAT number; empty if not present"
+                            },
+                            "supplier_address": {
+                              "type": "string",
+                              "description": "Full address of the supplier as a single string"
+                            },
+                            "supplier_contacts": {
+                              "type": "array",
+                              "description": "Contact entries of the supplier; empty list if not present",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "type": {
+                                    "type": "string",
+                                    "description": "Contact type, for example email, tel, fax or mobile"
+                                  },
+                                  "value": {
+                                    "type": "string",
+                                    "description": "The contact value as text"
+                                  }
+                                },
+                                "required": [
+                                  "type",
+                                  "value"
+                                ]
+                              }
+                            },
+                            "buyer_name": {
+                              "type": "string",
+                              "description": "Full legal name of the buyer (labelled Buyer, Customer, Bill To or Purchaser)"
+                            },
+                            "buyer_code": {
+                              "type": "string",
+                              "description": "Buyer code, ID or legal-entity identifier; empty if not present"
+                            },
+                            "buyer_address": {
+                              "type": "string",
+                              "description": "Registered or billing address of the buyer as a single string"
+                            },
+                            "delivery_address": {
+                              "type": "string",
+                              "description": "Delivery or ship-to address as a single string; the buyer address if not stated"
+                            },
+                            "buyer_contacts": {
+                              "type": "array",
+                              "description": "Contact entries of the buyer; empty list if not present",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "type": {
+                                    "type": "string",
+                                    "description": "Contact type, for example email, tel, fax or mobile"
+                                  },
+                                  "value": {
+                                    "type": "string",
+                                    "description": "The contact value as text"
+                                  }
+                                },
+                                "required": [
+                                  "type",
+                                  "value"
+                                ]
+                              }
+                            },
+                            "order_id": {
+                              "type": "string",
+                              "description": "Purchase order number or internal order identifier"
+                            },
+                            "order_date": {
+                              "type": "string",
+                              "description": "Order date in YYYY-MM-DD format"
+                            },
+                            "currency": {
+                              "type": "string",
+                              "description": "ISO 4217 currency code, for example EUR, USD or GBP"
+                            },
+                            "order_total": {
+                              "type": "number",
+                              "description": "Total amount of the order"
+                            },
+                            "line_items": {
+                              "type": "array",
+                              "description": "Ordered line items in source order",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "line_number": {
+                                    "type": "number",
+                                    "description": "Sequential line number (whole number)"
+                                  },
+                                  "sku": {
+                                    "type": "string",
+                                    "description": "Product SKU or item code"
+                                  },
+                                  "product_description": {
+                                    "type": "string",
+                                    "description": "Full product description"
+                                  },
+                                  "quantity": {
+                                    "type": "number",
+                                    "description": "Ordered quantity (whole number)"
+                                  },
+                                  "unit_of_measure": {
+                                    "type": "string",
+                                    "description": "Unit of measure, for example EA, CS or KG"
+                                  },
+                                  "unit_price": {
+                                    "type": "number",
+                                    "description": "Price per unit"
+                                  },
+                                  "total_price": {
+                                    "type": "number",
+                                    "description": "Line total (quantity x unit price)"
+                                  }
+                                },
+                                "required": [
+                                  "line_number",
+                                  "sku",
+                                  "product_description",
+                                  "quantity",
+                                  "unit_of_measure",
+                                  "unit_price",
+                                  "total_price"
+                                ]
+                              }
+                            },
+                            "additional_info": {
+                              "type": "array",
+                              "description": "Other relevant fields that fit no other property (payment terms, incoterms, requested delivery date, special instructions); keys in English",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "key": {
+                                    "type": "string",
+                                    "description": "Field name in English"
+                                  },
+                                  "value": {
+                                    "type": "string",
+                                    "description": "Field value"
+                                  }
+                                },
+                                "required": [
+                                  "key",
+                                  "value"
+                                ]
+                              }
+                            },
+                            "extraction_confidence": {
+                              "type": "number",
+                              "description": "Confidence between 0.0 and 1.0 that all fields were correctly extracted"
+                            }
+                          }
+                        },
+                        "inputRich": {
+                          "segments": [
+                            {
+                              "type": "token",
+                              "value": "@{triggerBody()?['imageFile']?['contentBytes']}",
+                              "tokenRef": {
+                                "type": "function",
+                                "stepId": "function",
+                                "stepName": "Reference",
+                                "outputName": "triggerBody",
+                                "outputType": "object",
+                                "functionName": "triggerBody",
+                                "functionCategory": "reference",
+                                "rawExpression": "triggerBody()?['imageFile']?['contentBytes']"
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default",
+                          "outcomeSchema": {
+                            "type": "object",
+                            "properties": {
+                              "structuredOutput": {
+                                "type": "object",
+                                "properties": {
+                                  "supplier_name": {
+                                    "type": "string",
+                                    "description": "Full legal name of the supplier (labelled Supplier, Vendor or Seller; infer it from the organisation names if no label is present)"
+                                  },
+                                  "supplier_code": {
+                                    "type": "string",
+                                    "description": "Supplier code, ID or legal-entity identifier such as a VAT number; empty if not present"
+                                  },
+                                  "supplier_address": {
+                                    "type": "string",
+                                    "description": "Full address of the supplier as a single string"
+                                  },
+                                  "supplier_contacts": {
+                                    "type": "array",
+                                    "description": "Contact entries of the supplier; empty list if not present",
+                                    "items": {
+                                      "type": "object",
+                                      "properties": {
+                                        "type": {
+                                          "type": "string",
+                                          "description": "Contact type, for example email, tel, fax or mobile"
+                                        },
+                                        "value": {
+                                          "type": "string",
+                                          "description": "The contact value as text"
+                                        }
+                                      },
+                                      "required": [
+                                        "type",
+                                        "value"
+                                      ]
+                                    }
+                                  },
+                                  "buyer_name": {
+                                    "type": "string",
+                                    "description": "Full legal name of the buyer (labelled Buyer, Customer, Bill To or Purchaser)"
+                                  },
+                                  "buyer_code": {
+                                    "type": "string",
+                                    "description": "Buyer code, ID or legal-entity identifier; empty if not present"
+                                  },
+                                  "buyer_address": {
+                                    "type": "string",
+                                    "description": "Registered or billing address of the buyer as a single string"
+                                  },
+                                  "delivery_address": {
+                                    "type": "string",
+                                    "description": "Delivery or ship-to address as a single string; the buyer address if not stated"
+                                  },
+                                  "buyer_contacts": {
+                                    "type": "array",
+                                    "description": "Contact entries of the buyer; empty list if not present",
+                                    "items": {
+                                      "type": "object",
+                                      "properties": {
+                                        "type": {
+                                          "type": "string",
+                                          "description": "Contact type, for example email, tel, fax or mobile"
+                                        },
+                                        "value": {
+                                          "type": "string",
+                                          "description": "The contact value as text"
+                                        }
+                                      },
+                                      "required": [
+                                        "type",
+                                        "value"
+                                      ]
+                                    }
+                                  },
+                                  "order_id": {
+                                    "type": "string",
+                                    "description": "Purchase order number or internal order identifier"
+                                  },
+                                  "order_date": {
+                                    "type": "string",
+                                    "description": "Order date in YYYY-MM-DD format"
+                                  },
+                                  "currency": {
+                                    "type": "string",
+                                    "description": "ISO 4217 currency code, for example EUR, USD or GBP"
+                                  },
+                                  "order_total": {
+                                    "type": "number",
+                                    "description": "Total amount of the order"
+                                  },
+                                  "line_items": {
+                                    "type": "array",
+                                    "description": "Ordered line items in source order",
+                                    "items": {
+                                      "type": "object",
+                                      "properties": {
+                                        "line_number": {
+                                          "type": "number",
+                                          "description": "Sequential line number (whole number)"
+                                        },
+                                        "sku": {
+                                          "type": "string",
+                                          "description": "Product SKU or item code"
+                                        },
+                                        "product_description": {
+                                          "type": "string",
+                                          "description": "Full product description"
+                                        },
+                                        "quantity": {
+                                          "type": "number",
+                                          "description": "Ordered quantity (whole number)"
+                                        },
+                                        "unit_of_measure": {
+                                          "type": "string",
+                                          "description": "Unit of measure, for example EA, CS or KG"
+                                        },
+                                        "unit_price": {
+                                          "type": "number",
+                                          "description": "Price per unit"
+                                        },
+                                        "total_price": {
+                                          "type": "number",
+                                          "description": "Line total (quantity x unit price)"
+                                        }
+                                      },
+                                      "required": [
+                                        "line_number",
+                                        "sku",
+                                        "product_description",
+                                        "quantity",
+                                        "unit_of_measure",
+                                        "unit_price",
+                                        "total_price"
+                                      ]
+                                    }
+                                  },
+                                  "additional_info": {
+                                    "type": "array",
+                                    "description": "Other relevant fields that fit no other property (payment terms, incoterms, requested delivery date, special instructions); keys in English",
+                                    "items": {
+                                      "type": "object",
+                                      "properties": {
+                                        "key": {
+                                          "type": "string",
+                                          "description": "Field name in English"
+                                        },
+                                        "value": {
+                                          "type": "string",
+                                          "description": "Field value"
+                                        }
+                                      },
+                                      "required": [
+                                        "key",
+                                        "value"
+                                      ]
+                                    }
+                                  },
+                                  "extraction_confidence": {
+                                    "type": "number",
+                                    "description": "Confidence between 0.0 and 1.0 that all fields were correctly extracted"
+                                  }
+                                },
+                                "title": ""
+                              }
+                            },
+                            "required": [
+                              "structuredOutput"
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "measured": {
+                      "width": 240,
+                      "height": 66
+                    }
+                  },
+                  {
+                    "id": "agentExtract-09829191-dc02-4820-b4bb-ea5e586eba2f",
+                    "name": "Extract PDF",
+                    "type": "agentExtract",
+                    "version": 1,
+                    "position": {
+                      "x": 500,
+                      "y": 360
+                    },
+                    "data": {
+                      "config": {
+                        "input": "@triggerBody()?['pdfFile']?['contentBytes']",
+                        "outputMode": "structured-simple",
+                        "inlineModel": "claude-opus-5-5",
+                        "connectionName": "shared_agentnode",
+                        "simpleProperties": [
+                          {
+                            "id": "2ed66e1f-4bc9-4bb1-b96b-ec9bfe165afe",
+                            "name": "supplier_name",
+                            "type": "string",
+                            "required": false,
+                            "description": "Full legal name of the supplier (labelled Supplier, Vendor or Seller; infer it from the organisation names if no label is present)"
+                          },
+                          {
+                            "id": "85916318-b480-424d-895b-4015ef3dc17e",
+                            "name": "supplier_code",
+                            "type": "string",
+                            "required": false,
+                            "description": "Supplier code, ID or legal-entity identifier such as a VAT number; empty if not present"
+                          },
+                          {
+                            "id": "7c1c5ac0-f6ec-4eee-b57a-252f5b8ced7f",
+                            "name": "supplier_address",
+                            "type": "string",
+                            "required": false,
+                            "description": "Full address of the supplier as a single string"
+                          },
+                          {
+                            "id": "6855e388-29dc-4255-9ebd-c34b2ff1b42d",
+                            "name": "supplier_contacts",
+                            "type": "list",
+                            "required": false,
+                            "description": "Contact entries of the supplier; empty list if not present",
+                            "listItems": [
+                              {
+                                "id": "4e2133a8-a846-44b9-99c2-a0db34abd0bd",
+                                "name": "type",
+                                "type": "string",
+                                "required": true,
+                                "description": "Contact type, for example email, tel, fax or mobile"
+                              },
+                              {
+                                "id": "68d2e4b4-e84d-4427-96fd-cc2c560c5655",
+                                "name": "value",
+                                "type": "string",
+                                "required": true,
+                                "description": "The contact value as text"
+                              }
+                            ]
+                          },
+                          {
+                            "id": "db27ff3a-63fd-4304-9ca3-7f3b5dbb7895",
+                            "name": "buyer_name",
+                            "type": "string",
+                            "required": false,
+                            "description": "Full legal name of the buyer (labelled Buyer, Customer, Bill To or Purchaser)"
+                          },
+                          {
+                            "id": "58695462-b97c-49ed-9599-ae0880dd0a0d",
+                            "name": "buyer_code",
+                            "type": "string",
+                            "required": false,
+                            "description": "Buyer code, ID or legal-entity identifier; empty if not present"
+                          },
+                          {
+                            "id": "213822e5-5eba-464d-ac97-97d99d202177",
+                            "name": "buyer_address",
+                            "type": "string",
+                            "required": false,
+                            "description": "Registered or billing address of the buyer as a single string"
+                          },
+                          {
+                            "id": "4599a969-3cb6-4841-bdbc-fb4482eddf66",
+                            "name": "delivery_address",
+                            "type": "string",
+                            "required": false,
+                            "description": "Delivery or ship-to address as a single string; the buyer address if not stated"
+                          },
+                          {
+                            "id": "100957a7-eb2f-43d5-a62b-8c5870bc16fe",
+                            "name": "buyer_contacts",
+                            "type": "list",
+                            "required": false,
+                            "description": "Contact entries of the buyer; empty list if not present",
+                            "listItems": [
+                              {
+                                "id": "09f3ae65-ba96-4bdc-9ac1-e6a417ced4ae",
+                                "name": "type",
+                                "type": "string",
+                                "required": true,
+                                "description": "Contact type, for example email, tel, fax or mobile"
+                              },
+                              {
+                                "id": "40be3bd1-df00-487d-87bb-5aba318c3159",
+                                "name": "value",
+                                "type": "string",
+                                "required": true,
+                                "description": "The contact value as text"
+                              }
+                            ]
+                          },
+                          {
+                            "id": "f0b9e9f8-da38-4ae4-b743-1fc41d4256b0",
+                            "name": "order_id",
+                            "type": "string",
+                            "required": false,
+                            "description": "Purchase order number or internal order identifier"
+                          },
+                          {
+                            "id": "8e4753cc-6a1c-4f50-ba4d-835b5a6003e8",
+                            "name": "order_date",
+                            "type": "string",
+                            "required": false,
+                            "description": "Order date in YYYY-MM-DD format"
+                          },
+                          {
+                            "id": "0668fc04-2dcb-47b0-8c13-1115d41a8fdf",
+                            "name": "currency",
+                            "type": "string",
+                            "required": false,
+                            "description": "ISO 4217 currency code, for example EUR, USD or GBP"
+                          },
+                          {
+                            "id": "0595928a-b317-461f-9115-34c4f6f79bb2",
+                            "name": "order_total",
+                            "type": "number",
+                            "required": false,
+                            "description": "Total amount of the order"
+                          },
+                          {
+                            "id": "46be7494-1585-49b7-839a-aeeab861b1a3",
+                            "name": "line_items",
+                            "type": "list",
+                            "required": false,
+                            "description": "Ordered line items in source order",
+                            "listItems": [
+                              {
+                                "id": "be041238-386c-40ff-958d-14339438d22c",
+                                "name": "line_number",
+                                "type": "number",
+                                "required": true,
+                                "description": "Sequential line number (whole number)"
+                              },
+                              {
+                                "id": "7f612f82-fd3a-4c30-ade3-32ee348c8493",
+                                "name": "sku",
+                                "type": "string",
+                                "required": true,
+                                "description": "Product SKU or item code"
+                              },
+                              {
+                                "id": "ef9c6d2e-7eec-454d-94a3-aba47ef593ac",
+                                "name": "product_description",
+                                "type": "string",
+                                "required": true,
+                                "description": "Full product description"
+                              },
+                              {
+                                "id": "c7dcf051-df00-4c47-b150-f36c9d2afe4b",
+                                "name": "quantity",
+                                "type": "number",
+                                "required": true,
+                                "description": "Ordered quantity (whole number)"
+                              },
+                              {
+                                "id": "cd336d4b-756a-4c7a-bf0d-cd5ae36dafb4",
+                                "name": "unit_of_measure",
+                                "type": "string",
+                                "required": true,
+                                "description": "Unit of measure, for example EA, CS or KG"
+                              },
+                              {
+                                "id": "81f8c56a-0b88-4f79-813d-70d239b9668e",
+                                "name": "unit_price",
+                                "type": "number",
+                                "required": true,
+                                "description": "Price per unit"
+                              },
+                              {
+                                "id": "5f175157-ac5b-4dee-8fcf-0cb73b0b9d22",
+                                "name": "total_price",
+                                "type": "number",
+                                "required": true,
+                                "description": "Line total (quantity x unit price)"
+                              }
+                            ]
+                          },
+                          {
+                            "id": "114c9154-71cd-4131-a520-740c8ac7c74c",
+                            "name": "additional_info",
+                            "type": "list",
+                            "required": false,
+                            "description": "Other relevant fields that fit no other property (payment terms, incoterms, requested delivery date, special instructions); keys in English",
+                            "listItems": [
+                              {
+                                "id": "c2d1e274-f35c-43ce-870c-ec95a89e3518",
+                                "name": "key",
+                                "type": "string",
+                                "required": true,
+                                "description": "Field name in English"
+                              },
+                              {
+                                "id": "f18c8ecc-ba3e-4099-92a6-6b69f999253b",
+                                "name": "value",
+                                "type": "string",
+                                "required": true,
+                                "description": "Field value"
+                              }
+                            ]
+                          },
+                          {
+                            "id": "2df1b04b-01e8-47d8-8080-66bcba204d22",
+                            "name": "extraction_confidence",
+                            "type": "number",
+                            "required": false,
+                            "description": "Confidence between 0.0 and 1.0 that all fields were correctly extracted"
+                          }
+                        ],
+                        "jsonSchema": {
+                          "type": "object",
+                          "properties": {
+                            "supplier_name": {
+                              "type": "string",
+                              "description": "Full legal name of the supplier (labelled Supplier, Vendor or Seller; infer it from the organisation names if no label is present)"
+                            },
+                            "supplier_code": {
+                              "type": "string",
+                              "description": "Supplier code, ID or legal-entity identifier such as a VAT number; empty if not present"
+                            },
+                            "supplier_address": {
+                              "type": "string",
+                              "description": "Full address of the supplier as a single string"
+                            },
+                            "supplier_contacts": {
+                              "type": "array",
+                              "description": "Contact entries of the supplier; empty list if not present",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "type": {
+                                    "type": "string",
+                                    "description": "Contact type, for example email, tel, fax or mobile"
+                                  },
+                                  "value": {
+                                    "type": "string",
+                                    "description": "The contact value as text"
+                                  }
+                                },
+                                "required": [
+                                  "type",
+                                  "value"
+                                ]
+                              }
+                            },
+                            "buyer_name": {
+                              "type": "string",
+                              "description": "Full legal name of the buyer (labelled Buyer, Customer, Bill To or Purchaser)"
+                            },
+                            "buyer_code": {
+                              "type": "string",
+                              "description": "Buyer code, ID or legal-entity identifier; empty if not present"
+                            },
+                            "buyer_address": {
+                              "type": "string",
+                              "description": "Registered or billing address of the buyer as a single string"
+                            },
+                            "delivery_address": {
+                              "type": "string",
+                              "description": "Delivery or ship-to address as a single string; the buyer address if not stated"
+                            },
+                            "buyer_contacts": {
+                              "type": "array",
+                              "description": "Contact entries of the buyer; empty list if not present",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "type": {
+                                    "type": "string",
+                                    "description": "Contact type, for example email, tel, fax or mobile"
+                                  },
+                                  "value": {
+                                    "type": "string",
+                                    "description": "The contact value as text"
+                                  }
+                                },
+                                "required": [
+                                  "type",
+                                  "value"
+                                ]
+                              }
+                            },
+                            "order_id": {
+                              "type": "string",
+                              "description": "Purchase order number or internal order identifier"
+                            },
+                            "order_date": {
+                              "type": "string",
+                              "description": "Order date in YYYY-MM-DD format"
+                            },
+                            "currency": {
+                              "type": "string",
+                              "description": "ISO 4217 currency code, for example EUR, USD or GBP"
+                            },
+                            "order_total": {
+                              "type": "number",
+                              "description": "Total amount of the order"
+                            },
+                            "line_items": {
+                              "type": "array",
+                              "description": "Ordered line items in source order",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "line_number": {
+                                    "type": "number",
+                                    "description": "Sequential line number (whole number)"
+                                  },
+                                  "sku": {
+                                    "type": "string",
+                                    "description": "Product SKU or item code"
+                                  },
+                                  "product_description": {
+                                    "type": "string",
+                                    "description": "Full product description"
+                                  },
+                                  "quantity": {
+                                    "type": "number",
+                                    "description": "Ordered quantity (whole number)"
+                                  },
+                                  "unit_of_measure": {
+                                    "type": "string",
+                                    "description": "Unit of measure, for example EA, CS or KG"
+                                  },
+                                  "unit_price": {
+                                    "type": "number",
+                                    "description": "Price per unit"
+                                  },
+                                  "total_price": {
+                                    "type": "number",
+                                    "description": "Line total (quantity x unit price)"
+                                  }
+                                },
+                                "required": [
+                                  "line_number",
+                                  "sku",
+                                  "product_description",
+                                  "quantity",
+                                  "unit_of_measure",
+                                  "unit_price",
+                                  "total_price"
+                                ]
+                              }
+                            },
+                            "additional_info": {
+                              "type": "array",
+                              "description": "Other relevant fields that fit no other property (payment terms, incoterms, requested delivery date, special instructions); keys in English",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "key": {
+                                    "type": "string",
+                                    "description": "Field name in English"
+                                  },
+                                  "value": {
+                                    "type": "string",
+                                    "description": "Field value"
+                                  }
+                                },
+                                "required": [
+                                  "key",
+                                  "value"
+                                ]
+                              }
+                            },
+                            "extraction_confidence": {
+                              "type": "number",
+                              "description": "Confidence between 0.0 and 1.0 that all fields were correctly extracted"
+                            }
+                          }
+                        },
+                        "inputRich": {
+                          "segments": [
+                            {
+                              "type": "token",
+                              "value": "@{triggerBody()?['pdfFile']?['contentBytes']}",
+                              "tokenRef": {
+                                "type": "function",
+                                "stepId": "function",
+                                "stepName": "Reference",
+                                "outputName": "triggerBody",
+                                "outputType": "object",
+                                "functionName": "triggerBody",
+                                "functionCategory": "reference",
+                                "rawExpression": "triggerBody()?['pdfFile']?['contentBytes']"
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default",
+                          "outcomeSchema": {
+                            "type": "object",
+                            "properties": {
+                              "structuredOutput": {
+                                "type": "object",
+                                "properties": {
+                                  "supplier_name": {
+                                    "type": "string",
+                                    "description": "Full legal name of the supplier (labelled Supplier, Vendor or Seller; infer it from the organisation names if no label is present)"
+                                  },
+                                  "supplier_code": {
+                                    "type": "string",
+                                    "description": "Supplier code, ID or legal-entity identifier such as a VAT number; empty if not present"
+                                  },
+                                  "supplier_address": {
+                                    "type": "string",
+                                    "description": "Full address of the supplier as a single string"
+                                  },
+                                  "supplier_contacts": {
+                                    "type": "array",
+                                    "description": "Contact entries of the supplier; empty list if not present",
+                                    "items": {
+                                      "type": "object",
+                                      "properties": {
+                                        "type": {
+                                          "type": "string",
+                                          "description": "Contact type, for example email, tel, fax or mobile"
+                                        },
+                                        "value": {
+                                          "type": "string",
+                                          "description": "The contact value as text"
+                                        }
+                                      },
+                                      "required": [
+                                        "type",
+                                        "value"
+                                      ]
+                                    }
+                                  },
+                                  "buyer_name": {
+                                    "type": "string",
+                                    "description": "Full legal name of the buyer (labelled Buyer, Customer, Bill To or Purchaser)"
+                                  },
+                                  "buyer_code": {
+                                    "type": "string",
+                                    "description": "Buyer code, ID or legal-entity identifier; empty if not present"
+                                  },
+                                  "buyer_address": {
+                                    "type": "string",
+                                    "description": "Registered or billing address of the buyer as a single string"
+                                  },
+                                  "delivery_address": {
+                                    "type": "string",
+                                    "description": "Delivery or ship-to address as a single string; the buyer address if not stated"
+                                  },
+                                  "buyer_contacts": {
+                                    "type": "array",
+                                    "description": "Contact entries of the buyer; empty list if not present",
+                                    "items": {
+                                      "type": "object",
+                                      "properties": {
+                                        "type": {
+                                          "type": "string",
+                                          "description": "Contact type, for example email, tel, fax or mobile"
+                                        },
+                                        "value": {
+                                          "type": "string",
+                                          "description": "The contact value as text"
+                                        }
+                                      },
+                                      "required": [
+                                        "type",
+                                        "value"
+                                      ]
+                                    }
+                                  },
+                                  "order_id": {
+                                    "type": "string",
+                                    "description": "Purchase order number or internal order identifier"
+                                  },
+                                  "order_date": {
+                                    "type": "string",
+                                    "description": "Order date in YYYY-MM-DD format"
+                                  },
+                                  "currency": {
+                                    "type": "string",
+                                    "description": "ISO 4217 currency code, for example EUR, USD or GBP"
+                                  },
+                                  "order_total": {
+                                    "type": "number",
+                                    "description": "Total amount of the order"
+                                  },
+                                  "line_items": {
+                                    "type": "array",
+                                    "description": "Ordered line items in source order",
+                                    "items": {
+                                      "type": "object",
+                                      "properties": {
+                                        "line_number": {
+                                          "type": "number",
+                                          "description": "Sequential line number (whole number)"
+                                        },
+                                        "sku": {
+                                          "type": "string",
+                                          "description": "Product SKU or item code"
+                                        },
+                                        "product_description": {
+                                          "type": "string",
+                                          "description": "Full product description"
+                                        },
+                                        "quantity": {
+                                          "type": "number",
+                                          "description": "Ordered quantity (whole number)"
+                                        },
+                                        "unit_of_measure": {
+                                          "type": "string",
+                                          "description": "Unit of measure, for example EA, CS or KG"
+                                        },
+                                        "unit_price": {
+                                          "type": "number",
+                                          "description": "Price per unit"
+                                        },
+                                        "total_price": {
+                                          "type": "number",
+                                          "description": "Line total (quantity x unit price)"
+                                        }
+                                      },
+                                      "required": [
+                                        "line_number",
+                                        "sku",
+                                        "product_description",
+                                        "quantity",
+                                        "unit_of_measure",
+                                        "unit_price",
+                                        "total_price"
+                                      ]
+                                    }
+                                  },
+                                  "additional_info": {
+                                    "type": "array",
+                                    "description": "Other relevant fields that fit no other property (payment terms, incoterms, requested delivery date, special instructions); keys in English",
+                                    "items": {
+                                      "type": "object",
+                                      "properties": {
+                                        "key": {
+                                          "type": "string",
+                                          "description": "Field name in English"
+                                        },
+                                        "value": {
+                                          "type": "string",
+                                          "description": "Field value"
+                                        }
+                                      },
+                                      "required": [
+                                        "key",
+                                        "value"
+                                      ]
+                                    }
+                                  },
+                                  "extraction_confidence": {
+                                    "type": "number",
+                                    "description": "Confidence between 0.0 and 1.0 that all fields were correctly extracted"
+                                  }
+                                },
+                                "title": ""
+                              }
+                            },
+                            "required": [
+                              "structuredOutput"
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "measured": {
+                      "width": 240,
+                      "height": 66
+                    }
+                  },
+                  {
+                    "id": "builtinFunction-7c9ea647-0d22-49ff-abb8-d6aae72099d6",
+                    "name": "Extraction summary",
+                    "type": "builtinFunction",
+                    "version": 1,
+                    "position": {
+                      "x": 900,
+                      "y": 220
+                    },
+                    "data": {
+                      "config": {
+                        "operationId": "Compose",
+                        "operationName": "Compose",
+                        "parameters": {
+                          "inputs": {
+                            "image": "@body('agentExtract-d96f67cd-cea7-4d46-b277-1f3cf233023c')?['structuredOutput']",
+                            "pdf": "@body('agentExtract-09829191-dc02-4820-b4bb-ea5e586eba2f')?['structuredOutput']"
+                          }
+                        },
+                        "displayName": "Extraction summary",
+                        "description": "Shows the structured output of both extractions.",
+                        "category": "providers/Microsoft.ProcessSimple/operationGroups/DataOperation",
+                        "categoryDisplayName": "Data Operation",
+                        "iconUri": "https://content.powerapps.com/resource/makerx/static/pauto/images/designeroperations/dataoperationedit.2c8a4d5e.png",
+                        "brandColor": "#8C6CFF"
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default",
+                          "outcomeSchema": {
+                            "type": "object",
+                            "description": "Function output"
+                          }
+                        }
+                      ]
+                    },
+                    "measured": {
+                      "width": 240,
+                      "height": 66
+                    }
+                  }
+                ],
+                "edges": [
+                  {
+                    "id": "edge-start-agentExtract-d96f67cd-cea7-4d46-b277-1f3cf233023c",
+                    "source": "start",
+                    "target": "agentExtract-d96f67cd-cea7-4d46-b277-1f3cf233023c"
+                  },
+                  {
+                    "id": "edge-start-agentExtract-09829191-dc02-4820-b4bb-ea5e586eba2f",
+                    "source": "start",
+                    "target": "agentExtract-09829191-dc02-4820-b4bb-ea5e586eba2f"
+                  },
+                  {
+                    "id": "edge-agentExtract-d96f67cd-cea7-4d46-b277-1f3cf233023c-builtinFunction-7c9ea647-0d22-49ff-abb8-d6aae72099d6",
+                    "source": "agentExtract-d96f67cd-cea7-4d46-b277-1f3cf233023c",
+                    "target": "builtinFunction-7c9ea647-0d22-49ff-abb8-d6aae72099d6"
+                  },
+                  {
+                    "id": "edge-agentExtract-09829191-dc02-4820-b4bb-ea5e586eba2f-builtinFunction-7c9ea647-0d22-49ff-abb8-d6aae72099d6",
+                    "source": "agentExtract-09829191-dc02-4820-b4bb-ea5e586eba2f",
+                    "target": "builtinFunction-7c9ea647-0d22-49ff-abb8-d6aae72099d6"
+                  }
+                ],
+                "connectionReferences": {
+                  "shared_agentnode": {
+                    "api": {
+                      "name": "shared_agentnode"
+                    },
+                    "connection": {
+                      "connectionReferenceLogicalName": "<agent connection reference logical name>"
+                    },
+                    "runtimeSource": "embedded",
+                    "connectionName": "<agent connection name>"
+                  }
+                },
+                "parameters": {
+                  "$authentication": {
+                    "type": "SecureObject",
+                    "defaultValue": {}
+                  },
+                  "$connections": {
+                    "type": "Object",
+                    "defaultValue": {}
+                  }
+                }
+              },
+              "nodeActionMapping": {
+                "agentExtract-d96f67cd-cea7-4d46-b277-1f3cf233023c": [
+                  "Extract_Image"
+                ],
+                "agentExtract-09829191-dc02-4820-b4bb-ea5e586eba2f": [
+                  "Extract_PDF"
+                ],
+                "builtinFunction-7c9ea647-0d22-49ff-abb8-d6aae72099d6": [
+                  "Extraction_summary"
+                ]
+              },
+              "canvasOrientation": "horizontal"
+            }
+          }
+        }
+      },
+      "actions": {
+        "Extract_Image": {
+          "type": "OpenApiConnection",
+          "inputs": {
+            "parameters": {
+              "body/definition": {
+                "components": [],
+                "environmentVariables": [],
+                "flows": [],
+                "dataverseTableSearchs": [],
+                "dataverseTableSearchGlossaryConfigurations": [],
+                "dataverseTableSearchEntityConfigurations": [],
+                "dataverseTableSearchEntityColumnSynonyms": [],
+                "connectionReferences": [],
+                "connectorDefinitions": [],
+                "aIModelDefinitions": [],
+                "aIPluginOperations": [],
+                "connectedAgentDefinitions": [],
+                "componentCollections": [],
+                "connectedBots": [],
+                "diagnostics": [],
+                "entity": {
+                  "authorizedSecurityGroupIds": [],
+                  "supportedLanguages": [],
+                  "diagnostics": [],
+                  "schemaName": "workflow_extractnode_v1",
+                  "language": 1033,
+                  "accessControlPolicy": "Any",
+                  "authenticationMode": "Integrated",
+                  "authenticationTrigger": "Always",
+                  "synchronizationStatus": {
+                    "graphDriveItems": [],
+                    "diagnostics": [],
+                    "lastPublishedDetails": {
+                      "diagnosticDetails": [],
+                      "diagnostics": [],
+                      "authenticationMode": "Integrated",
+                      "$kind": "SuccessfulPublishResultDetails"
+                    },
+                    "$kind": "BotSynchronizationDetails"
+                  },
+                  "configuration": {
+                    "categories": [],
+                    "channels": [],
+                    "settings": {},
+                    "memoryParameters": [],
+                    "diagnostics": [],
+                    "recognizer": {
+                      "diagnostics": [],
+                      "$kind": "CLICopilotRecognizer"
+                    },
+                    "agentSettings": {
+                      "conversationStarters": [],
+                      "diagnostics": [],
+                      "model": {
+                        "diagnostics": [],
+                        "series": "claude-opus-5-5",
+                        "$kind": "ModelConfig"
+                      },
+                      "instructions": {
+                        "segments": [
+                          {
+                            "diagnostics": [],
+                            "value": "Extract the values defined by the output schema from the following content. Return only values that are supported by the content. If an optional property is absent, omit that property entirely and do not replace it with a placeholder. For a required property whose value cannot be found, leave its value empty. Preserve explicitly present schema-valid values, including empty strings, empty arrays, zero, false, and enum values. Do not infer or fabricate data.",
+                            "$kind": "StaticSegment"
+                          }
+                        ],
+                        "diagnostics": [],
+                        "$kind": "Instructions"
+                      },
+                      "output": {
+                        "diagnostics": [],
+                        "schema": "{\"type\":\"object\",\"properties\":{\"supplier_name\":{\"type\":\"string\",\"description\":\"Full legal name of the supplier (labelled Supplier, Vendor or Seller; infer it from the organisation names if no label is present)\"},\"supplier_code\":{\"type\":\"string\",\"description\":\"Supplier code, ID or legal-entity identifier such as a VAT number; empty if not present\"},\"supplier_address\":{\"type\":\"string\",\"description\":\"Full address of the supplier as a single string\"},\"supplier_contacts\":{\"type\":\"array\",\"description\":\"Contact entries of the supplier; empty list if not present\",\"items\":{\"type\":\"object\",\"properties\":{\"type\":{\"type\":\"string\",\"description\":\"Contact type, for example email, tel, fax or mobile\"},\"value\":{\"type\":\"string\",\"description\":\"The contact value as text\"}},\"required\":[\"type\",\"value\"]}},\"buyer_name\":{\"type\":\"string\",\"description\":\"Full legal name of the buyer (labelled Buyer, Customer, Bill To or Purchaser)\"},\"buyer_code\":{\"type\":\"string\",\"description\":\"Buyer code, ID or legal-entity identifier; empty if not present\"},\"buyer_address\":{\"type\":\"string\",\"description\":\"Registered or billing address of the buyer as a single string\"},\"delivery_address\":{\"type\":\"string\",\"description\":\"Delivery or ship-to address as a single string; the buyer address if not stated\"},\"buyer_contacts\":{\"type\":\"array\",\"description\":\"Contact entries of the buyer; empty list if not present\",\"items\":{\"type\":\"object\",\"properties\":{\"type\":{\"type\":\"string\",\"description\":\"Contact type, for example email, tel, fax or mobile\"},\"value\":{\"type\":\"string\",\"description\":\"The contact value as text\"}},\"required\":[\"type\",\"value\"]}},\"order_id\":{\"type\":\"string\",\"description\":\"Purchase order number or internal order identifier\"},\"order_date\":{\"type\":\"string\",\"description\":\"Order date in YYYY-MM-DD format\"},\"currency\":{\"type\":\"string\",\"description\":\"ISO 4217 currency code, for example EUR, USD or GBP\"},\"order_total\":{\"type\":\"number\",\"description\":\"Total amount of the order\"},\"line_items\":{\"type\":\"array\",\"description\":\"Ordered line items in source order\",\"items\":{\"type\":\"object\",\"properties\":{\"line_number\":{\"type\":\"number\",\"description\":\"Sequential line number (whole number)\"},\"sku\":{\"type\":\"string\",\"description\":\"Product SKU or item code\"},\"product_description\":{\"type\":\"string\",\"description\":\"Full product description\"},\"quantity\":{\"type\":\"number\",\"description\":\"Ordered quantity (whole number)\"},\"unit_of_measure\":{\"type\":\"string\",\"description\":\"Unit of measure, for example EA, CS or KG\"},\"unit_price\":{\"type\":\"number\",\"description\":\"Price per unit\"},\"total_price\":{\"type\":\"number\",\"description\":\"Line total (quantity x unit price)\"}},\"required\":[\"line_number\",\"sku\",\"product_description\",\"quantity\",\"unit_of_measure\",\"unit_price\",\"total_price\"]}},\"additional_info\":{\"type\":\"array\",\"description\":\"Other relevant fields that fit no other property (payment terms, incoterms, requested delivery date, special instructions); keys in English\",\"items\":{\"type\":\"object\",\"properties\":{\"key\":{\"type\":\"string\",\"description\":\"Field name in English\"},\"value\":{\"type\":\"string\",\"description\":\"Field value\"}},\"required\":[\"key\",\"value\"]}},\"extraction_confidence\":{\"type\":\"number\",\"description\":\"Confidence between 0.0 and 1.0 that all fields were correctly extracted\"}}}",
+                        "$kind": "StructuredAgentOutput"
+                      },
+                      "$kind": "AgentSettings"
+                    },
+                    "$kind": "BotConfiguration"
+                  },
+                  "$kind": "BotEntity"
+                },
+                "$kind": "BotDefinition"
+              },
+              "body/message": "{document}",
+              "body/files": [
+                {
+                  "name": "document",
+                  "content": "@triggerBody()?['imageFile']?['contentBytes']"
+                }
+              ]
+            },
+            "host": {
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_agentnode",
+              "connectionName": "shared_agentnode",
+              "operationId": "InvokeDefinition"
+            }
+          },
+          "metadata": {
+            "description": "Extract Image",
+            "nodeId": "agentExtract-d96f67cd-cea7-4d46-b277-1f3cf233023c"
+          }
+        },
+        "Extract_PDF": {
+          "type": "OpenApiConnection",
+          "inputs": {
+            "parameters": {
+              "body/definition": {
+                "components": [],
+                "environmentVariables": [],
+                "flows": [],
+                "dataverseTableSearchs": [],
+                "dataverseTableSearchGlossaryConfigurations": [],
+                "dataverseTableSearchEntityConfigurations": [],
+                "dataverseTableSearchEntityColumnSynonyms": [],
+                "connectionReferences": [],
+                "connectorDefinitions": [],
+                "aIModelDefinitions": [],
+                "aIPluginOperations": [],
+                "connectedAgentDefinitions": [],
+                "componentCollections": [],
+                "connectedBots": [],
+                "diagnostics": [],
+                "entity": {
+                  "authorizedSecurityGroupIds": [],
+                  "supportedLanguages": [],
+                  "diagnostics": [],
+                  "schemaName": "workflow_extractnode_v1",
+                  "language": 1033,
+                  "accessControlPolicy": "Any",
+                  "authenticationMode": "Integrated",
+                  "authenticationTrigger": "Always",
+                  "synchronizationStatus": {
+                    "graphDriveItems": [],
+                    "diagnostics": [],
+                    "lastPublishedDetails": {
+                      "diagnosticDetails": [],
+                      "diagnostics": [],
+                      "authenticationMode": "Integrated",
+                      "$kind": "SuccessfulPublishResultDetails"
+                    },
+                    "$kind": "BotSynchronizationDetails"
+                  },
+                  "configuration": {
+                    "categories": [],
+                    "channels": [],
+                    "settings": {},
+                    "memoryParameters": [],
+                    "diagnostics": [],
+                    "recognizer": {
+                      "diagnostics": [],
+                      "$kind": "CLICopilotRecognizer"
+                    },
+                    "agentSettings": {
+                      "conversationStarters": [],
+                      "diagnostics": [],
+                      "model": {
+                        "diagnostics": [],
+                        "series": "claude-opus-5-5",
+                        "$kind": "ModelConfig"
+                      },
+                      "instructions": {
+                        "segments": [
+                          {
+                            "diagnostics": [],
+                            "value": "Extract the values defined by the output schema from the following content. Return only values that are supported by the content. If an optional property is absent, omit that property entirely and do not replace it with a placeholder. For a required property whose value cannot be found, leave its value empty. Preserve explicitly present schema-valid values, including empty strings, empty arrays, zero, false, and enum values. Do not infer or fabricate data.",
+                            "$kind": "StaticSegment"
+                          }
+                        ],
+                        "diagnostics": [],
+                        "$kind": "Instructions"
+                      },
+                      "output": {
+                        "diagnostics": [],
+                        "schema": "{\"type\":\"object\",\"properties\":{\"supplier_name\":{\"type\":\"string\",\"description\":\"Full legal name of the supplier (labelled Supplier, Vendor or Seller; infer it from the organisation names if no label is present)\"},\"supplier_code\":{\"type\":\"string\",\"description\":\"Supplier code, ID or legal-entity identifier such as a VAT number; empty if not present\"},\"supplier_address\":{\"type\":\"string\",\"description\":\"Full address of the supplier as a single string\"},\"supplier_contacts\":{\"type\":\"array\",\"description\":\"Contact entries of the supplier; empty list if not present\",\"items\":{\"type\":\"object\",\"properties\":{\"type\":{\"type\":\"string\",\"description\":\"Contact type, for example email, tel, fax or mobile\"},\"value\":{\"type\":\"string\",\"description\":\"The contact value as text\"}},\"required\":[\"type\",\"value\"]}},\"buyer_name\":{\"type\":\"string\",\"description\":\"Full legal name of the buyer (labelled Buyer, Customer, Bill To or Purchaser)\"},\"buyer_code\":{\"type\":\"string\",\"description\":\"Buyer code, ID or legal-entity identifier; empty if not present\"},\"buyer_address\":{\"type\":\"string\",\"description\":\"Registered or billing address of the buyer as a single string\"},\"delivery_address\":{\"type\":\"string\",\"description\":\"Delivery or ship-to address as a single string; the buyer address if not stated\"},\"buyer_contacts\":{\"type\":\"array\",\"description\":\"Contact entries of the buyer; empty list if not present\",\"items\":{\"type\":\"object\",\"properties\":{\"type\":{\"type\":\"string\",\"description\":\"Contact type, for example email, tel, fax or mobile\"},\"value\":{\"type\":\"string\",\"description\":\"The contact value as text\"}},\"required\":[\"type\",\"value\"]}},\"order_id\":{\"type\":\"string\",\"description\":\"Purchase order number or internal order identifier\"},\"order_date\":{\"type\":\"string\",\"description\":\"Order date in YYYY-MM-DD format\"},\"currency\":{\"type\":\"string\",\"description\":\"ISO 4217 currency code, for example EUR, USD or GBP\"},\"order_total\":{\"type\":\"number\",\"description\":\"Total amount of the order\"},\"line_items\":{\"type\":\"array\",\"description\":\"Ordered line items in source order\",\"items\":{\"type\":\"object\",\"properties\":{\"line_number\":{\"type\":\"number\",\"description\":\"Sequential line number (whole number)\"},\"sku\":{\"type\":\"string\",\"description\":\"Product SKU or item code\"},\"product_description\":{\"type\":\"string\",\"description\":\"Full product description\"},\"quantity\":{\"type\":\"number\",\"description\":\"Ordered quantity (whole number)\"},\"unit_of_measure\":{\"type\":\"string\",\"description\":\"Unit of measure, for example EA, CS or KG\"},\"unit_price\":{\"type\":\"number\",\"description\":\"Price per unit\"},\"total_price\":{\"type\":\"number\",\"description\":\"Line total (quantity x unit price)\"}},\"required\":[\"line_number\",\"sku\",\"product_description\",\"quantity\",\"unit_of_measure\",\"unit_price\",\"total_price\"]}},\"additional_info\":{\"type\":\"array\",\"description\":\"Other relevant fields that fit no other property (payment terms, incoterms, requested delivery date, special instructions); keys in English\",\"items\":{\"type\":\"object\",\"properties\":{\"key\":{\"type\":\"string\",\"description\":\"Field name in English\"},\"value\":{\"type\":\"string\",\"description\":\"Field value\"}},\"required\":[\"key\",\"value\"]}},\"extraction_confidence\":{\"type\":\"number\",\"description\":\"Confidence between 0.0 and 1.0 that all fields were correctly extracted\"}}}",
+                        "$kind": "StructuredAgentOutput"
+                      },
+                      "$kind": "AgentSettings"
+                    },
+                    "$kind": "BotConfiguration"
+                  },
+                  "$kind": "BotEntity"
+                },
+                "$kind": "BotDefinition"
+              },
+              "body/message": "{document}",
+              "body/files": [
+                {
+                  "name": "document",
+                  "content": "@triggerBody()?['pdfFile']?['contentBytes']"
+                }
+              ]
+            },
+            "host": {
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_agentnode",
+              "connectionName": "shared_agentnode",
+              "operationId": "InvokeDefinition"
+            }
+          },
+          "metadata": {
+            "description": "Extract PDF",
+            "nodeId": "agentExtract-09829191-dc02-4820-b4bb-ea5e586eba2f"
+          }
+        },
+        "Extraction_summary": {
+          "type": "Compose",
+          "inputs": {
+            "image": "@body('Extract_Image')?['structuredOutput']",
+            "pdf": "@body('Extract_PDF')?['structuredOutput']"
+          },
+          "runAfter": {
+            "Extract_Image": [
+              "Succeeded"
+            ],
+            "Extract_PDF": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "description": "Extraction summary",
+            "nodeId": "builtinFunction-7c9ea647-0d22-49ff-abb8-d6aae72099d6"
+          }
+        }
+      },
+      "outputs": {},
+      "metadata": {
+        "telemetryMetadata": {
+          "modifiedSources": "WorkflowDesigner"
+        }
+      }
+    }
+  },
+  "schemaVersion": "1.0.0.0"
+}

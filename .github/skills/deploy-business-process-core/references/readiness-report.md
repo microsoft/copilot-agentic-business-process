@@ -10,7 +10,7 @@ $report.SubscriptionSeats | Format-Table
 $report.Overall
 ```
 
-2. For a new environment, omit `-EnvironmentId`; require active tenant-wide Power Platform Administrator (`/`), approve provisioning, then rerun with the new ID.
+2. For a new environment, omit `-EnvironmentId`; require active tenant-wide Power Platform Administrator (`/`), accepting active tenant-wide Global Administrator (`/`) when Power Platform Administrator is absent. Approve provisioning, then rerun with the new ID.
 3. Add `-CreateRuntimeIdentity` when the operator creates the app identity; `-BusinessUserPrincipalName <UPNs>` for Console users; `-MonitoringAccess` for Teams access.
 4. Verify Dataverse deployment access, operator Power Apps Premium/Copilot Studio, and applicable user licenses. Confirm custom/delegated access, seats, capacity, and Copilot Credits with owners.
 5. Resolve failures; record evidence for unverified checks. Present only overall status, blockers, and required confirmations. Obtain explicit user understanding/availability confirmation.

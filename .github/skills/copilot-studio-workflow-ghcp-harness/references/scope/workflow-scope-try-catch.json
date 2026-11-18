@@ -1,0 +1,743 @@
+{
+  "properties": {
+    "connectionReferences": {},
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        }
+      },
+      "triggers": {
+        "manual": {
+          "type": "Request",
+          "kind": "Button",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {},
+              "required": []
+            }
+          },
+          "metadata": {
+            "associatedData": {
+              "graph": {
+                "name": "scope-try-catch",
+                "nodes": [
+                  {
+                    "id": "start",
+                    "name": "Manual Trigger",
+                    "type": "start",
+                    "version": 1,
+                    "position": {
+                      "x": 100,
+                      "y": 200
+                    },
+                    "data": {
+                      "config": {
+                        "triggerType": "manual"
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default"
+                        }
+                      ]
+                    },
+                    "measured": {
+                      "width": 240,
+                      "height": 66
+                    }
+                  },
+                  {
+                    "id": "variable-init-0001",
+                    "name": "Initialize result, forceFailure",
+                    "type": "variable",
+                    "version": 1,
+                    "position": {
+                      "x": 500,
+                      "y": 200
+                    },
+                    "data": {
+                      "config": {
+                        "assignments": [
+                          {
+                            "id": "var-init-0",
+                            "variableName": "result",
+                            "mode": "initialize",
+                            "type": "string",
+                            "value": ""
+                          },
+                          {
+                            "id": "var-init-1",
+                            "variableName": "forceFailure",
+                            "mode": "initialize",
+                            "type": "boolean",
+                            "value": "false"
+                          }
+                        ]
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default"
+                        }
+                      ]
+                    },
+                    "measured": {
+                      "width": 320,
+                      "height": 66
+                    }
+                  },
+                  {
+                    "id": "scope-b248ac81-4bec-43b2-901d-bbd9957b1d52",
+                    "name": "Monitored Actions",
+                    "type": "scope",
+                    "version": 1,
+                    "position": {
+                      "x": 900,
+                      "y": 120
+                    },
+                    "width": 900,
+                    "height": 300,
+                    "style": {
+                      "width": 900,
+                      "height": 300
+                    },
+                    "data": {
+                      "config": {
+                        "description": ""
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default"
+                        }
+                      ]
+                    },
+                    "measured": {
+                      "width": 900,
+                      "height": 300
+                    }
+                  },
+                  {
+                    "id": "builtinFunction-step-0001",
+                    "name": "Step 1",
+                    "type": "builtinFunction",
+                    "version": 1,
+                    "position": {
+                      "x": 40,
+                      "y": 90
+                    },
+                    "data": {
+                      "config": {
+                        "operationId": "Compose",
+                        "operationName": "Compose",
+                        "parameters": {
+                          "inputs": "step 1 done"
+                        },
+                        "displayName": "Step 1",
+                        "description": "First monitored step; always succeeds.",
+                        "category": "providers/Microsoft.ProcessSimple/operationGroups/DataOperation",
+                        "categoryDisplayName": "Data Operation",
+                        "iconUri": "https://content.powerapps.com/resource/makerx/static/pauto/images/designeroperations/dataoperationedit.2c8a4d5e.png",
+                        "brandColor": "#8C6CFF"
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default",
+                          "outcomeSchema": {
+                            "type": "object",
+                            "description": "Function output"
+                          }
+                        }
+                      ]
+                    },
+                    "measured": {
+                      "width": 240,
+                      "height": 66
+                    },
+                    "parentId": "scope-b248ac81-4bec-43b2-901d-bbd9957b1d52"
+                  },
+                  {
+                    "id": "builtinFunction-step-0002",
+                    "name": "Step 2 may fail",
+                    "type": "builtinFunction",
+                    "version": 1,
+                    "position": {
+                      "x": 460,
+                      "y": 90
+                    },
+                    "data": {
+                      "config": {
+                        "operationId": "Compose",
+                        "operationName": "Compose",
+                        "parameters": {
+                          "inputs": "@if(variables('forceFailure'), div(1, 0), 'step 2 done')"
+                        },
+                        "displayName": "Step 2 may fail",
+                        "description": "Fails (division by zero) when the forceFailure variable is true.",
+                        "category": "providers/Microsoft.ProcessSimple/operationGroups/DataOperation",
+                        "categoryDisplayName": "Data Operation",
+                        "iconUri": "https://content.powerapps.com/resource/makerx/static/pauto/images/designeroperations/dataoperationedit.2c8a4d5e.png",
+                        "brandColor": "#8C6CFF"
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default",
+                          "outcomeSchema": {
+                            "type": "object",
+                            "description": "Function output"
+                          }
+                        }
+                      ]
+                    },
+                    "measured": {
+                      "width": 240,
+                      "height": 66
+                    },
+                    "parentId": "scope-b248ac81-4bec-43b2-901d-bbd9957b1d52"
+                  },
+                  {
+                    "id": "scope-9271d16c-ccc9-45a5-9199-0ed36557c915",
+                    "name": "Success Scope",
+                    "type": "scope",
+                    "version": 1,
+                    "position": {
+                      "x": 2000,
+                      "y": 40
+                    },
+                    "width": 520,
+                    "height": 260,
+                    "style": {
+                      "width": 520,
+                      "height": 260
+                    },
+                    "data": {
+                      "config": {
+                        "description": ""
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default"
+                        }
+                      ],
+                      "settings": {
+                        "runAfter": {
+                          "scope-b248ac81-4bec-43b2-901d-bbd9957b1d52": [
+                            "Succeeded"
+                          ]
+                        }
+                      }
+                    },
+                    "measured": {
+                      "width": 520,
+                      "height": 260
+                    }
+                  },
+                  {
+                    "id": "variable-ok-0001",
+                    "name": "Set result to success",
+                    "type": "variable",
+                    "version": 1,
+                    "position": {
+                      "x": 60,
+                      "y": 90
+                    },
+                    "data": {
+                      "config": {
+                        "assignments": [
+                          {
+                            "id": "variable-ok-0001-a",
+                            "variableName": "result",
+                            "mode": "set",
+                            "value": "success",
+                            "type": "string",
+                            "valueRich": {
+                              "segments": [
+                                {
+                                  "type": "static",
+                                  "value": "success"
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default",
+                          "outcomeSchema": {
+                            "type": "object",
+                            "properties": {},
+                            "description": "Variables set by this node"
+                          }
+                        }
+                      ]
+                    },
+                    "parentId": "scope-9271d16c-ccc9-45a5-9199-0ed36557c915",
+                    "measured": {
+                      "width": 320,
+                      "height": 66
+                    }
+                  },
+                  {
+                    "id": "scope-01280530-f9af-48e8-bd76-bcad676e4999",
+                    "name": "Failing scope",
+                    "type": "scope",
+                    "version": 1,
+                    "position": {
+                      "x": 2000,
+                      "y": 420
+                    },
+                    "width": 900,
+                    "height": 260,
+                    "style": {
+                      "width": 900,
+                      "height": 260
+                    },
+                    "data": {
+                      "config": {
+                        "description": ""
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default"
+                        }
+                      ],
+                      "settings": {
+                        "runAfter": {
+                          "scope-b248ac81-4bec-43b2-901d-bbd9957b1d52": [
+                            "Failed",
+                            "TimedOut"
+                          ]
+                        }
+                      }
+                    },
+                    "measured": {
+                      "width": 900,
+                      "height": 260
+                    }
+                  },
+                  {
+                    "id": "builtinFunction-catch-0001",
+                    "name": "Capture error details",
+                    "type": "builtinFunction",
+                    "version": 1,
+                    "position": {
+                      "x": 40,
+                      "y": 90
+                    },
+                    "data": {
+                      "config": {
+                        "operationId": "Compose",
+                        "operationName": "Compose",
+                        "parameters": {
+                          "inputs": "@coalesce(actions('Step_1')?['error'], actions('Step_2_may_fail')?['error'])"
+                        },
+                        "displayName": "Capture error details",
+                        "description": "Error object (code and message) of the monitored step that failed.",
+                        "category": "providers/Microsoft.ProcessSimple/operationGroups/DataOperation",
+                        "categoryDisplayName": "Data Operation",
+                        "iconUri": "https://content.powerapps.com/resource/makerx/static/pauto/images/designeroperations/dataoperationedit.2c8a4d5e.png",
+                        "brandColor": "#8C6CFF"
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default",
+                          "outcomeSchema": {
+                            "type": "object",
+                            "description": "Function output"
+                          }
+                        }
+                      ]
+                    },
+                    "measured": {
+                      "width": 240,
+                      "height": 66
+                    },
+                    "parentId": "scope-01280530-f9af-48e8-bd76-bcad676e4999"
+                  },
+                  {
+                    "id": "variable-bad-0001",
+                    "name": "Set result to failed",
+                    "type": "variable",
+                    "version": 1,
+                    "position": {
+                      "x": 460,
+                      "y": 90
+                    },
+                    "data": {
+                      "config": {
+                        "assignments": [
+                          {
+                            "id": "variable-bad-0001-a",
+                            "variableName": "result",
+                            "mode": "set",
+                            "value": "@concat('failed: ', coalesce(actions('Step_1')?['error']?['code'], actions('Step_2_may_fail')?['error']?['code']), ' - ', coalesce(actions('Step_1')?['error']?['message'], actions('Step_2_may_fail')?['error']?['message']))",
+                            "type": "string"
+                          }
+                        ]
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default",
+                          "outcomeSchema": {
+                            "type": "object",
+                            "properties": {},
+                            "description": "Variables set by this node"
+                          }
+                        }
+                      ]
+                    },
+                    "parentId": "scope-01280530-f9af-48e8-bd76-bcad676e4999",
+                    "measured": {
+                      "width": 320,
+                      "height": 66
+                    }
+                  },
+                  {
+                    "id": "builtinFunction-show-0001",
+                    "name": "Show result",
+                    "type": "builtinFunction",
+                    "version": 1,
+                    "position": {
+                      "x": 3100,
+                      "y": 240
+                    },
+                    "data": {
+                      "config": {
+                        "operationId": "Compose",
+                        "operationName": "Compose",
+                        "parameters": {
+                          "inputs": "@variables('result')"
+                        },
+                        "displayName": "Show result",
+                        "description": "Shows which branch ran.",
+                        "category": "providers/Microsoft.ProcessSimple/operationGroups/DataOperation",
+                        "categoryDisplayName": "Data Operation",
+                        "iconUri": "https://content.powerapps.com/resource/makerx/static/pauto/images/designeroperations/dataoperationedit.2c8a4d5e.png",
+                        "brandColor": "#8C6CFF"
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default",
+                          "outcomeSchema": {
+                            "type": "object",
+                            "description": "Function output"
+                          }
+                        }
+                      ],
+                      "settings": {
+                        "runAfter": {
+                          "scope-9271d16c-ccc9-45a5-9199-0ed36557c915": [
+                            "Succeeded",
+                            "Skipped"
+                          ],
+                          "scope-01280530-f9af-48e8-bd76-bcad676e4999": [
+                            "Succeeded",
+                            "Skipped"
+                          ]
+                        }
+                      }
+                    },
+                    "measured": {
+                      "width": 240,
+                      "height": 66
+                    }
+                  }
+                ],
+                "edges": [
+                  {
+                    "id": "edge-start-variable-init-0001",
+                    "source": "start",
+                    "target": "variable-init-0001"
+                  },
+                  {
+                    "id": "edge-variable-init-0001-scope-b248ac81-4bec-43b2-901d-bbd9957b1d52-external-input",
+                    "source": "variable-init-0001",
+                    "target": "scope-b248ac81-4bec-43b2-901d-bbd9957b1d52",
+                    "targetHandle": "external-input"
+                  },
+                  {
+                    "id": "edge-scope-b248ac81-4bec-43b2-901d-bbd9957b1d52-internal-source-builtinFunction-step-0001",
+                    "source": "scope-b248ac81-4bec-43b2-901d-bbd9957b1d52",
+                    "target": "builtinFunction-step-0001",
+                    "sourceHandle": "internal-source"
+                  },
+                  {
+                    "id": "edge-builtinFunction-step-0001-builtinFunction-step-0002",
+                    "source": "builtinFunction-step-0001",
+                    "target": "builtinFunction-step-0002"
+                  },
+                  {
+                    "id": "edge-scope-b248ac81-4bec-43b2-901d-bbd9957b1d52-external-output-scope-9271d16c-ccc9-45a5-9199-0ed36557c915-external-input",
+                    "source": "scope-b248ac81-4bec-43b2-901d-bbd9957b1d52",
+                    "target": "scope-9271d16c-ccc9-45a5-9199-0ed36557c915",
+                    "sourceHandle": "external-output",
+                    "targetHandle": "external-input"
+                  },
+                  {
+                    "id": "edge-scope-9271d16c-ccc9-45a5-9199-0ed36557c915-internal-source-variable-ok-0001",
+                    "source": "scope-9271d16c-ccc9-45a5-9199-0ed36557c915",
+                    "target": "variable-ok-0001",
+                    "sourceHandle": "internal-source"
+                  },
+                  {
+                    "id": "edge-scope-b248ac81-4bec-43b2-901d-bbd9957b1d52-external-output-scope-01280530-f9af-48e8-bd76-bcad676e4999-external-input",
+                    "source": "scope-b248ac81-4bec-43b2-901d-bbd9957b1d52",
+                    "target": "scope-01280530-f9af-48e8-bd76-bcad676e4999",
+                    "sourceHandle": "external-output",
+                    "targetHandle": "external-input"
+                  },
+                  {
+                    "id": "edge-scope-01280530-f9af-48e8-bd76-bcad676e4999-internal-source-builtinFunction-catch-0001",
+                    "source": "scope-01280530-f9af-48e8-bd76-bcad676e4999",
+                    "target": "builtinFunction-catch-0001",
+                    "sourceHandle": "internal-source"
+                  },
+                  {
+                    "id": "edge-builtinFunction-catch-0001-variable-bad-0001",
+                    "source": "builtinFunction-catch-0001",
+                    "target": "variable-bad-0001"
+                  },
+                  {
+                    "id": "edge-scope-9271d16c-ccc9-45a5-9199-0ed36557c915-external-output-builtinFunction-show-0001",
+                    "source": "scope-9271d16c-ccc9-45a5-9199-0ed36557c915",
+                    "target": "builtinFunction-show-0001",
+                    "sourceHandle": "external-output"
+                  },
+                  {
+                    "id": "edge-scope-01280530-f9af-48e8-bd76-bcad676e4999-external-output-builtinFunction-show-0001",
+                    "source": "scope-01280530-f9af-48e8-bd76-bcad676e4999",
+                    "target": "builtinFunction-show-0001",
+                    "sourceHandle": "external-output"
+                  }
+                ],
+                "connectionReferences": {},
+                "parameters": {
+                  "$authentication": {
+                    "type": "SecureObject",
+                    "defaultValue": {}
+                  },
+                  "$connections": {
+                    "type": "Object",
+                    "defaultValue": {}
+                  }
+                }
+              },
+              "nodeActionMapping": {
+                "variable-init-0001": [
+                  "Initialize_result__forceFailure",
+                  "Initialize_result__forceFailure_Init_forceFailure"
+                ],
+                "scope-b248ac81-4bec-43b2-901d-bbd9957b1d52": [
+                  "Monitored_Actions"
+                ],
+                "builtinFunction-step-0001": [
+                  "Step_1"
+                ],
+                "builtinFunction-step-0002": [
+                  "Step_2_may_fail"
+                ],
+                "scope-9271d16c-ccc9-45a5-9199-0ed36557c915": [
+                  "Success_Scope"
+                ],
+                "variable-ok-0001": [
+                  "Set_result_to_success"
+                ],
+                "scope-01280530-f9af-48e8-bd76-bcad676e4999": [
+                  "Failing_scope"
+                ],
+                "builtinFunction-catch-0001": [
+                  "Capture_error_details"
+                ],
+                "variable-bad-0001": [
+                  "Set_result_to_failed"
+                ],
+                "builtinFunction-show-0001": [
+                  "Show_result"
+                ]
+              },
+              "canvasOrientation": "horizontal"
+            }
+          }
+        }
+      },
+      "actions": {
+        "Initialize_result__forceFailure": {
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "result",
+                "type": "String",
+                "value": ""
+              }
+            ]
+          },
+          "metadata": {
+            "description": "Initialize result, forceFailure",
+            "nodeId": "variable-init-0001"
+          }
+        },
+        "Initialize_result__forceFailure_Init_forceFailure": {
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "forceFailure",
+                "type": "Boolean",
+                "value": false
+              }
+            ]
+          },
+          "runAfter": {
+            "Initialize_result__forceFailure": [
+              "Succeeded"
+            ]
+          }
+        },
+        "Monitored_Actions": {
+          "type": "Scope",
+          "actions": {
+            "Step_1": {
+              "type": "Compose",
+              "inputs": "step 1 done",
+              "metadata": {
+                "description": "Step 1",
+                "nodeId": "builtinFunction-step-0001"
+              }
+            },
+            "Step_2_may_fail": {
+              "type": "Compose",
+              "inputs": "@if(variables('forceFailure'), div(1, 0), 'step 2 done')",
+              "runAfter": {
+                "Step_1": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "description": "Step 2 may fail",
+                "nodeId": "builtinFunction-step-0002"
+              }
+            }
+          },
+          "runAfter": {
+            "Initialize_result__forceFailure_Init_forceFailure": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "description": "Monitored Actions",
+            "nodeId": "scope-b248ac81-4bec-43b2-901d-bbd9957b1d52"
+          }
+        },
+        "Success_Scope": {
+          "type": "Scope",
+          "actions": {
+            "Set_result_to_success": {
+              "type": "SetVariable",
+              "inputs": {
+                "name": "result",
+                "value": "success"
+              },
+              "metadata": {
+                "description": "Set result to success",
+                "nodeId": "variable-ok-0001"
+              }
+            }
+          },
+          "runAfter": {
+            "Monitored_Actions": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "description": "Success Scope",
+            "nodeId": "scope-9271d16c-ccc9-45a5-9199-0ed36557c915"
+          }
+        },
+        "Failing_scope": {
+          "type": "Scope",
+          "actions": {
+            "Capture_error_details": {
+              "type": "Compose",
+              "inputs": "@coalesce(actions('Step_1')?['error'], actions('Step_2_may_fail')?['error'])",
+              "metadata": {
+                "description": "Capture error details",
+                "nodeId": "builtinFunction-catch-0001"
+              }
+            },
+            "Set_result_to_failed": {
+              "type": "SetVariable",
+              "inputs": {
+                "name": "result",
+                "value": "@concat('failed: ', coalesce(actions('Step_1')?['error']?['code'], actions('Step_2_may_fail')?['error']?['code']), ' - ', coalesce(actions('Step_1')?['error']?['message'], actions('Step_2_may_fail')?['error']?['message']))"
+              },
+              "runAfter": {
+                "Capture_error_details": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "description": "Set result to failed",
+                "nodeId": "variable-bad-0001"
+              }
+            }
+          },
+          "runAfter": {
+            "Monitored_Actions": [
+              "Failed",
+              "TimedOut"
+            ]
+          },
+          "metadata": {
+            "description": "Failing scope",
+            "nodeId": "scope-01280530-f9af-48e8-bd76-bcad676e4999"
+          }
+        },
+        "Show_result": {
+          "type": "Compose",
+          "inputs": "@variables('result')",
+          "runAfter": {
+            "Success_Scope": [
+              "Succeeded",
+              "Skipped"
+            ],
+            "Failing_scope": [
+              "Succeeded",
+              "Skipped"
+            ]
+          },
+          "metadata": {
+            "description": "Show result",
+            "nodeId": "builtinFunction-show-0001"
+          }
+        }
+      },
+      "outputs": {},
+      "metadata": {
+        "telemetryMetadata": {
+          "creationSource": "AgenticMultiArtifactBuilder",
+          "modifiedSources": "AgenticMultiArtifactBuilder,WorkflowDesigner"
+        }
+      }
+    }
+  },
+  "schemaVersion": "1.0.0.0"
+}

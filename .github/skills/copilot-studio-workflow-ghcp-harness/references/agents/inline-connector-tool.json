@@ -1,0 +1,254 @@
+{
+  "title": "Agent node: inline agent with a connector tool",
+  "notes": "InvokeDefinition with body/definition (a bot definition whose DialogComponent / ConnectorTool names the connector, operationId and connection reference) and body/message. The output schema is in agentSettings.output.schema. The connection id is resolved from the workflow connection by an @last(split(parameters('$connections')[...]['connectionId'], '/')) expression. Differs from inline-structured.json, which uses body/botDefinition and no tool.",
+  "runtimeActionName": "Attempt_Teams_Post",
+  "runtimeAction": {
+    "type": "OpenApiConnection",
+    "inputs": {
+      "parameters": {
+        "body/definition": {
+          "components": [
+            {
+              "diagnostics": [],
+              "schemaName": "shared_teams_PostMessageToSelf",
+              "displayName": "Microsoft Teams — Post message to myself",
+              "description": "Post a status message to the user's own Teams notes chat. This is the call that may fail.",
+              "dialog": {
+                "toolInputs": [],
+                "toolOutputs": [],
+                "diagnostics": [],
+                "connectorId": "/providers/Microsoft.PowerApps/apis/shared_teams",
+                "authMode": "Maker",
+                "connectionReference": "<teams connection reference>",
+                "operationId": "PostMessageToSelf",
+                "$kind": "ConnectorTool"
+              },
+              "$kind": "DialogComponent"
+            }
+          ],
+          "environmentVariables": [],
+          "flows": [],
+          "dataverseTableSearchs": [],
+          "dataverseTableSearchGlossaryConfigurations": [],
+          "dataverseTableSearchEntityConfigurations": [],
+          "dataverseTableSearchEntityColumnSynonyms": [],
+          "connectionReferences": [
+            {
+              "diagnostics": [],
+              "connectionReferenceLogicalName": "<teams connection reference>",
+              "connectionId": "@last(split(parameters('$connections')['shared_teams']['connectionId'], '/'))",
+              "connectorId": "/providers/Microsoft.PowerApps/apis/shared_teams",
+              "$kind": "ConnectionReference"
+            }
+          ],
+          "connectorDefinitions": [],
+          "aIModelDefinitions": [],
+          "aIPluginOperations": [],
+          "connectedAgentDefinitions": [],
+          "componentCollections": [],
+          "connectedBots": [],
+          "diagnostics": [],
+          "entity": {
+            "authorizedSecurityGroupIds": [],
+            "supportedLanguages": [],
+            "diagnostics": [],
+            "schemaName": "workflow_agentnode",
+            "language": 1033,
+            "accessControlPolicy": "Any",
+            "authenticationMode": "Integrated",
+            "authenticationTrigger": "Always",
+            "synchronizationStatus": {
+              "graphDriveItems": [],
+              "diagnostics": [],
+              "lastPublishedDetails": {
+                "diagnosticDetails": [],
+                "diagnostics": [],
+                "authenticationMode": "Integrated",
+                "$kind": "SuccessfulPublishResultDetails"
+              },
+              "$kind": "BotSynchronizationDetails"
+            },
+            "configuration": {
+              "categories": [],
+              "channels": [],
+              "settings": {},
+              "memoryParameters": [],
+              "diagnostics": [],
+              "recognizer": {
+                "diagnostics": [],
+                "$kind": "CLICopilotRecognizer"
+              },
+              "agentSettings": {
+                "conversationStarters": [],
+                "diagnostics": [],
+                "model": {
+                  "diagnostics": [],
+                  "series": "claude-opus-5-5",
+                  "$kind": "ModelConfig"
+                },
+                "instructions": {
+                  "segments": [],
+                  "diagnostics": [],
+                  "$kind": "Instructions"
+                },
+                "output": {
+                  "diagnostics": [],
+                  "schema": "{\"type\":\"object\",\"properties\":{\"succeeded\":{\"type\":\"boolean\",\"description\":\"True if the attempted operation completed successfully\"},\"resultSummary\":{\"type\":\"string\",\"description\":\"Plain-language summary of what happened\"},\"errorDetails\":{\"type\":\"string\",\"description\":\"The error message or reason for failure; empty string if it succeeded\"}},\"required\":[\"succeeded\",\"resultSummary\",\"errorDetails\"]}",
+                  "$kind": "StructuredAgentOutput"
+                },
+                "$kind": "AgentSettings"
+              },
+              "$kind": "BotConfiguration"
+            },
+            "$kind": "BotEntity"
+          },
+          "$kind": "BotDefinition"
+        },
+        "body/message": "Attempt to post a status message to the signed-in user's own Teams notes chat, with the content '<message text>' using the Microsoft Teams post-message-to-myself tool. This represents one operation inside a scope of several operations that are grouped together. If the tool call succeeds, report success. If it fails for any reason, do not surface that as an unhandled error — catch the failure yourself and report it back as structured data instead of stopping. Always return whether the operation succeeded, a short plain-language summary of what happened, and any error details if it failed (empty string if it succeeded)."
+      },
+      "host": {
+        "apiId": "/providers/Microsoft.PowerApps/apis/shared_agentnode",
+        "connectionName": "shared_agentnode",
+        "operationId": "InvokeDefinition"
+      }
+    },
+    "metadata": {
+      "description": "Attempt Teams Post",
+      "nodeId": "agent-a2e91837-f53b-4c3b-a1e5-cef58906a5bd"
+    }
+  },
+  "designerNodes": [
+    {
+      "id": "agent-a2e91837-f53b-4c3b-a1e5-cef58906a5bd",
+      "name": "Attempt Teams Post",
+      "type": "agent",
+      "version": 1,
+      "position": {
+        "x": 115.99999999999989,
+        "y": 350
+      },
+      "data": {
+        "config": {
+          "mode": "inline",
+          "instructions": "",
+          "botSchemaName": "",
+          "isHitlEscalationEnabled": false,
+          "inlineInstructions": "Attempt to post a status message to the signed-in user's own Teams notes chat, with the content '<message text>' using the Microsoft Teams post-message-to-myself tool. This represents one operation inside a scope of several operations that are grouped together. If the tool call succeeds, report success. If it fails for any reason, do not surface that as an unhandled error — catch the failure yourself and report it back as structured data instead of stopping. Always return whether the operation succeeded, a short plain-language summary of what happened, and any error details if it failed (empty string if it succeeded).",
+          "outputMode": "structured-simple",
+          "connectionName": "shared_agentnode",
+          "inlineInstructionsRich": {
+            "segments": [
+              {
+                "type": "static",
+                "value": "Attempt to post a status message to the signed-in user's own Teams notes chat, with the content '<message text>' using the Microsoft Teams post-message-to-myself tool. This represents one operation inside a scope of several operations that are grouped together. If the tool call succeeds, report success. If it fails for any reason, do not surface that as an unhandled error — catch the failure yourself and report it back as structured data instead of stopping. Always return whether the operation succeeded, a short plain-language summary of what happened, and any error details if it failed (empty string if it succeeded)."
+              }
+            ]
+          },
+          "displayName": "Attempt Teams Post",
+          "jsonSchema": {
+            "type": "object",
+            "properties": {
+              "succeeded": {
+                "type": "boolean",
+                "description": "True if the attempted operation completed successfully"
+              },
+              "resultSummary": {
+                "type": "string",
+                "description": "Plain-language summary of what happened"
+              },
+              "errorDetails": {
+                "type": "string",
+                "description": "The error message or reason for failure; empty string if it succeeded"
+              }
+            }
+          },
+          "jsonSchemaText": "{\"type\":\"object\",\"properties\":{\"succeeded\":{\"type\":\"boolean\",\"description\":\"True if the attempted operation completed successfully\"},\"resultSummary\":{\"type\":\"string\",\"description\":\"Plain-language summary of what happened\"},\"errorDetails\":{\"type\":\"string\",\"description\":\"The error message or reason for failure; empty string if it succeeded\"}}}",
+          "simpleProperties": [
+            {
+              "id": "succeeded-0",
+              "name": "succeeded",
+              "type": "boolean",
+              "description": "True if the attempted operation completed successfully"
+            },
+            {
+              "id": "resultSummary-1",
+              "name": "resultSummary",
+              "type": "string",
+              "description": "Plain-language summary of what happened"
+            },
+            {
+              "id": "errorDetails-2",
+              "name": "errorDetails",
+              "type": "string",
+              "description": "The error message or reason for failure; empty string if it succeeded"
+            }
+          ],
+          "inlineTools": [
+            {
+              "id": "52a2501b-f894-4f72-95d1-9b49083eb605",
+              "connectorId": "shared_teams",
+              "operationId": "PostMessageToSelf",
+              "isMcp": false,
+              "displayName": "Microsoft Teams — Post message to myself",
+              "description": "Post a status message to the user's own Teams notes chat. This is the call that may fail.",
+              "brandColor": "",
+              "connectionReferenceName": "<teams connection reference>",
+              "connectionId": "shared-teams-46e23ee0-c22d-44a8-ae7c-10081574da8b",
+              "connectionName": "shared_teams"
+            }
+          ],
+          "inlineKnowledge": [],
+          "inlineModel": "claude-opus-5-5"
+        },
+        "outcomes": [
+          {
+            "id": "default",
+            "label": "Default",
+            "outcomeSchema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "title": "Agent Response",
+                  "description": "Aggregated message text emitted before the structured output (may be null)"
+                },
+                "activities": {
+                  "type": "array",
+                  "description": "Bot response activities (typing, message, and event types)"
+                },
+                "structuredOutput": {
+                  "type": "object",
+                  "properties": {
+                    "succeeded": {
+                      "type": "boolean",
+                      "description": "True if the attempted operation completed successfully"
+                    },
+                    "resultSummary": {
+                      "type": "string",
+                      "description": "Plain-language summary of what happened"
+                    },
+                    "errorDetails": {
+                      "type": "string",
+                      "description": "The error message or reason for failure; empty string if it succeeded"
+                    }
+                  },
+                  "title": ""
+                }
+              },
+              "required": [
+                "activities",
+                "structuredOutput"
+              ]
+            }
+          }
+        ]
+      },
+      "measured": {
+        "width": 240,
+        "height": 66
+      },
+      "selected": false,
+      "dragging": false
+    }
+  ]
+}
