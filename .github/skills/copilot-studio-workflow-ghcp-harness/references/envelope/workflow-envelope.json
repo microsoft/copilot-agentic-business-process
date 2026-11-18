@@ -1,0 +1,99 @@
+{
+  "title": "Complete workflow file skeleton (Copilot Studio Workflow Designer export)",
+  "notes": "Top-level shape of `Workflows/<name>-<GUID>.json`. `graph.connectionReferences` and `properties.connectionReferences` must match.",
+  "workflow": {
+    "properties": {
+      "connectionReferences": {
+        "shared_commondataserviceforapps": {
+          "api": {
+            "name": "shared_commondataserviceforapps"
+          },
+          "connection": {
+            "connectionReferenceLogicalName": "faf001_sharedcommondataserviceforapps"
+          },
+          "runtimeSource": "embedded"
+        },
+        "shared_agentnode": {
+          "api": {
+            "name": "shared_agentnode"
+          },
+          "connection": {
+            "connectionReferenceLogicalName": "<agent connection reference logical name>"
+          },
+          "runtimeSource": "embedded"
+        }
+      },
+      "definition": {
+        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+        "contentVersion": "1.0.0.0",
+        "parameters": {
+          "$authentication": {
+            "defaultValue": {},
+            "type": "SecureObject"
+          },
+          "$connections": {
+            "defaultValue": {},
+            "type": "Object"
+          }
+        },
+        "triggers": {
+          "<trigger_key>": {
+            "type": "OpenApiConnectionWebhook",
+            "inputs": {
+              "parameters": {
+                "subscriptionRequest/message": 1,
+                "subscriptionRequest/entityname": "faf001_bpstep",
+                "subscriptionRequest/scope": 4,
+                "subscriptionRequest/filterexpression": "faf001_stepname eq '<Step Name>' and faf001_status eq 324010000"
+              },
+              "host": {
+                "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                "operationId": "SubscribeWebhookTrigger",
+                "connectionName": "shared_commondataserviceforapps"
+              }
+            },
+            "metadata": {
+              "associatedData": {
+                "graph": {
+                  "name": "<workflow-name>",
+                  "nodes": "<designer nodes: see block files>",
+                  "edges": "<edges: see block files>",
+                  "connectionReferences": {
+                    "shared_commondataserviceforapps": {
+                      "api": {
+                        "name": "shared_commondataserviceforapps"
+                      },
+                      "connection": {
+                        "connectionReferenceLogicalName": "faf001_sharedcommondataserviceforapps"
+                      },
+                      "runtimeSource": "embedded"
+                    },
+                    "shared_agentnode": {
+                      "api": {
+                        "name": "shared_agentnode"
+                      },
+                      "connection": {
+                        "connectionReferenceLogicalName": "<agent connection reference logical name>"
+                      },
+                      "runtimeSource": "embedded"
+                    }
+                  }
+                },
+                "nodeActionMapping": "<nodeId -> [runtime action names]>"
+              }
+            }
+          }
+        },
+        "actions": "<runtime actions: see block files>",
+        "outputs": {},
+        "metadata": {
+          "telemetryMetadata": {
+            "modifiedSources": "WorkflowDesigner"
+          }
+        }
+      },
+      "templateName": null
+    },
+    "schemaVersion": "1.0.0.0"
+  }
+}

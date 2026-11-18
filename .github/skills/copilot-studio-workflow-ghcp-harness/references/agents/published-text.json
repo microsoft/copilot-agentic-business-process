@@ -1,0 +1,106 @@
+{
+  "title": "Agent node: published agent, text response",
+  "notes": "No `body/outputSchema`; `config.outputMode` is `text`; result at `body('<name>')?['result']`. Prompt shortened here.",
+  "runtimeActionName": "Completeness_Agent",
+  "runtimeAction": {
+    "type": "OpenApiConnection",
+    "inputs": {
+      "parameters": {
+        "body/prompt": "<prompt text with @{...} interpolations>",
+        "body/agentId": "faf001_claimcompletenessagent"
+      },
+      "host": {
+        "apiId": "/providers/Microsoft.PowerApps/apis/shared_agentnode",
+        "connectionName": "shared_agentnode",
+        "operationId": "InvokeAgent"
+      }
+    },
+    "metadata": {
+      "description": "Completeness Agent",
+      "nodeId": "agent-7be0c9b3-1503-546f-b11d-f68e00de440b"
+    },
+    "runAfter": {
+      "Download_attachment_10": [
+        "Succeeded"
+      ]
+    }
+  },
+  "designerNodes": [
+    {
+      "id": "agent-7be0c9b3-1503-546f-b11d-f68e00de440b",
+      "name": "Completeness Agent",
+      "type": "agent",
+      "version": 1,
+      "position": {
+        "x": 6726,
+        "y": 356.5
+      },
+      "data": {
+        "config": {
+          "mode": "invoke",
+          "instructions": "<prompt text with @{...} interpolations>",
+          "botSchemaName": "faf001_claimcompletenessagent",
+          "isHitlEscalationEnabled": false,
+          "webSearchEnabled": false,
+          "inlineInstructions": "",
+          "outputMode": "text",
+          "inlineModel": "claude-opus-5",
+          "connectionName": "shared_agentnode",
+          "instructionsRich": {
+            "segments": [
+              {
+                "type": "static",
+                "value": "<prompt text with @{...} interpolations>"
+              }
+            ]
+          }
+        },
+        "outcomes": [
+          {
+            "id": "default",
+            "label": "Default",
+            "outcomeSchema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "type": "string",
+                  "description": "The agent response text"
+                },
+                "status": {
+                  "type": "string",
+                  "description": "The completion status (e.g., Completed)"
+                },
+                "conversationId": {
+                  "type": "string",
+                  "description": "Unique identifier for the conversation"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "measured": {
+        "width": 240,
+        "height": 66
+      }
+    }
+  ],
+  "edgesInsideBlock": [],
+  "edgesCrossingBlockBoundary_examples": [
+    {
+      "id": "edge-connector-5fd030be-db7c-5a81-bd80-6e10cc43b8ca-agent-7be0c9b3-1503-546f-b11d-f68e00de440b",
+      "source": "connector-5fd030be-db7c-5a81-bd80-6e10cc43b8ca",
+      "target": "agent-7be0c9b3-1503-546f-b11d-f68e00de440b"
+    },
+    {
+      "id": "edge-agent-7be0c9b3-1503-546f-b11d-f68e00de440b-agent-68a514dc-09e8-53c6-9e5a-2429802469e2",
+      "source": "agent-7be0c9b3-1503-546f-b11d-f68e00de440b",
+      "target": "agent-68a514dc-09e8-53c6-9e5a-2429802469e2"
+    }
+  ],
+  "nodeActionMapping": {
+    "agent-7be0c9b3-1503-546f-b11d-f68e00de440b": [
+      "Completeness_Agent"
+    ]
+  }
+}

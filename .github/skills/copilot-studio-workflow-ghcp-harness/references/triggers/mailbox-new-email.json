@@ -1,0 +1,158 @@
+{
+  "title": "Outlook trigger: new email",
+  "notes": "Polling connector trigger (`recurrence`, `splitOn`). Note `authentication`, and a different `connectionName`/connection reference than Dataverse.",
+  "triggerKey": "When_a_new_claim_email_arrives",
+  "runtimeTrigger": {
+    "type": "OpenApiConnection",
+    "inputs": {
+      "parameters": {
+        "folderPath": "Inbox",
+        "importance": "Any",
+        "fetchOnlyWithAttachment": true,
+        "includeAttachments": true,
+        "subjectFilter": "[FAF]"
+      },
+      "host": {
+        "apiId": "/providers/Microsoft.PowerApps/apis/shared_office365",
+        "operationId": "OnNewEmailV3",
+        "connectionName": "shared_office365"
+      },
+      "authentication": "@parameters('$authentication')"
+    },
+    "recurrence": {
+      "frequency": "Minute",
+      "interval": 1
+    },
+    "splitOn": "@triggerOutputs()?['body/value']",
+    "metadata": {
+      "associatedData": "<graph and nodeActionMapping live here; see workflow-envelope.json>"
+    }
+  },
+  "designerStartNode": {
+    "id": "start-dc575122-7135-53f6-b948-6522da21ea68",
+    "name": "When a new claim email arrives",
+    "type": "start",
+    "version": 1,
+    "position": {
+      "x": 250,
+      "y": 356.5
+    },
+    "data": {
+      "config": {
+        "triggerType": "connector",
+        "connector": {
+          "apiName": "shared_office365",
+          "operationName": "OnNewEmailV3",
+          "connectionName": "shared_office365",
+          "displayName": "When a new email arrives (V3)",
+          "iconUri": "https://static.powerapps.com/resource/ppcr/releases/v1.0.1819/1.0.1819.4795/office365/icon.png",
+          "brandColor": "#0078D4",
+          "operationType": "OpenApiConnectionNotification",
+          "inputs": {
+            "folderPath": "Inbox",
+            "importance": "Any",
+            "fetchOnlyWithAttachment": true,
+            "includeAttachments": true,
+            "subjectFilter": "[FAF]"
+          },
+          "parametersSchema": {
+            "type": "object",
+            "properties": {
+              "folderPath": {
+                "type": "string",
+                "title": "Folder"
+              },
+              "importance": {
+                "type": "string",
+                "title": "Importance"
+              },
+              "fetchOnlyWithAttachment": {
+                "type": "boolean",
+                "title": "Only with Attachments"
+              },
+              "includeAttachments": {
+                "type": "boolean",
+                "title": "Include Attachments"
+              },
+              "subjectFilter": {
+                "type": "string",
+                "title": "Subject Filter"
+              }
+            }
+          }
+        }
+      },
+      "outcomes": [
+        {
+          "id": "default",
+          "label": "Default",
+          "outcomeSchema": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "title": "Message Id"
+              },
+              "internetMessageId": {
+                "type": "string",
+                "title": "Internet Message Id"
+              },
+              "from": {
+                "type": "string",
+                "title": "From"
+              },
+              "subject": {
+                "type": "string",
+                "title": "Subject"
+              },
+              "receivedDateTime": {
+                "type": "string",
+                "format": "date-time",
+                "title": "Received Time"
+              },
+              "attachments": {
+                "type": "array",
+                "title": "Attachments",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "title": "Attachment Id"
+                    },
+                    "name": {
+                      "type": "string",
+                      "title": "Name"
+                    },
+                    "contentType": {
+                      "type": "string",
+                      "title": "Content Type"
+                    },
+                    "size": {
+                      "type": "integer",
+                      "format": "int64",
+                      "title": "Size"
+                    },
+                    "contentBytes": {
+                      "type": "string",
+                      "format": "byte",
+                      "title": "Content"
+                    }
+                  }
+                }
+              },
+              "body": {
+                "type": "string",
+                "title": "Body"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "measured": {
+      "width": 320,
+      "height": 66
+    }
+  }
+}

@@ -1,0 +1,122 @@
+{
+  "title": "Dataverse: upload a file column",
+  "notes": "`UpdateEntityFileImageFieldContent` with `item` content and `x-ms-file-name`.",
+  "runtimeActionName": "Upload_attachment_file",
+  "runtimeAction": {
+    "type": "OpenApiConnection",
+    "inputs": {
+      "parameters": {
+        "entityName": "faf001_bpattachments",
+        "fileImageFieldName": "faf001_file",
+        "item": "@base64ToBinary(items('Store_each_attachment')?['contentBytes'])",
+        "recordId": "@outputs('Create_process_attachment')?['body/faf001_bpattachmentid']",
+        "x-ms-file-name": "@coalesce(items('Store_each_attachment')?['name'], 'attachment')"
+      },
+      "host": {
+        "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+        "connectionName": "shared_commondataserviceforapps",
+        "operationId": "UpdateEntityFileImageFieldContent"
+      }
+    },
+    "runAfter": {
+      "Create_process_attachment": [
+        "Succeeded"
+      ]
+    },
+    "metadata": {
+      "description": "Upload attachment file",
+      "nodeId": "connector-99f51562-4ab8-5d22-9f1b-4fbbd42d1912"
+    }
+  },
+  "designerNodes": [
+    {
+      "id": "connector-99f51562-4ab8-5d22-9f1b-4fbbd42d1912",
+      "name": "Upload attachment file",
+      "type": "connector",
+      "version": 1,
+      "position": {
+        "x": 480,
+        "y": 100
+      },
+      "data": {
+        "config": {
+          "apiName": "shared_commondataserviceforapps",
+          "displayName": "Microsoft Dataverse",
+          "iconUri": "https://static.powerapps.com/resource/ppcr/releases/v1.0.1825/1.0.1825.4855/commondataserviceforapps/icon.png",
+          "brandColor": "#088142",
+          "operationName": "UpdateEntityFileImageFieldContent",
+          "connectionName": "shared_commondataserviceforapps",
+          "operationType": "OpenApiConnection",
+          "parameters": {
+            "entityName": "faf001_bpattachments",
+            "fileImageFieldName": "faf001_file",
+            "item": "@base64ToBinary(items('Store_each_attachment')?['contentBytes'])",
+            "recordId": "@outputs('Create_process_attachment')?['body/faf001_bpattachmentid']",
+            "x-ms-file-name": "@coalesce(items('Store_each_attachment')?['name'], 'attachment')"
+          },
+          "parametersSchema": {
+            "type": "object",
+            "properties": {
+              "entityName": {
+                "type": "string",
+                "title": "Table name"
+              },
+              "recordId": {
+                "type": "string",
+                "title": "Row ID"
+              },
+              "fileImageFieldName": {
+                "type": "string",
+                "title": "Column name"
+              },
+              "item": {
+                "type": "string",
+                "format": "binary",
+                "title": "File content"
+              },
+              "x-ms-file-name": {
+                "type": "string",
+                "title": "File name"
+              }
+            },
+            "required": []
+          }
+        },
+        "outcomes": [
+          {
+            "id": "default",
+            "label": "Default",
+            "outcomeSchema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        ]
+      },
+      "measured": {
+        "width": 240,
+        "height": 66
+      },
+      "parentId": "loop-680aadfc-53ab-5b83-be25-28c194f5c1a0"
+    }
+  ],
+  "edgesInsideBlock": [],
+  "edgesCrossingBlockBoundary_examples": [
+    {
+      "id": "edge-connector-91c58f2c-776b-5a52-bdc2-3fe032466dff-connector-99f51562-4ab8-5d22-9f1b-4fbbd42d1912",
+      "source": "connector-91c58f2c-776b-5a52-bdc2-3fe032466dff",
+      "target": "connector-99f51562-4ab8-5d22-9f1b-4fbbd42d1912"
+    },
+    {
+      "id": "edge-connector-99f51562-4ab8-5d22-9f1b-4fbbd42d1912-internal-target-loop-680aadfc-53ab-5b83-be25-28c194f5c1a0",
+      "source": "connector-99f51562-4ab8-5d22-9f1b-4fbbd42d1912",
+      "target": "loop-680aadfc-53ab-5b83-be25-28c194f5c1a0",
+      "targetHandle": "internal-target"
+    }
+  ],
+  "nodeActionMapping": {
+    "connector-99f51562-4ab8-5d22-9f1b-4fbbd42d1912": [
+      "Upload_attachment_file"
+    ]
+  }
+}

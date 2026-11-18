@@ -242,12 +242,12 @@ pac env fetch --xmlFile scripts/fetchxml/import-jobs.xml
 Skip when the target already exists.
 
 1. Confirm [environment-creation eligibility](https://learn.microsoft.com/en-us/power-platform/admin/create-environment#who-can-create-environments), tenant creation policy, and available Dataverse capacity. Production/Sandbox creation normally requires at least 1 GB available database capacity; check requirements for the selected type. Microsoft 365 or Power Apps Developer Plan alone does not entitle a user to create Production environments.
-2. Have an eligible provisioning identity perform creation. When tenant policy restricts creation, use an authorized administrator such as Power Platform Administrator. Activate any required eligible role through the organization's approved process.
-3. Approve display name, type, region, currency, language, URL prefix, and security group. Use Sandbox for dev/test or Developer where eligible.
+2. Have an eligible provisioning identity perform creation. When tenant policy restricts creation, prefer Power Platform Administrator; accept an existing active tenant-wide Global Administrator assignment when Power Platform Administrator is absent. Activate any required eligible role through the organization's approved process.
+3. Approve display name, type, macro-region, currency, language, URL prefix, and security group. Use Sandbox for dev/test or Developer where eligible.
 4. Create the approved environment; add `--security-group-id <group-id>` when required by policy:
 
 ```pwsh
-pac admin create --name <display-name> --type <environment-type> --region <region> --currency <currency-code> --language <language> --domain <url-prefix>
+pac admin create --name <display-name> --type <environment-type> --macro-region <macro-region> --currency <currency-code> --language <language> --domain <url-prefix>
 ```
 
 5. Once provisioning completes, list/select the environment using Step 2 and enable code apps using [Step 2.4](#24-confirm-the-required-environment-features). For a timeout, inspect provisioning status before retrying; do not create a replacement environment.

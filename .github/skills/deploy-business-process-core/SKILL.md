@@ -15,7 +15,7 @@ Use **Installation Check** for check/verify/validate requests and OrderProcessin
 2. Complete [technical prerequisites](./references/technical-prerequisites.md) from the repository root.
 3. Read [roles/licensing](./references/roles-and-licensing.md); run [Core readiness](./references/readiness-report.md). Resolve failures and document unverified requirements.
 4. Summarize applicable requirements; require explicit user confirmation of understanding and availability of access, licenses, Copilot Credits, and delegated support.
-5. Follow [the deployment guide](./references/DEPLOYMENT.md). For new environments, verify active tenant-wide Power Platform Administrator and obtain provisioning approval; confirm the new ID and rerun readiness.
+5. Follow [the deployment guide](./references/DEPLOYMENT.md). For new environments, verify active tenant-wide Power Platform Administrator, or active tenant-wide Global Administrator when Power Platform Administrator is absent, and obtain provisioning approval; confirm the new ID and rerun readiness.
 6. Run **Installation Check** after the final import. Require every check to pass
 7. Provide the deployment summary. Hand over the environment/organization IDs, solution and package versions, application-user/connection IDs, role verification, Workflow Console URL, and credential expiry/secure storage reference. Do not include secrets.
 

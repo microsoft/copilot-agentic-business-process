@@ -1,0 +1,626 @@
+{
+  "title": "Agent node: published agent, structured output",
+  "notes": "`InvokeAgent`; result at `body('<name>')?['structuredOutput']`. Designer copies of the prompt and schema: see SKILL.md.",
+  "runtimeActionName": "Order_Validation_Agent",
+  "runtimeAction": {
+    "type": "OpenApiConnection",
+    "inputs": {
+      "parameters": {
+        "body/prompt": "Validate the purchase order below.\r\n\r\nRun every skill you carry, then return a single structured result that matches the\r\nrequired output schema. Do not modify the order; propose adjustments only.\n\n```json\n@{coalesce(first(outputs('Read_edited_order')?['body/value'])?['faf001_valuejson'], '')}\n```",
+        "body/agentId": "faf001_ordervalidationagent",
+        "body/outputSchema": {
+          "title": "Order validation result",
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "verdict",
+            "reasoning",
+            "confidence",
+            "field_results",
+            "skill_results",
+            "pricing_adjustments"
+          ],
+          "properties": {
+            "verdict": {
+              "type": "string",
+              "enum": [
+                "pass",
+                "flag"
+              ]
+            },
+            "reasoning": {
+              "type": "string"
+            },
+            "confidence": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "field_results": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "field",
+                  "status",
+                  "reason"
+                ],
+                "properties": {
+                  "field": {
+                    "type": "string",
+                    "description": "Input field path, for example /lines/0/sku."
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "pass",
+                      "flag"
+                    ]
+                  },
+                  "reason": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "skill_results": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "skill",
+                  "status",
+                  "reason"
+                ],
+                "properties": {
+                  "skill": {
+                    "type": "string",
+                    "enum": [
+                      "validate-order-product-identity",
+                      "validate-order-product-availability",
+                      "evaluate-order-discounts-promotions"
+                    ]
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "pass",
+                      "flag",
+                      "blocked"
+                    ]
+                  },
+                  "reason": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "pricing_adjustments": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "proposed_only",
+                "currency",
+                "original_merchandise_subtotal",
+                "discount_total",
+                "adjusted_merchandise_subtotal",
+                "proposed_order_total",
+                "line_adjustments"
+              ],
+              "properties": {
+                "proposed_only": {
+                  "type": "boolean",
+                  "enum": [
+                    true
+                  ]
+                },
+                "currency": {
+                  "type": "string",
+                  "description": "Currency code; empty string when unknown or unsupported."
+                },
+                "original_merchandise_subtotal": {
+                  "type": "string",
+                  "description": "Two-decimal amount; empty string when incomplete or unassessable."
+                },
+                "discount_total": {
+                  "type": "string",
+                  "description": "Two-decimal amount; empty string when incomplete or unassessable."
+                },
+                "adjusted_merchandise_subtotal": {
+                  "type": "string",
+                  "description": "Two-decimal amount; empty string when incomplete or unassessable."
+                },
+                "proposed_order_total": {
+                  "type": "string",
+                  "description": "Two-decimal final payable including confirmed tax and shipping; otherwise empty string."
+                },
+                "line_adjustments": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "line_id",
+                      "promotion_id",
+                      "discount_percent",
+                      "gross_amount",
+                      "discount_amount",
+                      "adjusted_amount"
+                    ],
+                    "properties": {
+                      "line_id": {
+                        "type": "string"
+                      },
+                      "promotion_id": {
+                        "type": "string",
+                        "description": "Applied promotion ID; empty string when no offer applies."
+                      },
+                      "discount_percent": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 100
+                      },
+                      "gross_amount": {
+                        "type": "string",
+                        "description": "Two-decimal amount."
+                      },
+                      "discount_amount": {
+                        "type": "string",
+                        "description": "Two-decimal amount."
+                      },
+                      "adjusted_amount": {
+                        "type": "string",
+                        "description": "Two-decimal amount."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "host": {
+        "apiId": "/providers/Microsoft.PowerApps/apis/shared_agentnode",
+        "connectionName": "shared_agentnode",
+        "operationId": "InvokeAgent"
+      }
+    },
+    "runAfter": {
+      "Track_order_evaluation_step": [
+        "Succeeded"
+      ]
+    },
+    "metadata": {
+      "description": "Order Validation Agent",
+      "nodeId": "agent-7e3b9f15-a642-4c07-8d51-6b90c2f48e73"
+    }
+  },
+  "designerNodes": [
+    {
+      "id": "agent-7e3b9f15-a642-4c07-8d51-6b90c2f48e73",
+      "name": "Order Validation Agent",
+      "type": "agent",
+      "version": 1,
+      "position": {
+        "x": 2223,
+        "y": 356.5
+      },
+      "data": {
+        "config": {
+          "mode": "invoke",
+          "instructions": "Validate the purchase order below.\r\n\r\nRun every skill you carry, then return a single structured result that matches the\r\nrequired output schema. Do not modify the order; propose adjustments only.\n\n```json\n@{coalesce(first(outputs('Read_edited_order')?['body/value'])?['faf001_valuejson'], '')}\n```",
+          "botSchemaName": "faf001_ordervalidationagent",
+          "isHitlEscalationEnabled": false,
+          "webSearchEnabled": false,
+          "inlineInstructions": "",
+          "outputMode": "structured",
+          "inlineModel": "claude-opus-5",
+          "connectionName": "shared_agentnode",
+          "jsonSchemaText": "{\r\n  \"title\": \"Order validation result\",\r\n  \"type\": \"object\",\r\n  \"additionalProperties\": false,\r\n  \"required\": [\r\n    \"verdict\",\r\n    \"reasoning\",\r\n    \"confidence\",\r\n    \"field_results\",\r\n    \"skill_results\",\r\n    \"pricing_adjustments\"\r\n  ],\r\n  \"properties\": {\r\n    \"verdict\": {\r\n      \"type\": \"string\",\r\n      \"enum\": [\r\n        \"pass\",\r\n        \"flag\"\r\n      ]\r\n    },\r\n    \"reasoning\": {\r\n      \"type\": \"string\"\r\n    },\r\n    \"confidence\": {\r\n      \"type\": \"number\",\r\n      \"minimum\": 0,\r\n      \"maximum\": 1\r\n    },\r\n    \"field_results\": {\r\n      \"type\": \"array\",\r\n      \"items\": {\r\n        \"type\": \"object\",\r\n        \"additionalProperties\": false,\r\n        \"required\": [\r\n          \"field\",\r\n          \"status\",\r\n          \"reason\"\r\n        ],\r\n        \"properties\": {\r\n          \"field\": {\r\n            \"type\": \"string\",\r\n            \"description\": \"Input field path, for example /lines/0/sku.\"\r\n          },\r\n          \"status\": {\r\n            \"type\": \"string\",\r\n            \"enum\": [\r\n              \"pass\",\r\n              \"flag\"\r\n            ]\r\n          },\r\n          \"reason\": {\r\n            \"type\": \"string\"\r\n          }\r\n        }\r\n      }\r\n    },\r\n    \"skill_results\": {\r\n      \"type\": \"array\",\r\n      \"items\": {\r\n        \"type\": \"object\",\r\n        \"additionalProperties\": false,\r\n        \"required\": [\r\n          \"skill\",\r\n          \"status\",\r\n          \"reason\"\r\n        ],\r\n        \"properties\": {\r\n          \"skill\": {\r\n            \"type\": \"string\",\r\n            \"enum\": [\r\n              \"validate-order-product-identity\",\r\n              \"validate-order-product-availability\",\r\n              \"evaluate-order-discounts-promotions\"\r\n            ]\r\n          },\r\n          \"status\": {\r\n            \"type\": \"string\",\r\n            \"enum\": [\r\n              \"pass\",\r\n              \"flag\",\r\n              \"blocked\"\r\n            ]\r\n          },\r\n          \"reason\": {\r\n            \"type\": \"string\"\r\n          }\r\n        }\r\n      }\r\n    },\r\n    \"pricing_adjustments\": {\r\n      \"type\": \"object\",\r\n      \"additionalProperties\": false,\r\n      \"required\": [\r\n        \"proposed_only\",\r\n        \"currency\",\r\n        \"original_merchandise_subtotal\",\r\n        \"discount_total\",\r\n        \"adjusted_merchandise_subtotal\",\r\n        \"proposed_order_total\",\r\n        \"line_adjustments\"\r\n      ],\r\n      \"properties\": {\r\n        \"proposed_only\": {\r\n          \"type\": \"boolean\",\r\n          \"enum\": [\r\n            true\r\n          ]\r\n        },\r\n        \"currency\": {\r\n          \"type\": \"string\",\r\n          \"description\": \"Currency code; empty string when unknown or unsupported.\"\r\n        },\r\n        \"original_merchandise_subtotal\": {\r\n          \"type\": \"string\",\r\n          \"description\": \"Two-decimal amount; empty string when incomplete or unassessable.\"\r\n        },\r\n        \"discount_total\": {\r\n          \"type\": \"string\",\r\n          \"description\": \"Two-decimal amount; empty string when incomplete or unassessable.\"\r\n        },\r\n        \"adjusted_merchandise_subtotal\": {\r\n          \"type\": \"string\",\r\n          \"description\": \"Two-decimal amount; empty string when incomplete or unassessable.\"\r\n        },\r\n        \"proposed_order_total\": {\r\n          \"type\": \"string\",\r\n          \"description\": \"Two-decimal final payable including confirmed tax and shipping; otherwise empty string.\"\r\n        },\r\n        \"line_adjustments\": {\r\n          \"type\": \"array\",\r\n          \"items\": {\r\n            \"type\": \"object\",\r\n            \"additionalProperties\": false,\r\n            \"required\": [\r\n              \"line_id\",\r\n              \"promotion_id\",\r\n              \"discount_percent\",\r\n              \"gross_amount\",\r\n              \"discount_amount\",\r\n              \"adjusted_amount\"\r\n            ],\r\n            \"properties\": {\r\n              \"line_id\": {\r\n                \"type\": \"string\"\r\n              },\r\n              \"promotion_id\": {\r\n                \"type\": \"string\",\r\n                \"description\": \"Applied promotion ID; empty string when no offer applies.\"\r\n              },\r\n              \"discount_percent\": {\r\n                \"type\": \"number\",\r\n                \"minimum\": 0,\r\n                \"maximum\": 100\r\n              },\r\n              \"gross_amount\": {\r\n                \"type\": \"string\",\r\n                \"description\": \"Two-decimal amount.\"\r\n              },\r\n              \"discount_amount\": {\r\n                \"type\": \"string\",\r\n                \"description\": \"Two-decimal amount.\"\r\n              },\r\n              \"adjusted_amount\": {\r\n                \"type\": \"string\",\r\n                \"description\": \"Two-decimal amount.\"\r\n              }\r\n            }\r\n          }\r\n        }\r\n      }\r\n    }\r\n  }\r\n}",
+          "jsonSchema": {
+            "title": "Order validation result",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "verdict",
+              "reasoning",
+              "confidence",
+              "field_results",
+              "skill_results",
+              "pricing_adjustments"
+            ],
+            "properties": {
+              "verdict": {
+                "type": "string",
+                "enum": [
+                  "pass",
+                  "flag"
+                ]
+              },
+              "reasoning": {
+                "type": "string"
+              },
+              "confidence": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "field_results": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "field",
+                    "status",
+                    "reason"
+                  ],
+                  "properties": {
+                    "field": {
+                      "type": "string",
+                      "description": "Input field path, for example /lines/0/sku."
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "pass",
+                        "flag"
+                      ]
+                    },
+                    "reason": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "skill_results": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "skill",
+                    "status",
+                    "reason"
+                  ],
+                  "properties": {
+                    "skill": {
+                      "type": "string",
+                      "enum": [
+                        "validate-order-product-identity",
+                        "validate-order-product-availability",
+                        "evaluate-order-discounts-promotions"
+                      ]
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "pass",
+                        "flag",
+                        "blocked"
+                      ]
+                    },
+                    "reason": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "pricing_adjustments": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "proposed_only",
+                  "currency",
+                  "original_merchandise_subtotal",
+                  "discount_total",
+                  "adjusted_merchandise_subtotal",
+                  "proposed_order_total",
+                  "line_adjustments"
+                ],
+                "properties": {
+                  "proposed_only": {
+                    "type": "boolean",
+                    "enum": [
+                      true
+                    ]
+                  },
+                  "currency": {
+                    "type": "string",
+                    "description": "Currency code; empty string when unknown or unsupported."
+                  },
+                  "original_merchandise_subtotal": {
+                    "type": "string",
+                    "description": "Two-decimal amount; empty string when incomplete or unassessable."
+                  },
+                  "discount_total": {
+                    "type": "string",
+                    "description": "Two-decimal amount; empty string when incomplete or unassessable."
+                  },
+                  "adjusted_merchandise_subtotal": {
+                    "type": "string",
+                    "description": "Two-decimal amount; empty string when incomplete or unassessable."
+                  },
+                  "proposed_order_total": {
+                    "type": "string",
+                    "description": "Two-decimal final payable including confirmed tax and shipping; otherwise empty string."
+                  },
+                  "line_adjustments": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "line_id",
+                        "promotion_id",
+                        "discount_percent",
+                        "gross_amount",
+                        "discount_amount",
+                        "adjusted_amount"
+                      ],
+                      "properties": {
+                        "line_id": {
+                          "type": "string"
+                        },
+                        "promotion_id": {
+                          "type": "string",
+                          "description": "Applied promotion ID; empty string when no offer applies."
+                        },
+                        "discount_percent": {
+                          "type": "number",
+                          "minimum": 0,
+                          "maximum": 100
+                        },
+                        "gross_amount": {
+                          "type": "string",
+                          "description": "Two-decimal amount."
+                        },
+                        "discount_amount": {
+                          "type": "string",
+                          "description": "Two-decimal amount."
+                        },
+                        "adjusted_amount": {
+                          "type": "string",
+                          "description": "Two-decimal amount."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "instructionsRich": {
+            "segments": [
+              {
+                "type": "static",
+                "value": "Validate the purchase order below.\r\n\r\nRun every skill you carry, then return a single structured result that matches the\r\nrequired output schema. Do not modify the order; propose adjustments only.\n\n```json\n@{coalesce(first(outputs('Read_edited_order')?['body/value'])?['faf001_valuejson'], '')}\n```"
+              }
+            ]
+          }
+        },
+        "outcomes": [
+          {
+            "id": "default",
+            "label": "Default",
+            "outcomeSchema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "type": "string",
+                  "description": "The agent response text"
+                },
+                "status": {
+                  "type": "string",
+                  "description": "The completion status (e.g., Completed)"
+                },
+                "conversationId": {
+                  "type": "string",
+                  "description": "Unique identifier for the conversation"
+                },
+                "structuredOutput": {
+                  "title": "",
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "verdict",
+                    "reasoning",
+                    "confidence",
+                    "field_results",
+                    "skill_results",
+                    "pricing_adjustments"
+                  ],
+                  "properties": {
+                    "verdict": {
+                      "type": "string",
+                      "enum": [
+                        "pass",
+                        "flag"
+                      ]
+                    },
+                    "reasoning": {
+                      "type": "string"
+                    },
+                    "confidence": {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 1
+                    },
+                    "field_results": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "field",
+                          "status",
+                          "reason"
+                        ],
+                        "properties": {
+                          "field": {
+                            "type": "string",
+                            "description": "Input field path, for example /lines/0/sku."
+                          },
+                          "status": {
+                            "type": "string",
+                            "enum": [
+                              "pass",
+                              "flag"
+                            ]
+                          },
+                          "reason": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "skill_results": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "skill",
+                          "status",
+                          "reason"
+                        ],
+                        "properties": {
+                          "skill": {
+                            "type": "string",
+                            "enum": [
+                              "validate-order-product-identity",
+                              "validate-order-product-availability",
+                              "evaluate-order-discounts-promotions"
+                            ]
+                          },
+                          "status": {
+                            "type": "string",
+                            "enum": [
+                              "pass",
+                              "flag",
+                              "blocked"
+                            ]
+                          },
+                          "reason": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "pricing_adjustments": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "proposed_only",
+                        "currency",
+                        "original_merchandise_subtotal",
+                        "discount_total",
+                        "adjusted_merchandise_subtotal",
+                        "proposed_order_total",
+                        "line_adjustments"
+                      ],
+                      "properties": {
+                        "proposed_only": {
+                          "type": "boolean",
+                          "enum": [
+                            true
+                          ]
+                        },
+                        "currency": {
+                          "type": "string",
+                          "description": "Currency code; empty string when unknown or unsupported."
+                        },
+                        "original_merchandise_subtotal": {
+                          "type": "string",
+                          "description": "Two-decimal amount; empty string when incomplete or unassessable."
+                        },
+                        "discount_total": {
+                          "type": "string",
+                          "description": "Two-decimal amount; empty string when incomplete or unassessable."
+                        },
+                        "adjusted_merchandise_subtotal": {
+                          "type": "string",
+                          "description": "Two-decimal amount; empty string when incomplete or unassessable."
+                        },
+                        "proposed_order_total": {
+                          "type": "string",
+                          "description": "Two-decimal final payable including confirmed tax and shipping; otherwise empty string."
+                        },
+                        "line_adjustments": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [
+                              "line_id",
+                              "promotion_id",
+                              "discount_percent",
+                              "gross_amount",
+                              "discount_amount",
+                              "adjusted_amount"
+                            ],
+                            "properties": {
+                              "line_id": {
+                                "type": "string"
+                              },
+                              "promotion_id": {
+                                "type": "string",
+                                "description": "Applied promotion ID; empty string when no offer applies."
+                              },
+                              "discount_percent": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 100
+                              },
+                              "gross_amount": {
+                                "type": "string",
+                                "description": "Two-decimal amount."
+                              },
+                              "discount_amount": {
+                                "type": "string",
+                                "description": "Two-decimal amount."
+                              },
+                              "adjusted_amount": {
+                                "type": "string",
+                                "description": "Two-decimal amount."
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "measured": {
+        "width": 240,
+        "height": 66
+      }
+    }
+  ],
+  "edgesInsideBlock": [],
+  "edgesCrossingBlockBoundary_examples": [
+    {
+      "id": "edge-connector-b26e9d07-5f38-4c14-a870-93d5e1b62047-agent-7e3b9f15-a642-4c07-8d51-6b90c2f48e73",
+      "source": "connector-b26e9d07-5f38-4c14-a870-93d5e1b62047",
+      "target": "agent-7e3b9f15-a642-4c07-8d51-6b90c2f48e73"
+    },
+    {
+      "id": "edge-agent-7e3b9f15-a642-4c07-8d51-6b90c2f48e73-connector-1a6d3c58-b094-4f72-9e83-5c27a0b6d419",
+      "source": "agent-7e3b9f15-a642-4c07-8d51-6b90c2f48e73",
+      "target": "connector-1a6d3c58-b094-4f72-9e83-5c27a0b6d419"
+    }
+  ],
+  "nodeActionMapping": {
+    "agent-7e3b9f15-a642-4c07-8d51-6b90c2f48e73": [
+      "Order_Validation_Agent"
+    ]
+  }
+}

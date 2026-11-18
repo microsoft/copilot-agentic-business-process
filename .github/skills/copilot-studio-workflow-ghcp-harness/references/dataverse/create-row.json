@@ -1,0 +1,117 @@
+{
+  "title": "Dataverse: create a row (CreateRecord) with a lookup bind",
+  "notes": "Lookups use `item/<lookup>@odata.bind` with `/entityset(id)`. Accepted by the Dataverse connector at runtime even though generic validators warn.",
+  "runtimeActionName": "Create_intake_step",
+  "runtimeAction": {
+    "type": "OpenApiConnection",
+    "inputs": {
+      "parameters": {
+        "entityName": "faf001_bpsteps",
+        "item/faf001_bpinstanceid@odata.bind": "@concat('/faf001_bpinstances(', outputs('Create_business_process_instance')?['body/faf001_bpinstanceid'], ')')",
+        "item/faf001_endtime": "@utcNow()",
+        "item/faf001_starttime": "@triggerOutputs()?['body/receivedDateTime']",
+        "item/faf001_status": 324010003,
+        "item/faf001_stepname": "Claim Intake Acknowledgement",
+        "item/faf001_steptype": 324010000
+      },
+      "host": {
+        "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+        "connectionName": "shared_commondataserviceforapps",
+        "operationId": "CreateRecord"
+      }
+    },
+    "runAfter": {
+      "Track_claim_stored": [
+        "Succeeded"
+      ]
+    },
+    "metadata": {
+      "description": "Create intake step",
+      "nodeId": "connector-1d27d3ca-adfa-5096-9e4b-dd023d6da048"
+    }
+  },
+  "designerNodes": [
+    {
+      "id": "connector-1d27d3ca-adfa-5096-9e4b-dd023d6da048",
+      "name": "Create intake step",
+      "type": "connector",
+      "version": 1,
+      "position": {
+        "x": 3546,
+        "y": 356.5
+      },
+      "data": {
+        "config": {
+          "apiName": "shared_commondataserviceforapps",
+          "displayName": "Microsoft Dataverse",
+          "iconUri": "https://static.powerapps.com/resource/ppcr/releases/v1.0.1825/1.0.1825.4855/commondataserviceforapps/icon.png",
+          "brandColor": "#088142",
+          "operationName": "CreateRecord",
+          "connectionName": "shared_commondataserviceforapps",
+          "operationType": "OpenApiConnection",
+          "parameters": {
+            "entityName": "faf001_bpsteps",
+            "item/faf001_bpinstanceid@odata.bind": "@concat('/faf001_bpinstances(', outputs('Create_business_process_instance')?['body/faf001_bpinstanceid'], ')')",
+            "item/faf001_endtime": "@utcNow()",
+            "item/faf001_starttime": "@triggerOutputs()?['body/receivedDateTime']",
+            "item/faf001_status": 324010003,
+            "item/faf001_stepname": "Claim Intake Acknowledgement",
+            "item/faf001_steptype": 324010000
+          },
+          "parametersSchema": {
+            "type": "object",
+            "properties": {
+              "entityName": {
+                "type": "string",
+                "title": "Table name"
+              },
+              "item": {
+                "type": "object",
+                "title": "Row"
+              }
+            },
+            "required": []
+          }
+        },
+        "outcomes": [
+          {
+            "id": "default",
+            "label": "Default",
+            "outcomeSchema": {
+              "type": "object",
+              "properties": {
+                "faf001_bpstepid": {
+                  "type": "string",
+                  "format": "uuid",
+                  "title": "Process Step Execution"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "measured": {
+        "width": 240,
+        "height": 66
+      }
+    }
+  ],
+  "edgesInsideBlock": [],
+  "edgesCrossingBlockBoundary_examples": [
+    {
+      "id": "edge-connector-86be5fb1-0091-5b8b-86c0-b2eb5b252668-connector-1d27d3ca-adfa-5096-9e4b-dd023d6da048",
+      "source": "connector-86be5fb1-0091-5b8b-86c0-b2eb5b252668",
+      "target": "connector-1d27d3ca-adfa-5096-9e4b-dd023d6da048"
+    },
+    {
+      "id": "edge-connector-1d27d3ca-adfa-5096-9e4b-dd023d6da048-connector-8827c5c8-b909-51a2-ac34-068df602fd7b",
+      "source": "connector-1d27d3ca-adfa-5096-9e4b-dd023d6da048",
+      "target": "connector-8827c5c8-b909-51a2-ac34-068df602fd7b"
+    }
+  ],
+  "nodeActionMapping": {
+    "connector-1d27d3ca-adfa-5096-9e4b-dd023d6da048": [
+      "Create_intake_step"
+    ]
+  }
+}

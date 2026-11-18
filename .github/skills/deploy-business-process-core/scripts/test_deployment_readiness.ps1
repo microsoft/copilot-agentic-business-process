@@ -27,11 +27,15 @@ function Invoke-RestMethod {
     if ($Uri -like '*/roleManagement/directory/roleAssignments?*') {
         if ($testState.Scenario -eq 'DeniedRoles') { throw 'Forbidden mock-secret-token' }
         $decoded = [uri]::UnescapeDataString($Uri)
-        if ($testState.Scenario -eq 'NoRole' -or ($testState.Scenario -eq 'GroupRole' -and $decoded -notlike "*$groupId*")) { return @{ value = @() } }
+        if ($testState.Scenario -eq 'NoRole' -or ($testState.Scenario -in @('GroupRole', 'GroupGlobalAdminRole') -and $decoded -notlike "*$groupId*")) { return @{ value = @() } }
         if ($testState.Scenario -eq 'PagedRole' -and $Uri -notlike '*page=2*') { return @{ value = @(); '@odata.nextLink' = $Uri + '&page=2' } }
         return @{ value = @(@{
-            directoryScopeId = $(if ($testState.Scenario -eq 'ScopedRole') { '/administrativeUnits/unit' } else { '/' })
-            roleDefinition = @{ templateId = '11648597-926c-4cf3-9c36-bcebb0ba8dcc'; displayName = 'Power Platform Administrator' }
+            directoryScopeId = $(if ($testState.Scenario -in @('ScopedRole', 'ScopedGlobalAdminRole')) { '/administrativeUnits/unit' } else { '/' })
+            roleDefinition = $(if ($testState.Scenario -in @('GlobalAdminRole', 'GroupGlobalAdminRole', 'ScopedGlobalAdminRole')) {
+                @{ templateId = '62e90394-69f5-4237-9190-012177145e10'; displayName = 'Global Administrator' }
+            } else {
+                @{ templateId = '11648597-926c-4cf3-9c36-bcebb0ba8dcc'; displayName = 'Power Platform Administrator' }
+            })
         }) }
     }
     if ($Uri -like '*/subscribedSkus') {
@@ -76,12 +80,17 @@ $corePath = Join-Path $PSScriptRoot 'core_readiness.ps1'
 $orderPath = Join-Path $PSScriptRoot '../../deploy-order-processing/scripts/order_processing_readiness.ps1'
 $cases = @{
     DirectRole = 'Pass'; GroupRole = 'Pass'; PagedRole = 'Pass'
+    GlobalAdminRole = 'Pass'; GroupGlobalAdminRole = 'Pass'; ScopedGlobalAdminRole = 'Fail'
     ScopedRole = 'Fail'; NoRole = 'Fail'; DeniedRoles = 'Not verified'
 }
 foreach ($case in $cases.Keys) {
     $testState.Scenario = $case
     $report = & $corePath -TenantId $tenantId
     Assert-Check $report 'Tenant-wide Power Platform Administrator' $cases[$case]
+    if ($case -in @('GlobalAdminRole', 'GroupGlobalAdminRole')) {
+        $roleCheck = $report.Checks | Where-Object Check -EQ 'Tenant-wide Power Platform Administrator'
+        if ($roleCheck.Evidence -notmatch 'Global Administrator') { throw 'Report must identify the accepted Global Administrator assignment.' }
+    }
     Assert-Check $report "Power Apps Premium : $fixtureOperatorId" 'Pass'
     if ($report.SubscriptionSeats[0].Available -ne 0) { throw 'Seat inventory mismatch.' }
     if ($report.Overall -eq 'Pass') { throw 'Manual requirements must prevent an overall pass.' }
@@ -144,4 +153,4 @@ foreach ($parameters in @(
     try { $null = & $scriptPath -TenantId $tenantId @parameters } catch { $rejected = $true }
     if (-not $rejected -or $testState.Calls.Count -ne $callsBefore) { throw 'Reject cross-solution options before HTTP calls.' }
 }
-Write-Output 'PASS: 22 offline scenarios; separate Core and OrderProcessing reports; no cloud calls or writes.'
+Write-Output 'PASS: 25 offline scenarios; separate Core and OrderProcessing reports; no cloud calls or writes.'

@@ -1,0 +1,61 @@
+{
+  "supplier_name": "Fabrikam Fragrance Distribution Ltd",
+  "supplier_code": "FAB-0042",
+  "supplier_address": "12 Harbour Road, Linden Reach, LR1 4AB, Contoso Land",
+  "supplier_contacts": [
+    {
+      "type": "email",
+      "value": "orders@fabrikam-fragrance.invalid"
+    }
+  ],
+  "buyer_name": "Alpstein Parfumerie",
+  "buyer_code": "330795",
+  "buyer_address": "Bahnhofstrasse 5, 8001 Zurich, Switzerland",
+  "delivery_address": "Bahnhofstrasse 5, 8001 Zurich, Switzerland",
+  "buyer_contacts": [
+    {
+      "type": "email",
+      "value": "purchasing@alpstein-parfumerie.invalid"
+    }
+  ],
+  "order_id": "PO-FAF-TEST-001",
+  "order_date": "2026-02-19",
+  "currency": "USD",
+  "order_total": 245.31,
+  "line_items": [
+    {
+      "line_number": 1,
+      "sku": "L419010000",
+      "product_description": "JM Woodsage & Sea Salt Home Candle",
+      "quantity": 2,
+      "unit_of_measure": "EA",
+      "unit_price": 43.77,
+      "total_price": 87.54
+    },
+    {
+      "line_number": 2,
+      "sku": "L10H010000",
+      "product_description": "JM Pomegranate Noir Home Candle",
+      "quantity": 1,
+      "unit_of_measure": "EA",
+      "unit_price": 43.77,
+      "total_price": 43.77
+    },
+    {
+      "line_number": 3,
+      "sku": "L2HB010000",
+      "product_description": "JM Myrrh & Tonka 125ML All Over Body Spray",
+      "quantity": 3,
+      "unit_of_measure": "EA",
+      "unit_price": 38.0,
+      "total_price": 114.0
+    }
+  ],
+  "additional_info": [
+    {
+      "key": "Payment terms",
+      "value": "Net 30"
+    }
+  ],
+  "extraction_confidence": 0.95
+}

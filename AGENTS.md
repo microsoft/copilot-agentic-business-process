@@ -34,10 +34,10 @@ another, no workflow holds state, and no workflow needs to know who will act on 
 | `core/spec/` | Data model specification — source of truth for tables, columns, choices | [core/AGENTS.md](core/AGENTS.md) |
 | `core/plugins/business-process-api/` | C# Dataverse plug-in exposing the `faf001_*` Custom APIs | [its AGENTS.md](core/plugins/business-process-api/AGENTS.md) |
 | `core/codeapps/workflow-console/` | Power Apps code app (React/TS/Vite): task queue, review widgets, timelines | [its AGENTS.md](core/codeapps/workflow-console/AGENTS.md) |
-| `core/solution/` | `BusinessProcessCore` unpacked export, built zip, config, deployment guide | [core/AGENTS.md](core/AGENTS.md) |
+| `core/solution/` | `BusinessProcessCore` unpacked export, built zip, config | [core/AGENTS.md](core/AGENTS.md) |
 | `business-processes/` | One folder per business process solution | [business-processes/AGENTS.md](business-processes/AGENTS.md) |
 | `business-processes/order-processing/` | The reference implementation to copy | [its AGENTS.md](business-processes/order-processing/AGENTS.md) |
-| `.github/skills/` | GitHub Copilot deployment skills (`deploy-business-process-core`, `deploy-order-processing`) | [Deployment skills](#deployment-skills) |
+| `.github/skills/` | GitHub Copilot skills: deployment (`deploy-business-process-core`, `deploy-order-processing`, each holding its solution's deployment guide) and workflow authoring (`copilot-studio-workflow-ghcp-harness`) | [Skills](#skills) |
 | `scripts/` | Shared, idempotent deployment helpers (Python via `uv`, PowerShell 7) used by the skills and guides | [Shared scripts](#shared-scripts) |
 | `docs/` | README images and architecture diagram sources (`.drawio`) | — |
 
@@ -62,7 +62,11 @@ another, no workflow holds state, and no workflow needs to know who will act on 
 7. **Least privilege.** Never widen the runtime identity's role or grant System
    Administrator to fix a runtime failure; find the missing privilege.
 8. **Keep docs in step with behavior**: the data model spec, API README, process README,
-   `DEPLOYMENT.md` guides, and the `.github/skills/` copies of them.
+   and the deployment skills (`.github/skills/deploy-*/`, whose `references/DEPLOYMENT.md`
+   is the deployment guide).
+9. **Generate complete Copilot Studio Workflow Designer JSON, never runtime-only
+   cloud-flow JSON.** Follow the
+   [mandatory workflow JSON contract](business-processes/AGENTS.md#mandatory-copilot-studio-workflow-json-contract).
 
 ## Changing Power Platform solutions
 
@@ -126,22 +130,35 @@ Run the smallest set that covers what you touched.
 | Workflow Console | `npm ci`, `npm test`, `npm run lint`, `npm run build` |
 | Deployment skills and guides | From repo root: `pwsh -NoProfile -File .github/skills/deploy-business-process-core/scripts/test_deployment_readiness.ps1` (offline) |
 | Solution exports | `pac solution pack` succeeds; import into a dev environment when one is available; for flows, validate JSON parses and trigger filters match the step contract |
+| Copilot Studio workflows | From repo root, per changed flow: `python .github/skills/copilot-studio-workflow-ghcp-harness/scripts/check_workflow.py <solution>/export/Workflows/<flow>.json` (offline) |
 | Data model | `core/spec/business-process-data-model-spec.md` updated alongside any schema change |
 
 Never run anything that writes to a Dataverse environment, Entra ID, or Exchange without
 the user's explicit confirmation of the target environment.
 
-## Deployment skills
+## Skills
+
+### Deployment skills
 
 `.github/skills/deploy-business-process-core/` and `.github/skills/deploy-order-processing/`
-each contain `SKILL.md`, `references/` (copies of the deployment guide, prerequisites,
-roles and licensing, readiness report) and `scripts/` (readiness checks).
+each contain `SKILL.md`, `references/` (the deployment guide, prerequisites, roles and
+licensing, readiness report) and `scripts/` (readiness checks).
 
-- The `references/DEPLOYMENT.md` copies must stay consistent with
-  `core/solution/DEPLOYMENT.md` and `business-processes/*/solution/DEPLOYMENT.md`.
+- `references/DEPLOYMENT.md` is the **only** deployment guide for its solution (there is no
+  copy under `core/solution/` or `business-processes/*/solution/`). Keep `SKILL.md`, the
+  other references, and the readiness scripts consistent with it.
 - Skills resolve their own folder at runtime (`$skillFolder`); never hardcode paths.
 - A new business process gets its own `deploy-<process>` skill modelled on
   `deploy-order-processing` — see [business-processes/AGENTS.md](business-processes/AGENTS.md).
+
+### Workflow authoring skill
+
+[`copilot-studio-workflow-ghcp-harness`](.github/skills/copilot-studio-workflow-ghcp-harness/SKILL.md)
+is the single source for generating Copilot Studio Workflow Designer JSON (golden rule 9):
+the contract, cloning rules, platform limits, building blocks and patterns, the generator
+`scripts/workflow_builder.py`, and the offline checker `scripts/check_workflow.py`. Keep it
+process-agnostic: its samples and `PATTERN.md` files name no environment, tenant, or
+solution, and do not depend on any business process folder.
 
 ## Shared scripts
 
@@ -157,4 +174,4 @@ scripts generic — process-specific logic belongs in the process's `solution/sc
 Follow [.github/PULL_REQUEST_TEMPLATE.md](.github/PULL_REQUEST_TEMPLATE.md) and
 [CONTRIBUTING.md](CONTRIBUTING.md): agreed issue for non-trivial work, no environment
 values, tests for every area touched, `export/` **and** `build/` updated together,
-deployment guides and skill copies consistent.
+deployment skills and their guides consistent.

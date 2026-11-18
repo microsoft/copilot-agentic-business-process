@@ -1,0 +1,104 @@
+{
+  "title": "Dataverse: update a row (UpdateOnlyRecord)",
+  "notes": "`recordId` + `item/<column>` parameters. Parameter schema is repeated in `data.config.parametersSchema`.",
+  "runtimeActionName": "Start_extraction_step",
+  "runtimeAction": {
+    "type": "OpenApiConnection",
+    "inputs": {
+      "parameters": {
+        "entityName": "faf001_bpsteps",
+        "recordId": "@triggerOutputs()?['body/faf001_bpstepid']",
+        "item/faf001_starttime": "@utcNow()",
+        "item/faf001_status": 324010001
+      },
+      "host": {
+        "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+        "connectionName": "shared_commondataserviceforapps",
+        "operationId": "UpdateOnlyRecord"
+      }
+    },
+    "metadata": {
+      "description": "Start extraction step",
+      "nodeId": "connector-1c9e5b73-0f48-4a6d-8b21-7d3c6e29f5a4"
+    }
+  },
+  "designerNodes": [
+    {
+      "id": "connector-1c9e5b73-0f48-4a6d-8b21-7d3c6e29f5a4",
+      "name": "Start extraction step",
+      "type": "connector",
+      "version": 1,
+      "position": {
+        "x": 646,
+        "y": 356.5
+      },
+      "data": {
+        "config": {
+          "apiName": "shared_commondataserviceforapps",
+          "displayName": "Microsoft Dataverse",
+          "iconUri": "https://static.powerapps.com/resource/ppcr/releases/v1.0.1825/1.0.1825.4855/commondataserviceforapps/icon.png",
+          "brandColor": "#088142",
+          "operationName": "UpdateOnlyRecord",
+          "connectionName": "shared_commondataserviceforapps",
+          "operationType": "OpenApiConnection",
+          "parameters": {
+            "entityName": "faf001_bpsteps",
+            "recordId": "@triggerOutputs()?['body/faf001_bpstepid']",
+            "item/faf001_starttime": "@utcNow()",
+            "item/faf001_status": 324010001
+          },
+          "parametersSchema": {
+            "type": "object",
+            "properties": {
+              "entityName": {
+                "type": "string",
+                "title": "Table name"
+              },
+              "recordId": {
+                "type": "string",
+                "title": "Row ID"
+              },
+              "item": {
+                "type": "object",
+                "title": "Row"
+              }
+            },
+            "required": []
+          }
+        },
+        "outcomes": [
+          {
+            "id": "default",
+            "label": "Default",
+            "outcomeSchema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        ]
+      },
+      "measured": {
+        "width": 240,
+        "height": 66
+      }
+    }
+  ],
+  "edgesInsideBlock": [],
+  "edgesCrossingBlockBoundary_examples": [
+    {
+      "id": "edge-start-6b1f0c4d-5a2e-42d7-9c83-1e4f7a90b256-connector-1c9e5b73-0f48-4a6d-8b21-7d3c6e29f5a4",
+      "source": "start-6b1f0c4d-5a2e-42d7-9c83-1e4f7a90b256",
+      "target": "connector-1c9e5b73-0f48-4a6d-8b21-7d3c6e29f5a4"
+    },
+    {
+      "id": "edge-connector-1c9e5b73-0f48-4a6d-8b21-7d3c6e29f5a4-connector-8d2a4f16-7c39-4b05-91e6-2a5d8c3f40b7",
+      "source": "connector-1c9e5b73-0f48-4a6d-8b21-7d3c6e29f5a4",
+      "target": "connector-8d2a4f16-7c39-4b05-91e6-2a5d8c3f40b7"
+    }
+  ],
+  "nodeActionMapping": {
+    "connector-1c9e5b73-0f48-4a6d-8b21-7d3c6e29f5a4": [
+      "Start_extraction_step"
+    ]
+  }
+}

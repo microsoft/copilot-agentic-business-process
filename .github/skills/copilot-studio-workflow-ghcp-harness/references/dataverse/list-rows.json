@@ -1,0 +1,118 @@
+{
+  "title": "Dataverse: list rows (ListRecords)",
+  "notes": "`$filter`, `$orderby`, `$top`. Result at `outputs('<name>')?['body/value']`.",
+  "runtimeActionName": "List_process_attachments",
+  "runtimeAction": {
+    "type": "OpenApiConnection",
+    "inputs": {
+      "parameters": {
+        "entityName": "faf001_bpattachments",
+        "$filter": "@concat('_faf001_bpinstanceid_value eq ', triggerOutputs()?['body/_faf001_bpinstanceid_value'])",
+        "$orderby": "createdon desc",
+        "$top": 1
+      },
+      "host": {
+        "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+        "connectionName": "shared_commondataserviceforapps",
+        "operationId": "ListRecords"
+      }
+    },
+    "runAfter": {
+      "Set_instance_running": [
+        "Succeeded"
+      ]
+    },
+    "metadata": {
+      "description": "List process attachments",
+      "nodeId": "connector-4e7b2d05-93a1-4c8f-b6d2-5f81a0c7e394"
+    }
+  },
+  "designerNodes": [
+    {
+      "id": "connector-4e7b2d05-93a1-4c8f-b6d2-5f81a0c7e394",
+      "name": "List process attachments",
+      "type": "connector",
+      "version": 1,
+      "position": {
+        "x": 1268,
+        "y": 356.5
+      },
+      "data": {
+        "config": {
+          "apiName": "shared_commondataserviceforapps",
+          "displayName": "Microsoft Dataverse",
+          "iconUri": "https://static.powerapps.com/resource/ppcr/releases/v1.0.1825/1.0.1825.4855/commondataserviceforapps/icon.png",
+          "brandColor": "#088142",
+          "operationName": "ListRecords",
+          "connectionName": "shared_commondataserviceforapps",
+          "operationType": "OpenApiConnection",
+          "parameters": {
+            "entityName": "faf001_bpattachments",
+            "$filter": "@concat('_faf001_bpinstanceid_value eq ', triggerOutputs()?['body/_faf001_bpinstanceid_value'])",
+            "$orderby": "createdon desc",
+            "$top": 1
+          },
+          "parametersSchema": {
+            "type": "object",
+            "properties": {
+              "entityName": {
+                "type": "string",
+                "title": "Table name"
+              },
+              "$filter": {
+                "type": "string",
+                "title": "Filter rows"
+              },
+              "$orderby": {
+                "type": "string",
+                "title": "Sort by"
+              },
+              "$top": {
+                "type": "integer",
+                "title": "Row count"
+              }
+            },
+            "required": []
+          }
+        },
+        "outcomes": [
+          {
+            "id": "default",
+            "label": "Default",
+            "outcomeSchema": {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": "array",
+                  "title": "Rows"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "measured": {
+        "width": 240,
+        "height": 66
+      }
+    }
+  ],
+  "edgesInsideBlock": [],
+  "edgesCrossingBlockBoundary_examples": [
+    {
+      "id": "edge-connector-8d2a4f16-7c39-4b05-91e6-2a5d8c3f40b7-connector-4e7b2d05-93a1-4c8f-b6d2-5f81a0c7e394",
+      "source": "connector-8d2a4f16-7c39-4b05-91e6-2a5d8c3f40b7",
+      "target": "connector-4e7b2d05-93a1-4c8f-b6d2-5f81a0c7e394"
+    },
+    {
+      "id": "edge-connector-4e7b2d05-93a1-4c8f-b6d2-5f81a0c7e394-connector-9a3c6e18-2b74-4d90-85f1-6c2e7b04d5a8",
+      "source": "connector-4e7b2d05-93a1-4c8f-b6d2-5f81a0c7e394",
+      "target": "connector-9a3c6e18-2b74-4d90-85f1-6c2e7b04d5a8"
+    }
+  ],
+  "nodeActionMapping": {
+    "connector-4e7b2d05-93a1-4c8f-b6d2-5f81a0c7e394": [
+      "List_process_attachments"
+    ]
+  }
+}

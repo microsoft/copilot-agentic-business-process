@@ -16,7 +16,9 @@ disagrees with them, they win — and fix this file.
 | `solution/export/` | Unpacked `BusinessProcessCore`: `Entities/`, `OptionSets/`, `customapis/`, `pluginpackages/`, `CanvasApps/` (console), `bots/` + `botcomponents/` (monitoring agent), `environmentvariabledefinitions/` | root [AGENTS.md](../AGENTS.md#changing-power-platform-solutions) |
 | `solution/build/` | `BusinessProcessCore_<ver>_unmanaged.zip` — what deployments import | |
 | `solution/config/` | `security-role.business-process-user.json` (runtime identity role); ignored `deployment-settings.*.json` | |
-| `solution/DEPLOYMENT.md` | Install procedure; mirrored in `.github/skills/deploy-business-process-core/references/` | |
+
+The install procedure lives in the deployment skill:
+[.github/skills/deploy-business-process-core/references/DEPLOYMENT.md](../.github/skills/deploy-business-process-core/references/DEPLOYMENT.md).
 
 The core ships **no workflows**. Every workflow, notification, and task-raising action
 lives in the business process solutions.
@@ -138,7 +140,7 @@ first). Changes ripple — update all affected places in the same change:
 | A table, column, or choice | `spec/business-process-data-model-spec.md`; `solution/export/Entities/` / `OptionSets/`; console `src/generated/` (regenerate with `npx --no-install pa app add data-source`); `src/lib/bp/choices.ts`; plug-in repositories and the choice metadata fixtures in `tests/BusinessProcessApi.Tests/Fixtures/Metadata/`; monitoring agent tools if they read it |
 | A Custom API | Plug-in, `spec/<uniquename>.json`, `solution/export/customapis/<uniquename>/`, API README, console contracts — see [plug-in AGENTS.md](plugins/business-process-api/AGENTS.md) |
 | The console | `solution/export/CanvasApps/` package — see [console AGENTS.md](codeapps/workflow-console/AGENTS.md#shipping-a-console-change) |
-| Anything under `solution/export/` | Bump `Other/Solution.xml` version, repack `solution/build/`, update the zip name in `solution/DEPLOYMENT.md` and `.github/skills/deploy-business-process-core/` |
-| The runtime role | `solution/config/security-role.business-process-user.json`, `DEPLOYMENT.md`, the skill's `references/` and `scripts/check_installation.ps1` |
+| Anything under `solution/export/` | Bump `Other/Solution.xml` version, repack `solution/build/` (one zip), and update `.github/skills/deploy-business-process-core/` if it names the version |
+| The runtime role | `solution/config/security-role.business-process-user.json`, the skill's `references/` (including `DEPLOYMENT.md`) and `scripts/check_installation.ps1` |
 
 Choice values are append-only: add new values at the end of the `32401xxxx` sequence.

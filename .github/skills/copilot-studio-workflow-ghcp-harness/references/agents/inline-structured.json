@@ -1,0 +1,455 @@
+{
+  "title": "Agent node: inline agent defined in the node",
+  "notes": "`InvokeDefinition` with `body/botDefinition` and `body/message`; no published agent.",
+  "runtimeActionName": "Extraction_Agent",
+  "runtimeAction": {
+    "type": "OpenApiConnection",
+    "inputs": {
+      "parameters": {
+        "body/botDefinition": "{\"model\":\"claude-opus-5\",\"tools\":[],\"outputFormat\":\"JsonSchema\",\"structuredOutputSchema\":\"{\\\"title\\\":\\\"ExtractedOrder\\\",\\\"description\\\":\\\"Structured order data extracted from parsed documents.\\\",\\\"type\\\":\\\"object\\\",\\\"properties\\\":{\\\"supplier_name\\\":{\\\"title\\\":\\\"Supplier Name\\\",\\\"type\\\":\\\"string\\\",\\\"default\\\":\\\"\\\"},\\\"supplier_code\\\":{\\\"title\\\":\\\"Supplier Code\\\",\\\"type\\\":\\\"string\\\",\\\"default\\\":\\\"\\\"},\\\"supplier_address\\\":{\\\"title\\\":\\\"Supplier Address\\\",\\\"type\\\":\\\"string\\\",\\\"default\\\":\\\"\\\"},\\\"supplier_contacts\\\":{\\\"title\\\":\\\"Supplier Contacts\\\",\\\"type\\\":\\\"array\\\",\\\"items\\\":{\\\"title\\\":\\\"ContactEntry\\\",\\\"type\\\":\\\"object\\\",\\\"properties\\\":{\\\"type\\\":{\\\"title\\\":\\\"Type\\\",\\\"type\\\":\\\"string\\\"},\\\"value\\\":{\\\"title\\\":\\\"Value\\\",\\\"type\\\":\\\"string\\\"}},\\\"required\\\":[\\\"type\\\",\\\"value\\\"]}},\\\"buyer_name\\\":{\\\"title\\\":\\\"Buyer Name\\\",\\\"type\\\":\\\"string\\\",\\\"default\\\":\\\"\\\"},\\\"buyer_code\\\":{\\\"title\\\":\\\"Buyer Code\\\",\\\"type\\\":\\\"string\\\",\\\"default\\\":\\\"\\\"},\\\"buyer_address\\\":{\\\"title\\\":\\\"Buyer Address\\\",\\\"type\\\":\\\"string\\\",\\\"default\\\":\\\"\\\"},\\\"delivery_address\\\":{\\\"title\\\":\\\"Delivery Address\\\",\\\"type\\\":\\\"string\\\",\\\"default\\\":\\\"\\\"},\\\"buyer_contacts\\\":{\\\"title\\\":\\\"Buyer Contacts\\\",\\\"type\\\":\\\"array\\\",\\\"items\\\":{\\\"title\\\":\\\"ContactEntry\\\",\\\"type\\\":\\\"object\\\",\\\"properties\\\":{\\\"type\\\":{\\\"title\\\":\\\"Type\\\",\\\"type\\\":\\\"string\\\"},\\\"value\\\":{\\\"title\\\":\\\"Value\\\",\\\"type\\\":\\\"string\\\"}},\\\"required\\\":[\\\"type\\\",\\\"value\\\"]}},\\\"order_id\\\":{\\\"title\\\":\\\"Order Id\\\",\\\"type\\\":\\\"string\\\"},\\\"order_date\\\":{\\\"title\\\":\\\"Order Date\\\",\\\"type\\\":\\\"string\\\",\\\"default\\\":\\\"\\\"},\\\"currency\\\":{\\\"title\\\":\\\"Currency\\\",\\\"type\\\":\\\"string\\\",\\\"default\\\":\\\"\\\"},\\\"order_total\\\":{\\\"title\\\":\\\"Order Total\\\",\\\"type\\\":\\\"number\\\",\\\"default\\\":0},\\\"line_items\\\":{\\\"title\\\":\\\"Line Items\\\",\\\"type\\\":\\\"array\\\",\\\"items\\\":{\\\"title\\\":\\\"OrderLineItem\\\",\\\"type\\\":\\\"object\\\",\\\"properties\\\":{\\\"line_number\\\":{\\\"title\\\":\\\"Line Number\\\",\\\"type\\\":\\\"integer\\\"},\\\"sku\\\":{\\\"title\\\":\\\"Sku\\\",\\\"type\\\":\\\"string\\\"},\\\"product_description\\\":{\\\"title\\\":\\\"Product Description\\\",\\\"type\\\":\\\"string\\\"},\\\"quantity\\\":{\\\"title\\\":\\\"Quantity\\\",\\\"type\\\":\\\"integer\\\"},\\\"unit_of_measure\\\":{\\\"title\\\":\\\"Unit Of Measure\\\",\\\"type\\\":\\\"string\\\"},\\\"unit_price\\\":{\\\"title\\\":\\\"Unit Price\\\",\\\"type\\\":\\\"number\\\"},\\\"total_price\\\":{\\\"title\\\":\\\"Total Price\\\",\\\"type\\\":\\\"number\\\"}},\\\"required\\\":[\\\"line_number\\\",\\\"sku\\\",\\\"product_description\\\",\\\"quantity\\\",\\\"unit_of_measure\\\",\\\"unit_price\\\",\\\"total_price\\\"]}},\\\"additional_info\\\":{\\\"title\\\":\\\"Additional Info\\\",\\\"type\\\":\\\"array\\\",\\\"items\\\":{\\\"title\\\":\\\"AdditionalInfoEntry\\\",\\\"type\\\":\\\"object\\\",\\\"properties\\\":{\\\"key\\\":{\\\"title\\\":\\\"Key\\\",\\\"type\\\":\\\"string\\\"},\\\"value\\\":{\\\"title\\\":\\\"Value\\\",\\\"type\\\":\\\"string\\\"}},\\\"required\\\":[\\\"key\\\",\\\"value\\\"]}},\\\"extraction_confidence\\\":{\\\"title\\\":\\\"Extraction Confidence\\\",\\\"type\\\":\\\"number\\\",\\\"default\\\":1}}}\"}",
+        "body/message": "```\nYou are a purchase order extraction specialist for the organization receiving the order.\n\n\nYour task is to extract structured purchase order data from the provided document image or file.\n\n\n---\n\n\n## Translation Requirement\n\n\nIf the document is in a language other than English, translate all field names, table column headers, and extracted field values (except proper nouns, addresses, and codes) to English before returning the result.\n\n\n---\n\n\n## Extraction Schema\n\n\nExtract the following sections from the document:\n\n\n### 1. Supplier\n\n\nIdentify the supplier from the document content. It may appear under labels such as \"Supplier\", \"Vendor\", or \"Seller\". If no label is present, infer the supplier from the organization names and addresses in the document.\n\n\n- **supplier_name**: Full legal name of the supplier entity.\n- **supplier_code**: Supplier code, ID, or legal-entity identifier (e.g. VAT number, company registration). Empty string if not present.\n- **supplier_address**: Full address of the supplier as a single string.\n- **supplier_contacts**: List of contact entries, each with:\n  - **type**: Contact type (e.g. email, tel, fax, mobile).\n  - **value**: The contact value as a text string.\n  Empty list if not present.\n\n\n### 2. Buyer\n\n\nThe purchasing party. On the document this entity may appear under labels such as \"Buyer\", \"Customer\", \"Bill To\", or \"Purchaser\".\n\n\n- **buyer_name**: Full legal name of the buyer entity.\n- **buyer_code**: Buyer code, ID, or legal-entity identifier. Empty string if not present.\n- **buyer_address**: Registered or billing address of the buyer as a single string.\n- **delivery_address**: Delivery / ship-to address as a single string. If not explicitly stated, use the buyer address.\n- **buyer_contacts**: List of contact entries, each with:\n  - **type**: Contact type (e.g. email, tel, fax, mobile).\n  - **value**: The contact value as a text string.\n  Empty list if not present.\n\n\n### 3. Order Heading\n\n\n- **order_id**: Purchase order number or internal order identifier. Null if not present.\n- **order_date**: The order date in YYYY-MM-DD format.\n- **currency**: ISO 4217 currency code (e.g. EUR, USD, GBP).\n\n\n\n### 4. Line Items\n\n\n1. A list of line items, each containing:\n\n\n- **line_number** (integer): Sequential line number.\n- **sku**: Product SKU or item code.\n- **product_description**: Full product description.\n- **quantity** (integer): Ordered quantity.\n- **unit_of_measure**: Unit of measure (e.g. EA, CS, KG).\n- **unit_price** (decimal): Price per unit.\n- **total_price** (decimal): Line total (quantity × unit_price).\n\n\n### 5. Additional Information\n\n\nA list of key-value pairs capturing any other relevant fields found on the document that do not fit the sections above (e.g. payment terms, incoterms, requested delivery date, shipping method, special instructions).\n\n\nEach entry:\n- **key**: Field name (translated to English if needed).\n- **value**: Field value.\n\n\n### 6. Extraction Confidence\n\n\n- **extraction_confidence**: Your confidence score between 0.0 and 1.0 that all fields were correctly extracted.\n\n\n---\n\n\n## Rules\n\n\n- If a field is not present in the document, use an empty string for text fields, 0.0 for numeric fields, null for identifiers, or an empty list for arrays.\n- Do not invent or hallucinate values. If you cannot read a field clearly, use an empty string and lower the extraction_confidence accordingly.\n- Always translate field names and column headers to English regardless of the source document language.\n```\n@{concat('[{\"name\":\"', coalesce(first(outputs('List_process_attachments')?['body/value'])?['faf001_filename'], 'attachment'), '\",\"contentType\":\"', coalesce(first(outputs('List_process_attachments')?['body/value'])?['faf001_mimetype'], 'application/octet-stream'), '\",\"contentBytes\":\"', base64(body('Download_order_file')), '\"}]')}"
+      },
+      "host": {
+        "apiId": "/providers/Microsoft.PowerApps/apis/shared_agentnode",
+        "connectionName": "shared_agentnode-1",
+        "operationId": "InvokeDefinition"
+      }
+    },
+    "runAfter": {
+      "Download_order_file": [
+        "Succeeded"
+      ]
+    },
+    "metadata": {
+      "description": "Extraction Agent",
+      "nodeId": "agent-2f8d41b6-c507-4e39-a1b8-9d63e07c4b52"
+    }
+  },
+  "designerNodes": [
+    {
+      "id": "agent-2f8d41b6-c507-4e39-a1b8-9d63e07c4b52",
+      "name": "Extraction Agent",
+      "type": "agent",
+      "version": 1,
+      "position": {
+        "x": 1890,
+        "y": 356.5
+      },
+      "data": {
+        "config": {
+          "mode": "inline",
+          "instructions": "",
+          "botSchemaName": "",
+          "isHitlEscalationEnabled": false,
+          "webSearchEnabled": false,
+          "inlineInstructions": "```\nYou are a purchase order extraction specialist for the organization receiving the order.\n\n\nYour task is to extract structured purchase order data from the provided document image or file.\n\n\n---\n\n\n## Translation Requirement\n\n\nIf the document is in a language other than English, translate all field names, table column headers, and extracted field values (except proper nouns, addresses, and codes) to English before returning the result.\n\n\n---\n\n\n## Extraction Schema\n\n\nExtract the following sections from the document:\n\n\n### 1. Supplier\n\n\nIdentify the supplier from the document content. It may appear under labels such as \"Supplier\", \"Vendor\", or \"Seller\". If no label is present, infer the supplier from the organization names and addresses in the document.\n\n\n- **supplier_name**: Full legal name of the supplier entity.\n- **supplier_code**: Supplier code, ID, or legal-entity identifier (e.g. VAT number, company registration). Empty string if not present.\n- **supplier_address**: Full address of the supplier as a single string.\n- **supplier_contacts**: List of contact entries, each with:\n  - **type**: Contact type (e.g. email, tel, fax, mobile).\n  - **value**: The contact value as a text string.\n  Empty list if not present.\n\n\n### 2. Buyer\n\n\nThe purchasing party. On the document this entity may appear under labels such as \"Buyer\", \"Customer\", \"Bill To\", or \"Purchaser\".\n\n\n- **buyer_name**: Full legal name of the buyer entity.\n- **buyer_code**: Buyer code, ID, or legal-entity identifier. Empty string if not present.\n- **buyer_address**: Registered or billing address of the buyer as a single string.\n- **delivery_address**: Delivery / ship-to address as a single string. If not explicitly stated, use the buyer address.\n- **buyer_contacts**: List of contact entries, each with:\n  - **type**: Contact type (e.g. email, tel, fax, mobile).\n  - **value**: The contact value as a text string.\n  Empty list if not present.\n\n\n### 3. Order Heading\n\n\n- **order_id**: Purchase order number or internal order identifier. Null if not present.\n- **order_date**: The order date in YYYY-MM-DD format.\n- **currency**: ISO 4217 currency code (e.g. EUR, USD, GBP).\n\n\n\n### 4. Line Items\n\n\n1. A list of line items, each containing:\n\n\n- **line_number** (integer): Sequential line number.\n- **sku**: Product SKU or item code.\n- **product_description**: Full product description.\n- **quantity** (integer): Ordered quantity.\n- **unit_of_measure**: Unit of measure (e.g. EA, CS, KG).\n- **unit_price** (decimal): Price per unit.\n- **total_price** (decimal): Line total (quantity × unit_price).\n\n\n### 5. Additional Information\n\n\nA list of key-value pairs capturing any other relevant fields found on the document that do not fit the sections above (e.g. payment terms, incoterms, requested delivery date, shipping method, special instructions).\n\n\nEach entry:\n- **key**: Field name (translated to English if needed).\n- **value**: Field value.\n\n\n### 6. Extraction Confidence\n\n\n- **extraction_confidence**: Your confidence score between 0.0 and 1.0 that all fields were correctly extracted.\n\n\n---\n\n\n## Rules\n\n\n- If a field is not present in the document, use an empty string for text fields, 0.0 for numeric fields, null for identifiers, or an empty list for arrays.\n- Do not invent or hallucinate values. If you cannot read a field clearly, use an empty string and lower the extraction_confidence accordingly.\n- Always translate field names and column headers to English regardless of the source document language.\n```\n{concat('[{\"name\":\"', coalesce(first(outputs('List_process_attachments')?['body/value'])?['faf001_filename'], 'attachment'), '\",\"contentType\":\"', coalesce(first(outputs('List_process_attachments')?['body/value'])?['faf001_mimetype'], 'application/octet-stream'), '\",\"contentBytes\":\"', base64(body('Download_order_file')), '\"}]')}",
+          "outputMode": "structured",
+          "connectionName": "shared_agentnode-1",
+          "inlineModel": "claude-opus-5",
+          "simpleProperties": [],
+          "jsonSchema": {
+            "title": "ExtractedOrder",
+            "description": "Structured order data extracted from parsed documents.",
+            "type": "object",
+            "properties": {
+              "supplier_name": {
+                "title": "Supplier Name",
+                "type": "string",
+                "default": ""
+              },
+              "supplier_code": {
+                "title": "Supplier Code",
+                "type": "string",
+                "default": ""
+              },
+              "supplier_address": {
+                "title": "Supplier Address",
+                "type": "string",
+                "default": ""
+              },
+              "supplier_contacts": {
+                "title": "Supplier Contacts",
+                "type": "array",
+                "items": {
+                  "title": "ContactEntry",
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "title": "Type",
+                      "type": "string"
+                    },
+                    "value": {
+                      "title": "Value",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "value"
+                  ]
+                }
+              },
+              "buyer_name": {
+                "title": "Buyer Name",
+                "type": "string",
+                "default": ""
+              },
+              "buyer_code": {
+                "title": "Buyer Code",
+                "type": "string",
+                "default": ""
+              },
+              "buyer_address": {
+                "title": "Buyer Address",
+                "type": "string",
+                "default": ""
+              },
+              "delivery_address": {
+                "title": "Delivery Address",
+                "type": "string",
+                "default": ""
+              },
+              "buyer_contacts": {
+                "title": "Buyer Contacts",
+                "type": "array",
+                "items": {
+                  "title": "ContactEntry",
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "title": "Type",
+                      "type": "string"
+                    },
+                    "value": {
+                      "title": "Value",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "value"
+                  ]
+                }
+              },
+              "order_id": {
+                "title": "Order Id",
+                "type": "string"
+              },
+              "order_date": {
+                "title": "Order Date",
+                "type": "string",
+                "default": ""
+              },
+              "currency": {
+                "title": "Currency",
+                "type": "string",
+                "default": ""
+              },
+              "order_total": {
+                "title": "Order Total",
+                "type": "number",
+                "default": 0
+              },
+              "line_items": {
+                "title": "Line Items",
+                "type": "array",
+                "items": {
+                  "title": "OrderLineItem",
+                  "type": "object",
+                  "properties": {
+                    "line_number": {
+                      "title": "Line Number",
+                      "type": "integer"
+                    },
+                    "sku": {
+                      "title": "Sku",
+                      "type": "string"
+                    },
+                    "product_description": {
+                      "title": "Product Description",
+                      "type": "string"
+                    },
+                    "quantity": {
+                      "title": "Quantity",
+                      "type": "integer"
+                    },
+                    "unit_of_measure": {
+                      "title": "Unit Of Measure",
+                      "type": "string"
+                    },
+                    "unit_price": {
+                      "title": "Unit Price",
+                      "type": "number"
+                    },
+                    "total_price": {
+                      "title": "Total Price",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "line_number",
+                    "sku",
+                    "product_description",
+                    "quantity",
+                    "unit_of_measure",
+                    "unit_price",
+                    "total_price"
+                  ]
+                }
+              },
+              "additional_info": {
+                "title": "Additional Info",
+                "type": "array",
+                "items": {
+                  "title": "AdditionalInfoEntry",
+                  "type": "object",
+                  "properties": {
+                    "key": {
+                      "title": "Key",
+                      "type": "string"
+                    },
+                    "value": {
+                      "title": "Value",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "key",
+                    "value"
+                  ]
+                }
+              },
+              "extraction_confidence": {
+                "title": "Extraction Confidence",
+                "type": "number",
+                "default": 1
+              }
+            }
+          },
+          "jsonSchemaText": "{\r\n  \"title\": \"ExtractedOrder\",\r\n  \"description\": \"Structured order data extracted from parsed documents.\",\r\n  \"type\": \"object\",\r\n  \"properties\": {\r\n    \"supplier_name\": {\r\n      \"title\": \"Supplier Name\",\r\n      \"type\": \"string\",\r\n      \"default\": \"\"\r\n    },\r\n    \"supplier_code\": {\r\n      \"title\": \"Supplier Code\",\r\n      \"type\": \"string\",\r\n      \"default\": \"\"\r\n    },\r\n    \"supplier_address\": {\r\n      \"title\": \"Supplier Address\",\r\n      \"type\": \"string\",\r\n      \"default\": \"\"\r\n    },\r\n    \"supplier_contacts\": {\r\n      \"title\": \"Supplier Contacts\",\r\n      \"type\": \"array\",\r\n      \"items\": {\r\n        \"title\": \"ContactEntry\",\r\n        \"type\": \"object\",\r\n        \"properties\": {\r\n          \"type\": {\r\n            \"title\": \"Type\",\r\n            \"type\": \"string\"\r\n          },\r\n          \"value\": {\r\n            \"title\": \"Value\",\r\n            \"type\": \"string\"\r\n          }\r\n        },\r\n        \"required\": [\r\n          \"type\",\r\n          \"value\"\r\n        ]\r\n      }\r\n    },\r\n    \"buyer_name\": {\r\n      \"title\": \"Buyer Name\",\r\n      \"type\": \"string\",\r\n      \"default\": \"\"\r\n    },\r\n    \"buyer_code\": {\r\n      \"title\": \"Buyer Code\",\r\n      \"type\": \"string\",\r\n      \"default\": \"\"\r\n    },\r\n    \"buyer_address\": {\r\n      \"title\": \"Buyer Address\",\r\n      \"type\": \"string\",\r\n      \"default\": \"\"\r\n    },\r\n    \"delivery_address\": {\r\n      \"title\": \"Delivery Address\",\r\n      \"type\": \"string\",\r\n      \"default\": \"\"\r\n    },\r\n    \"buyer_contacts\": {\r\n      \"title\": \"Buyer Contacts\",\r\n      \"type\": \"array\",\r\n      \"items\": {\r\n        \"title\": \"ContactEntry\",\r\n        \"type\": \"object\",\r\n        \"properties\": {\r\n          \"type\": {\r\n            \"title\": \"Type\",\r\n            \"type\": \"string\"\r\n          },\r\n          \"value\": {\r\n            \"title\": \"Value\",\r\n            \"type\": \"string\"\r\n          }\r\n        },\r\n        \"required\": [\r\n          \"type\",\r\n          \"value\"\r\n        ]\r\n      }\r\n    },\r\n    \"order_id\": {\r\n      \"title\": \"Order Id\",\r\n      \"type\": \"string\"\r\n    },\r\n    \"order_date\": {\r\n      \"title\": \"Order Date\",\r\n      \"type\": \"string\",\r\n      \"default\": \"\"\r\n    },\r\n    \"currency\": {\r\n      \"title\": \"Currency\",\r\n      \"type\": \"string\",\r\n      \"default\": \"\"\r\n    },\r\n    \"order_total\": {\r\n      \"title\": \"Order Total\",\r\n      \"type\": \"number\",\r\n      \"default\": 0\r\n    },\r\n    \"line_items\": {\r\n      \"title\": \"Line Items\",\r\n      \"type\": \"array\",\r\n      \"items\": {\r\n        \"title\": \"OrderLineItem\",\r\n        \"type\": \"object\",\r\n        \"properties\": {\r\n          \"line_number\": {\r\n            \"title\": \"Line Number\",\r\n            \"type\": \"integer\"\r\n          },\r\n          \"sku\": {\r\n            \"title\": \"Sku\",\r\n            \"type\": \"string\"\r\n          },\r\n          \"product_description\": {\r\n            \"title\": \"Product Description\",\r\n            \"type\": \"string\"\r\n          },\r\n          \"quantity\": {\r\n            \"title\": \"Quantity\",\r\n            \"type\": \"integer\"\r\n          },\r\n          \"unit_of_measure\": {\r\n            \"title\": \"Unit Of Measure\",\r\n            \"type\": \"string\"\r\n          },\r\n          \"unit_price\": {\r\n            \"title\": \"Unit Price\",\r\n            \"type\": \"number\"\r\n          },\r\n          \"total_price\": {\r\n            \"title\": \"Total Price\",\r\n            \"type\": \"number\"\r\n          }\r\n        },\r\n        \"required\": [\r\n          \"line_number\",\r\n          \"sku\",\r\n          \"product_description\",\r\n          \"quantity\",\r\n          \"unit_of_measure\",\r\n          \"unit_price\",\r\n          \"total_price\"\r\n        ]\r\n      }\r\n    },\r\n    \"additional_info\": {\r\n      \"title\": \"Additional Info\",\r\n      \"type\": \"array\",\r\n      \"items\": {\r\n        \"title\": \"AdditionalInfoEntry\",\r\n        \"type\": \"object\",\r\n        \"properties\": {\r\n          \"key\": {\r\n            \"title\": \"Key\",\r\n            \"type\": \"string\"\r\n          },\r\n          \"value\": {\r\n            \"title\": \"Value\",\r\n            \"type\": \"string\"\r\n          }\r\n        },\r\n        \"required\": [\r\n          \"key\",\r\n          \"value\"\r\n        ]\r\n      }\r\n    },\r\n    \"extraction_confidence\": {\r\n      \"title\": \"Extraction Confidence\",\r\n      \"type\": \"number\",\r\n      \"default\": 1\r\n    }\r\n  }\r\n}"
+        },
+        "outcomes": [
+          {
+            "id": "default",
+            "label": "Default",
+            "outcomeSchema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "title": "Agent Response",
+                  "description": "Aggregated message text emitted before the structured output (may be null)"
+                },
+                "activities": {
+                  "type": "array",
+                  "description": "Bot response activities (typing, message, and event types)"
+                },
+                "structuredOutput": {
+                  "title": "",
+                  "description": "Structured order data extracted from parsed documents.",
+                  "type": "object",
+                  "properties": {
+                    "supplier_name": {
+                      "title": "Supplier Name",
+                      "type": "string",
+                      "default": ""
+                    },
+                    "supplier_code": {
+                      "title": "Supplier Code",
+                      "type": "string",
+                      "default": ""
+                    },
+                    "supplier_address": {
+                      "title": "Supplier Address",
+                      "type": "string",
+                      "default": ""
+                    },
+                    "supplier_contacts": {
+                      "title": "Supplier Contacts",
+                      "type": "array",
+                      "items": {
+                        "title": "ContactEntry",
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "title": "Type",
+                            "type": "string"
+                          },
+                          "value": {
+                            "title": "Value",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "type",
+                          "value"
+                        ]
+                      }
+                    },
+                    "buyer_name": {
+                      "title": "Buyer Name",
+                      "type": "string",
+                      "default": ""
+                    },
+                    "buyer_code": {
+                      "title": "Buyer Code",
+                      "type": "string",
+                      "default": ""
+                    },
+                    "buyer_address": {
+                      "title": "Buyer Address",
+                      "type": "string",
+                      "default": ""
+                    },
+                    "delivery_address": {
+                      "title": "Delivery Address",
+                      "type": "string",
+                      "default": ""
+                    },
+                    "buyer_contacts": {
+                      "title": "Buyer Contacts",
+                      "type": "array",
+                      "items": {
+                        "title": "ContactEntry",
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "title": "Type",
+                            "type": "string"
+                          },
+                          "value": {
+                            "title": "Value",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "type",
+                          "value"
+                        ]
+                      }
+                    },
+                    "order_id": {
+                      "title": "Order Id",
+                      "type": "string"
+                    },
+                    "order_date": {
+                      "title": "Order Date",
+                      "type": "string",
+                      "default": ""
+                    },
+                    "currency": {
+                      "title": "Currency",
+                      "type": "string",
+                      "default": ""
+                    },
+                    "order_total": {
+                      "title": "Order Total",
+                      "type": "number",
+                      "default": 0
+                    },
+                    "line_items": {
+                      "title": "Line Items",
+                      "type": "array",
+                      "items": {
+                        "title": "OrderLineItem",
+                        "type": "object",
+                        "properties": {
+                          "line_number": {
+                            "title": "Line Number",
+                            "type": "integer"
+                          },
+                          "sku": {
+                            "title": "Sku",
+                            "type": "string"
+                          },
+                          "product_description": {
+                            "title": "Product Description",
+                            "type": "string"
+                          },
+                          "quantity": {
+                            "title": "Quantity",
+                            "type": "integer"
+                          },
+                          "unit_of_measure": {
+                            "title": "Unit Of Measure",
+                            "type": "string"
+                          },
+                          "unit_price": {
+                            "title": "Unit Price",
+                            "type": "number"
+                          },
+                          "total_price": {
+                            "title": "Total Price",
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "line_number",
+                          "sku",
+                          "product_description",
+                          "quantity",
+                          "unit_of_measure",
+                          "unit_price",
+                          "total_price"
+                        ]
+                      }
+                    },
+                    "additional_info": {
+                      "title": "Additional Info",
+                      "type": "array",
+                      "items": {
+                        "title": "AdditionalInfoEntry",
+                        "type": "object",
+                        "properties": {
+                          "key": {
+                            "title": "Key",
+                            "type": "string"
+                          },
+                          "value": {
+                            "title": "Value",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "key",
+                          "value"
+                        ]
+                      }
+                    },
+                    "extraction_confidence": {
+                      "title": "Extraction Confidence",
+                      "type": "number",
+                      "default": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "measured": {
+        "width": 240,
+        "height": 66
+      }
+    }
+  ],
+  "edgesInsideBlock": [],
+  "edgesCrossingBlockBoundary_examples": [
+    {
+      "id": "edge-connector-9a3c6e18-2b74-4d90-85f1-6c2e7b04d5a8-agent-2f8d41b6-c507-4e39-a1b8-9d63e07c4b52",
+      "source": "connector-9a3c6e18-2b74-4d90-85f1-6c2e7b04d5a8",
+      "target": "agent-2f8d41b6-c507-4e39-a1b8-9d63e07c4b52"
+    },
+    {
+      "id": "edge-agent-2f8d41b6-c507-4e39-a1b8-9d63e07c4b52-connector-7b5f9c20-4a68-41d3-92e7-0c8b3d6a15f9",
+      "source": "agent-2f8d41b6-c507-4e39-a1b8-9d63e07c4b52",
+      "target": "connector-7b5f9c20-4a68-41d3-92e7-0c8b3d6a15f9"
+    }
+  ],
+  "nodeActionMapping": {
+    "agent-2f8d41b6-c507-4e39-a1b8-9d63e07c4b52": [
+      "Extraction_Agent"
+    ]
+  }
+}

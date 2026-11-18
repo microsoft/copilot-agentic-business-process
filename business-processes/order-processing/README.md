@@ -21,9 +21,9 @@ Click to learn more about what this reference implementation adds on top of the 
 <details>
 <summary><b>Multilingual document extraction</b></summary>
 
-Purchase orders arrive as scans, PDFs, and arbitrary layouts in any language. An
-extraction agent returns one fixed JSON contract — supplier, buyer, addresses, line
-items, currency, totals, and its own confidence score — regardless of what the document
+Purchase orders arrive as scans, PDFs, and arbitrary layouts in any language. The
+workflow's **Extract node** returns one fixed JSON contract — supplier, buyer, addresses,
+line items, currency, totals, and a confidence score — regardless of what the document
 looked like.
 </details>
 
@@ -77,8 +77,7 @@ sequenceDiagram
 
     Mailbox->>Flows: New order email (polled)
     Flows->>DV: Create instance + attachment + step
-    Flows->>Agents: Extract order from document
-    Agents-->>Flows: Structured order JSON
+    Flows->>Flows: Extract order fields from the document (Extract node)
     Flows->>DV: Store extracted-order, raise human task
     Flows->>Teams: Notify every user holding Order Reviewer
     Reviewer->>Console: Open deep link (?taskId=…)
@@ -113,8 +112,10 @@ Creating the `Order Extraction Step` row is what starts the next stage.
 ### 2. Extraction — `extract-order-data`
 
 Triggered by the creation of the `Order Extraction Step` row. Downloads the most recent
-attachment and passes it to an agent node that returns a fixed JSON contract regardless
-of the document's language or layout:
+attachment and passes it to an **Extract node** that returns a fixed JSON contract
+regardless of the document's language or layout. The contract is the node's property
+list; each property's description carries the extraction guidance (labels to look for,
+formats, translation to English), so there is no prompt to maintain:
 
 `supplier_name` · `supplier_code` · `supplier_address` · `supplier_contacts` ·
 `buyer_name` · `buyer_code` · `buyer_address` · `delivery_address` · `buyer_contacts` ·
@@ -125,7 +126,9 @@ of the document's language or layout:
 
 The result is stored as the `extracted-order` process data value. The flow then raises
 the `Extracted Order Data Review` human task with widget `extracted-order-review-ui`,
-routed to the **Order Reviewer** security role.
+routed to the **Order Reviewer** security role. If the extraction returns nothing or no
+order line (for example the attachment is not an order), the step and the instance end
+`Failed` with `ORDER_EXTRACTION_FAILED` instead of sending a reviewer an empty form.
 
 ### 3. Human gate 1 — verify what the agent read
 
@@ -168,8 +171,9 @@ process instance is completed.
 
 Both agents are Copilot Studio agents built with the **GitHub Copilot harness**, which is
 what lets them be authored as ordered *agent skills* with their own knowledge files
-instead of one monolithic prompt. The extraction step in `extract-order-data` runs on the
-same harness through an agent node in the flow.
+instead of one monolithic prompt. Each agent's instructions hold its role and rules; the
+shape of its result lives once, in the output schema of the agent node in the flow, and
+the message of each call carries only the data of that run.
 
 ### Order Validation Agent — `faf001_ordervalidationagent`
 
@@ -182,9 +186,11 @@ in order, each backed by its own JSON knowledge file:
 | `validate-order-product-availability` | Requested quantities are fulfillable now — single warehouse, no backorders, no partial fulfilment, repeated SKUs aggregated | `inventory.json` |
 | `evaluate-order-discounts-promotions` | Buyer and supplier eligibility, date windows, currency, quantity and spend thresholds, non-stacking rules, proposed adjustments | `promotions.json` |
 
-It returns a single JSON object: `verdict`, `reasoning`, `confidence`, and
-`field_results` — one entry per input path such as `/lines/0/sku`, each with a status
-and a reason naming the responsible skill.
+It returns a single JSON object (`verdict`, `reasoning`, `confidence`, `field_results`,
+`skill_results`, `pricing_adjustments`) whose schema, with a description per property, is
+set in the `Order_Validation_Agent` action of `validate-order`. `field_results` has one
+entry per input path such as `/lines/0/sku`, each with a status and a reason naming the
+responsible skill.
 
 One design decision is worth calling out: **the verdict is `pass` only when product
 identity and availability both pass.** Promotion findings are always reported but never
@@ -205,11 +211,59 @@ than guessed.
 
 The flow uses the JSON skill and stores the result as a process artifact.
 
+## Failure handling and re-runs
+
+- **A failed agent or extraction call is a failed step.** `extract-order-data`,
+  `validate-order` and `finalize-order` check the result of their agent call in a
+  condition that also runs when the call failed, timed out or was skipped. If there is no
+  usable result, the step and the instance are set to `Failed` with an error code
+  (`ORDER_EXTRACTION_FAILED`, `ORDER_EVALUATION_FAILED`, `SAP_PAYLOAD_FAILED`) and a
+  message, and nothing is stored as a result.
+- **Each stage runs once per instance.** A stage ends early when its output already
+  exists: the `extracted-order` data value, the `order-evaluation.result` data value, or
+  a SAP payload artifact. To run a stage again, delete its output and create a new
+  trigger step row (the test scripts below do this).
+- **The instance always shows the last completed step** (`faf001_lastcompletedstepid`).
+
+## Testing a stage
+
+Each stage can be tested alone in the target environment with a script in
+`solution/scripts/`. A script confirms the organization, seeds what the previous stage
+leaves (the upstream result is seeded, not produced, so a test never depends on another
+agent), triggers the stage, and asserts its acceptance criteria and run time as
+PASS/FAIL rows. It creates one test instance whose business key starts with
+`[FAF-TEST]` and leaves it in place.
+
+```powershell
+cd business-processes/order-processing/solution/scripts
+./test-extract-order-data.ps1  -EnvironmentUrl <url> -TenantId <tenant> -OrganizationId <org> [-CheckGuard] [-ExpectFailure -OrderImage <image without an order>]
+./test-validate-order.ps1      -EnvironmentUrl <url> -TenantId <tenant> -OrganizationId <org> [-Decision approved|rejected] [-CheckGuard]
+./test-finalize-order.ps1      -EnvironmentUrl <url> -TenantId <tenant> -OrganizationId <org> [-Decision approved|rejected] [-CheckGuard]
+```
+
+Pass `-InstanceId <id>` of a test instance a script created to re-run the stage without
+re-seeding. Test data (`test-data/`) is a fictional purchase order image and the
+matching extracted JSON.
+
+Measured on 2026-11-18 in a development environment (one run each, not a benchmark):
+
+| Stage | Result | Run time |
+| --- | --- | --- |
+| `extract-order-data`, sample order | all checks passed (order id, 3 lines, total, review step and task, run-once guard) | 0.3–0.5 min |
+| `extract-order-data`, blank image | step and instance `Failed` with `ORDER_EXTRACTION_FAILED`, no review raised | 0.5 min |
+| `finalize-order`, approved / rejected | all checks passed (payload with 3 items, artifact, instance completed) | 0.8 min / 0.4 min |
+| `validate-order`, rejected | all checks passed | not timed |
+| `validate-order`, approved | flow checks passed (step, stored result, one result per skill, approval task, guard); **the agent did not validate the order** and answered that its agent harness is unsupported, also with the previous package version in that environment | 0.5–0.8 min |
+
+Not measured: the failed-call branches of `validate-order` and `finalize-order` (a
+failed agent call cannot be forced reliably), the end-to-end run from a real email, and
+a clean validation verdict.
+
 ## What this process contributes, and what it inherits
 
 | Contributed by Order Processing | Inherited from Core |
 | --- | --- |
-| 4 Copilot Studio workflows | Process instance, step, task, attachment, artifact, and data value tables |
+| 4 Copilot Studio workflows (one with an Extract node) | Process instance, step, task, attachment, artifact, and data value tables |
 | 2 Copilot Studio agents with 5 skills and 5 knowledge files | Task lifecycle API — claim, start, transactional complete |
 | 2 review widgets (`extracted-order-review-ui`, `order-evaluation-review-ui`) | Workflow Console — task queue, task detail, instance timeline, artifact download |
 | 2 security roles (`Order Reviewer`, `Order Approver`) | Role-based task routing and Teams notification pattern |
@@ -263,4 +317,4 @@ Ask GitHub Copilot to run the `deploy-order-processing` skill from this reposito
 verifies the core installation, provisions the automation identity and mailbox, imports
 the solution, activates its workflows, and assigns the roles — stopping for your
 confirmation before any of it. The same steps are written out in the
-[OrderProcessing deployment guide](solution/DEPLOYMENT.md).
+[OrderProcessing deployment guide](../../.github/skills/deploy-order-processing/references/DEPLOYMENT.md).

@@ -1,0 +1,642 @@
+{
+  "properties": {
+    "connectionReferences": {},
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        }
+      },
+      "triggers": {
+        "manual": {
+          "type": "Request",
+          "kind": "Button",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {},
+              "required": []
+            }
+          },
+          "metadata": {
+            "associatedData": {
+              "graph": {
+                "name": "data-operations",
+                "nodes": [
+                  {
+                    "id": "start",
+                    "name": "Manual Trigger",
+                    "type": "start",
+                    "version": 1,
+                    "position": {
+                      "x": 100,
+                      "y": 200
+                    },
+                    "data": {
+                      "config": {
+                        "triggerType": "manual"
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default"
+                        }
+                      ]
+                    },
+                    "measured": {
+                      "width": 240,
+                      "height": 66
+                    }
+                  },
+                  {
+                    "id": "builtinFunction-a76833df-4aee-4042-b596-0f1d47669fcd",
+                    "name": "Compose Sample Records",
+                    "type": "builtinFunction",
+                    "version": 1,
+                    "position": {
+                      "x": 500,
+                      "y": 200
+                    },
+                    "data": {
+                      "config": {
+                        "operationId": "compose",
+                        "operationName": "compose",
+                        "parameters": {
+                          "inputs": [
+                            {
+                              "RecordId": 101,
+                              "Name": "Name A",
+                              "Amount": 250,
+                              "Status": "Active"
+                            },
+                            {
+                              "RecordId": 102,
+                              "Name": "Name B",
+                              "Amount": 75.5,
+                              "Status": "Waiting"
+                            },
+                            {
+                              "RecordId": 103,
+                              "Name": "Name C",
+                              "Amount": 430.25,
+                              "Status": "Active"
+                            },
+                            {
+                              "RecordId": 104,
+                              "Name": "Name D",
+                              "Amount": 120,
+                              "Status": "Closed"
+                            },
+                            {
+                              "RecordId": 105,
+                              "Name": "Name E",
+                              "Amount": 310.75,
+                              "Status": "Active"
+                            }
+                          ]
+                        },
+                        "displayName": "Compose Sample Records",
+                        "description": "Constructs the sample raw record data used by the rest of the workflow.",
+                        "category": "providers/Microsoft.ProcessSimple/operationGroups/DataOperation",
+                        "categoryDisplayName": "Data Operation",
+                        "iconUri": "https://content.powerapps.com/resource/makerx/static/pauto/images/designeroperations/dataoperationedit.2c8a4d5e.png",
+                        "brandColor": "#8C6CFF"
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default",
+                          "outcomeSchema": {
+                            "type": "object",
+                            "description": "Function output"
+                          }
+                        }
+                      ]
+                    },
+                    "measured": {
+                      "width": 240,
+                      "height": 66
+                    }
+                  },
+                  {
+                    "id": "builtinFunction-259595cb-63d8-4738-996b-b2e143cdc3d2",
+                    "name": "Parse Records",
+                    "type": "builtinFunction",
+                    "version": 1,
+                    "position": {
+                      "x": 900,
+                      "y": 200
+                    },
+                    "data": {
+                      "config": {
+                        "operationId": "parsejson",
+                        "operationName": "parsejson",
+                        "parameters": {
+                          "content": "@outputs('Compose_Sample_Records')",
+                          "schema": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "RecordId": {
+                                  "type": "integer"
+                                },
+                                "Name": {
+                                  "type": "string"
+                                },
+                                "Amount": {
+                                  "type": "number"
+                                },
+                                "Status": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "displayName": "Parse Records",
+                        "description": "Parses the sample records into a typed array of record objects.",
+                        "category": "providers/Microsoft.ProcessSimple/operationGroups/DataOperation",
+                        "categoryDisplayName": "Data Operation",
+                        "iconUri": "https://content.powerapps.com/resource/makerx/static/pauto/images/designeroperations/dataoperationedit.2c8a4d5e.png",
+                        "brandColor": "#8C6CFF"
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default",
+                          "outcomeSchema": {
+                            "type": "object",
+                            "description": "Function output"
+                          }
+                        }
+                      ]
+                    },
+                    "measured": {
+                      "width": 240,
+                      "height": 66
+                    }
+                  },
+                  {
+                    "id": "builtinFunction-49164878-913c-46d6-a3ec-5e555e095877",
+                    "name": "Filter Active Records",
+                    "type": "builtinFunction",
+                    "version": 1,
+                    "position": {
+                      "x": 1300,
+                      "y": 200
+                    },
+                    "data": {
+                      "config": {
+                        "operationId": "query",
+                        "operationName": "query",
+                        "parameters": {
+                          "from": "@body('Parse_Records')",
+                          "where": "@equals(item()?['Status'], 'Active')"
+                        },
+                        "displayName": "Filter Active Records",
+                        "description": "Filters the parsed records down to only those with a Active status.",
+                        "category": "providers/Microsoft.ProcessSimple/operationGroups/DataOperation",
+                        "categoryDisplayName": "Data Operation",
+                        "iconUri": "https://content.powerapps.com/resource/makerx/static/pauto/images/designeroperations/dataoperationedit.2c8a4d5e.png",
+                        "brandColor": "#8C6CFF"
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default",
+                          "outcomeSchema": {
+                            "type": "object",
+                            "description": "Function output"
+                          }
+                        }
+                      ]
+                    },
+                    "measured": {
+                      "width": 240,
+                      "height": 66
+                    }
+                  },
+                  {
+                    "id": "builtinFunction-d2d2d00c-d18a-471b-8fda-ec3867c102d2",
+                    "name": "Select Record Summary",
+                    "type": "builtinFunction",
+                    "version": 1,
+                    "position": {
+                      "x": 1700,
+                      "y": 200
+                    },
+                    "data": {
+                      "config": {
+                        "operationId": "select",
+                        "operationName": "select",
+                        "parameters": {
+                          "from": "@body('Filter_Active_Records')",
+                          "select": {
+                            "RecordId": "@item()?['RecordId']",
+                            "Name": "@item()?['Name']",
+                            "Amount": "@item()?['Amount']"
+                          }
+                        },
+                        "displayName": "Select Record Summary",
+                        "description": "Selects just the RecordId, Name, and Amount fields from each active record.",
+                        "category": "providers/Microsoft.ProcessSimple/operationGroups/DataOperation",
+                        "categoryDisplayName": "Data Operation",
+                        "iconUri": "https://content.powerapps.com/resource/makerx/static/pauto/images/designeroperations/dataoperationedit.2c8a4d5e.png",
+                        "brandColor": "#8C6CFF"
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default",
+                          "outcomeSchema": {
+                            "type": "object",
+                            "description": "Function output"
+                          }
+                        }
+                      ]
+                    },
+                    "measured": {
+                      "width": 240,
+                      "height": 66
+                    }
+                  },
+                  {
+                    "id": "builtinFunction-5e488512-e927-4496-9671-c985c35753a4",
+                    "name": "Select Names",
+                    "type": "builtinFunction",
+                    "version": 1,
+                    "position": {
+                      "x": 2100,
+                      "y": 200
+                    },
+                    "data": {
+                      "config": {
+                        "operationId": "select",
+                        "operationName": "select",
+                        "parameters": {
+                          "from": "@body('Filter_Active_Records')",
+                          "select": "@item()?['Name']"
+                        },
+                        "displayName": "Select Names",
+                        "description": "Selects only the name from each active record, producing a flat array of strings.",
+                        "category": "providers/Microsoft.ProcessSimple/operationGroups/DataOperation",
+                        "categoryDisplayName": "Data Operation",
+                        "iconUri": "https://content.powerapps.com/resource/makerx/static/pauto/images/designeroperations/dataoperationedit.2c8a4d5e.png",
+                        "brandColor": "#8C6CFF"
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default",
+                          "outcomeSchema": {
+                            "type": "object",
+                            "description": "Function output"
+                          }
+                        }
+                      ]
+                    },
+                    "measured": {
+                      "width": 240,
+                      "height": 66
+                    }
+                  },
+                  {
+                    "id": "builtinFunction-f23d6af0-0a6c-4daf-a5b9-61bf46ca95a2",
+                    "name": "Join Names",
+                    "type": "builtinFunction",
+                    "version": 1,
+                    "position": {
+                      "x": 2500,
+                      "y": 200
+                    },
+                    "data": {
+                      "config": {
+                        "operationId": "join",
+                        "operationName": "join",
+                        "parameters": {
+                          "from": "@body('Select_Names')",
+                          "joinWith": ", "
+                        },
+                        "displayName": "Join Names",
+                        "description": "Joins the names array into a single comma-separated string.",
+                        "category": "providers/Microsoft.ProcessSimple/operationGroups/DataOperation",
+                        "categoryDisplayName": "Data Operation",
+                        "iconUri": "https://content.powerapps.com/resource/makerx/static/pauto/images/designeroperations/dataoperationedit.2c8a4d5e.png",
+                        "brandColor": "#8C6CFF"
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default",
+                          "outcomeSchema": {
+                            "type": "object",
+                            "description": "Function output"
+                          }
+                        }
+                      ]
+                    },
+                    "measured": {
+                      "width": 240,
+                      "height": 66
+                    }
+                  },
+                  {
+                    "id": "builtinFunction-6503b927-afb1-48d8-afc3-2526cccd0e3c",
+                    "name": "Compose Final Summary",
+                    "type": "builtinFunction",
+                    "version": 1,
+                    "position": {
+                      "x": 2900,
+                      "y": 200
+                    },
+                    "data": {
+                      "config": {
+                        "operationId": "compose",
+                        "operationName": "compose",
+                        "parameters": {
+                          "inputs": {
+                            "ActiveCount": "@length(body('Filter_Active_Records'))",
+                            "NameList": "@body('Join_Names')",
+                            "RecordSummary": "@body('Select_Record_Summary')"
+                          }
+                        },
+                        "displayName": "Compose Final Summary",
+                        "description": "Combines the active-record count, joined name list, and record summary into one final result.",
+                        "category": "providers/Microsoft.ProcessSimple/operationGroups/DataOperation",
+                        "categoryDisplayName": "Data Operation",
+                        "iconUri": "https://content.powerapps.com/resource/makerx/static/pauto/images/designeroperations/dataoperationedit.2c8a4d5e.png",
+                        "brandColor": "#8C6CFF"
+                      },
+                      "outcomes": [
+                        {
+                          "id": "default",
+                          "label": "Default",
+                          "outcomeSchema": {
+                            "type": "object",
+                            "description": "Function output"
+                          }
+                        }
+                      ]
+                    },
+                    "measured": {
+                      "width": 240,
+                      "height": 66
+                    }
+                  }
+                ],
+                "edges": [
+                  {
+                    "id": "edge-start-builtinFunction-a76833df-4aee-4042-b596-0f1d47669fcd",
+                    "source": "start",
+                    "target": "builtinFunction-a76833df-4aee-4042-b596-0f1d47669fcd"
+                  },
+                  {
+                    "id": "edge-builtinFunction-a76833df-4aee-4042-b596-0f1d47669fcd-builtinFunction-259595cb-63d8-4738-996b-b2e143cdc3d2",
+                    "source": "builtinFunction-a76833df-4aee-4042-b596-0f1d47669fcd",
+                    "target": "builtinFunction-259595cb-63d8-4738-996b-b2e143cdc3d2"
+                  },
+                  {
+                    "id": "edge-builtinFunction-259595cb-63d8-4738-996b-b2e143cdc3d2-builtinFunction-49164878-913c-46d6-a3ec-5e555e095877",
+                    "source": "builtinFunction-259595cb-63d8-4738-996b-b2e143cdc3d2",
+                    "target": "builtinFunction-49164878-913c-46d6-a3ec-5e555e095877"
+                  },
+                  {
+                    "id": "edge-builtinFunction-49164878-913c-46d6-a3ec-5e555e095877-builtinFunction-d2d2d00c-d18a-471b-8fda-ec3867c102d2",
+                    "source": "builtinFunction-49164878-913c-46d6-a3ec-5e555e095877",
+                    "target": "builtinFunction-d2d2d00c-d18a-471b-8fda-ec3867c102d2"
+                  },
+                  {
+                    "id": "edge-builtinFunction-d2d2d00c-d18a-471b-8fda-ec3867c102d2-builtinFunction-5e488512-e927-4496-9671-c985c35753a4",
+                    "source": "builtinFunction-d2d2d00c-d18a-471b-8fda-ec3867c102d2",
+                    "target": "builtinFunction-5e488512-e927-4496-9671-c985c35753a4"
+                  },
+                  {
+                    "id": "edge-builtinFunction-5e488512-e927-4496-9671-c985c35753a4-builtinFunction-f23d6af0-0a6c-4daf-a5b9-61bf46ca95a2",
+                    "source": "builtinFunction-5e488512-e927-4496-9671-c985c35753a4",
+                    "target": "builtinFunction-f23d6af0-0a6c-4daf-a5b9-61bf46ca95a2"
+                  },
+                  {
+                    "id": "edge-builtinFunction-f23d6af0-0a6c-4daf-a5b9-61bf46ca95a2-builtinFunction-6503b927-afb1-48d8-afc3-2526cccd0e3c",
+                    "source": "builtinFunction-f23d6af0-0a6c-4daf-a5b9-61bf46ca95a2",
+                    "target": "builtinFunction-6503b927-afb1-48d8-afc3-2526cccd0e3c"
+                  }
+                ],
+                "connectionReferences": {},
+                "parameters": {
+                  "$authentication": {
+                    "type": "SecureObject",
+                    "defaultValue": {}
+                  },
+                  "$connections": {
+                    "type": "Object",
+                    "defaultValue": {}
+                  }
+                }
+              },
+              "nodeActionMapping": {
+                "builtinFunction-a76833df-4aee-4042-b596-0f1d47669fcd": [
+                  "Compose_Sample_Records"
+                ],
+                "builtinFunction-259595cb-63d8-4738-996b-b2e143cdc3d2": [
+                  "Parse_Records"
+                ],
+                "builtinFunction-49164878-913c-46d6-a3ec-5e555e095877": [
+                  "Filter_Active_Records"
+                ],
+                "builtinFunction-d2d2d00c-d18a-471b-8fda-ec3867c102d2": [
+                  "Select_Record_Summary"
+                ],
+                "builtinFunction-5e488512-e927-4496-9671-c985c35753a4": [
+                  "Select_Names"
+                ],
+                "builtinFunction-f23d6af0-0a6c-4daf-a5b9-61bf46ca95a2": [
+                  "Join_Names"
+                ],
+                "builtinFunction-6503b927-afb1-48d8-afc3-2526cccd0e3c": [
+                  "Compose_Final_Summary"
+                ]
+              },
+              "canvasOrientation": "horizontal"
+            }
+          }
+        }
+      },
+      "actions": {
+        "Compose_Sample_Records": {
+          "type": "Compose",
+          "inputs": [
+            {
+              "RecordId": 101,
+              "Name": "Name A",
+              "Amount": 250,
+              "Status": "Active"
+            },
+            {
+              "RecordId": 102,
+              "Name": "Name B",
+              "Amount": 75.5,
+              "Status": "Waiting"
+            },
+            {
+              "RecordId": 103,
+              "Name": "Name C",
+              "Amount": 430.25,
+              "Status": "Active"
+            },
+            {
+              "RecordId": 104,
+              "Name": "Name D",
+              "Amount": 120,
+              "Status": "Closed"
+            },
+            {
+              "RecordId": 105,
+              "Name": "Name E",
+              "Amount": 310.75,
+              "Status": "Active"
+            }
+          ],
+          "metadata": {
+            "description": "Compose Sample Records",
+            "nodeId": "builtinFunction-a76833df-4aee-4042-b596-0f1d47669fcd"
+          }
+        },
+        "Parse_Records": {
+          "type": "ParseJson",
+          "inputs": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "RecordId": {
+                    "type": "integer"
+                  },
+                  "Name": {
+                    "type": "string"
+                  },
+                  "Amount": {
+                    "type": "number"
+                  },
+                  "Status": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "content": "@outputs('Compose_Sample_Records')"
+          },
+          "runAfter": {
+            "Compose_Sample_Records": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "description": "Parse Records",
+            "nodeId": "builtinFunction-259595cb-63d8-4738-996b-b2e143cdc3d2"
+          }
+        },
+        "Filter_Active_Records": {
+          "type": "Query",
+          "inputs": {
+            "from": "@body('Parse_Records')",
+            "where": "@equals(item()?['Status'], 'Active')"
+          },
+          "runAfter": {
+            "Parse_Records": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "description": "Filter Active Records",
+            "nodeId": "builtinFunction-49164878-913c-46d6-a3ec-5e555e095877"
+          }
+        },
+        "Select_Record_Summary": {
+          "type": "Select",
+          "inputs": {
+            "from": "@body('Filter_Active_Records')",
+            "select": {
+              "RecordId": "@item()?['RecordId']",
+              "Name": "@item()?['Name']",
+              "Amount": "@item()?['Amount']"
+            }
+          },
+          "runAfter": {
+            "Filter_Active_Records": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "description": "Select Record Summary",
+            "nodeId": "builtinFunction-d2d2d00c-d18a-471b-8fda-ec3867c102d2"
+          }
+        },
+        "Select_Names": {
+          "type": "Select",
+          "inputs": {
+            "from": "@body('Filter_Active_Records')",
+            "select": "@item()?['Name']"
+          },
+          "runAfter": {
+            "Select_Record_Summary": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "description": "Select Names",
+            "nodeId": "builtinFunction-5e488512-e927-4496-9671-c985c35753a4"
+          }
+        },
+        "Join_Names": {
+          "type": "Join",
+          "inputs": {
+            "from": "@body('Select_Names')",
+            "joinWith": ", "
+          },
+          "runAfter": {
+            "Select_Names": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "description": "Join Names",
+            "nodeId": "builtinFunction-f23d6af0-0a6c-4daf-a5b9-61bf46ca95a2"
+          }
+        },
+        "Compose_Final_Summary": {
+          "type": "Compose",
+          "inputs": {
+            "ActiveCount": "@length(body('Filter_Active_Records'))",
+            "NameList": "@body('Join_Names')",
+            "RecordSummary": "@body('Select_Record_Summary')"
+          },
+          "runAfter": {
+            "Join_Names": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "description": "Compose Final Summary",
+            "nodeId": "builtinFunction-6503b927-afb1-48d8-afc3-2526cccd0e3c"
+          }
+        }
+      },
+      "outputs": {},
+      "metadata": {
+        "telemetryMetadata": {
+          "modifiedSources": "WorkflowDesigner"
+        }
+      }
+    }
+  },
+  "schemaVersion": "1.0.0.0"
+}

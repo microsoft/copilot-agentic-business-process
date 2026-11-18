@@ -1,0 +1,133 @@
+{
+  "title": "Teams: post a message as the Flow bot",
+  "notes": "Connector other than Dataverse: own `connectionName` and connection reference.",
+  "runtimeActionName": "Post_Teams_approval_notification",
+  "runtimeAction": {
+    "type": "OpenApiConnection",
+    "inputs": {
+      "parameters": {
+        "poster": "Flow bot",
+        "location": "Chat with Flow bot",
+        "body/recipient": "@{item()?['internalemailaddress']}",
+        "body/messageBody": "@{concat('<div>Hi ', replace(replace(replace(if(empty(item()?['fullname']), item()?['internalemailaddress'], item()?['fullname']), '&', '&amp;'), '<', '&lt;'), '>', '&gt;'), ', there is a new Order Evaluation Review task for the Order Process from ', replace(replace(replace(if(empty(first(outputs('Get_process_instance')?['body/value'])?['faf001_businesskey']), 'unknown order', first(outputs('Get_process_instance')?['body/value'])?['faf001_businesskey']), '&', '&amp;'), '<', '&lt;'), '>', '&gt;'), '.<br>Please go to <a href=\"', replace(concat(if(empty(first(outputs('Get_workflow_console_URL')?['body/value'])?['current.value']), if(empty(first(outputs('Get_workflow_console_URL')?['body/value'])?['defaultvalue']), 'https://apps.powerapps.com/', first(outputs('Get_workflow_console_URL')?['body/value'])?['defaultvalue']), first(outputs('Get_workflow_console_URL')?['body/value'])?['current.value']), if(contains(if(empty(first(outputs('Get_workflow_console_URL')?['body/value'])?['current.value']), if(empty(first(outputs('Get_workflow_console_URL')?['body/value'])?['defaultvalue']), 'https://apps.powerapps.com/', first(outputs('Get_workflow_console_URL')?['body/value'])?['defaultvalue']), first(outputs('Get_workflow_console_URL')?['body/value'])?['current.value']), '?'), '&', '?'), 'page=StartTaskDetail&taskId=', outputs('Create_order_evaluation_review_task')?['body/faf001_bptaskid']), '&', '&amp;'), '\">task detail</a> and assign it to yourself before you work on it.</div>')}"
+      },
+      "host": {
+        "apiId": "/providers/Microsoft.PowerApps/apis/shared_teams",
+        "connectionName": "shared_teams",
+        "operationId": "PostMessageToConversation"
+      }
+    },
+    "metadata": {
+      "description": "Post Teams approval notification",
+      "nodeId": "connector-0d47a9c2-8e31-45b6-93f0-2c58e7a16bd9"
+    }
+  },
+  "designerNodes": [
+    {
+      "id": "connector-0d47a9c2-8e31-45b6-93f0-2c58e7a16bd9",
+      "name": "Post Teams approval notification",
+      "type": "connector",
+      "version": 1,
+      "position": {
+        "x": 100,
+        "y": 100
+      },
+      "data": {
+        "config": {
+          "apiName": "shared_teams",
+          "displayName": "Microsoft Teams",
+          "iconUri": "https://static.powerapps.com/resource/ppcr/releases/v1.0.1812/1.0.1812.4744/teams/icon.png",
+          "brandColor": "",
+          "operationName": "PostMessageToConversation",
+          "connectionName": "shared_teams",
+          "operationType": "OpenApiConnection",
+          "parameters": {
+            "poster": "Flow bot",
+            "location": "Chat with Flow bot",
+            "body/recipient": "@{item()?['internalemailaddress']}",
+            "body/messageBody": "@{concat('<div>Hi ', replace(replace(replace(if(empty(item()?['fullname']), item()?['internalemailaddress'], item()?['fullname']), '&', '&amp;'), '<', '&lt;'), '>', '&gt;'), ', there is a new Order Evaluation Review task for the Order Process from ', replace(replace(replace(if(empty(first(outputs('Get_process_instance')?['body/value'])?['faf001_businesskey']), 'unknown order', first(outputs('Get_process_instance')?['body/value'])?['faf001_businesskey']), '&', '&amp;'), '<', '&lt;'), '>', '&gt;'), '.<br>Please go to <a href=\"', replace(concat(if(empty(first(outputs('Get_workflow_console_URL')?['body/value'])?['current.value']), if(empty(first(outputs('Get_workflow_console_URL')?['body/value'])?['defaultvalue']), 'https://apps.powerapps.com/', first(outputs('Get_workflow_console_URL')?['body/value'])?['defaultvalue']), first(outputs('Get_workflow_console_URL')?['body/value'])?['current.value']), if(contains(if(empty(first(outputs('Get_workflow_console_URL')?['body/value'])?['current.value']), if(empty(first(outputs('Get_workflow_console_URL')?['body/value'])?['defaultvalue']), 'https://apps.powerapps.com/', first(outputs('Get_workflow_console_URL')?['body/value'])?['defaultvalue']), first(outputs('Get_workflow_console_URL')?['body/value'])?['current.value']), '?'), '&', '?'), 'page=StartTaskDetail&taskId=', outputs('Create_order_evaluation_review_task')?['body/faf001_bptaskid']), '&', '&amp;'), '\">task detail</a> and assign it to yourself before you work on it.</div>')}"
+          },
+          "parametersSchema": {
+            "type": "object",
+            "properties": {
+              "poster": {
+                "type": "string",
+                "title": "Post as"
+              },
+              "location": {
+                "type": "string",
+                "title": "Post in"
+              },
+              "body": {
+                "type": "object",
+                "title": "Post message request"
+              }
+            },
+            "required": []
+          }
+        },
+        "outcomes": [
+          {
+            "id": "default",
+            "label": "Default",
+            "outcomeSchema": {
+              "type": "object",
+              "properties": {
+                "body": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "title": "Message ID",
+                      "description": "Unique message ID",
+                      "x-ms-property-name-alias": "body/id"
+                    },
+                    "messageLink": {
+                      "type": "string",
+                      "title": "Message link",
+                      "description": "Link to the message in Microsoft Teams",
+                      "x-ms-property-name-alias": "body/messageLink"
+                    },
+                    "conversationId": {
+                      "type": "string",
+                      "title": "Conversation ID",
+                      "description": "The chat's unique identifier",
+                      "x-ms-property-name-alias": "body/conversationId"
+                    }
+                  },
+                  "required": [],
+                  "x-ms-property-name-alias": "body"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "measured": {
+        "width": 284,
+        "height": 66
+      },
+      "parentId": "loop-7b93c05e-1d46-42fa-8c37-90e5b62d4108"
+    }
+  ],
+  "edgesInsideBlock": [],
+  "edgesCrossingBlockBoundary_examples": [
+    {
+      "id": "edge-loop-7b93c05e-1d46-42fa-8c37-90e5b62d4108-internal-source-connector-0d47a9c2-8e31-45b6-93f0-2c58e7a16bd9",
+      "source": "loop-7b93c05e-1d46-42fa-8c37-90e5b62d4108",
+      "target": "connector-0d47a9c2-8e31-45b6-93f0-2c58e7a16bd9",
+      "sourceHandle": "internal-source"
+    },
+    {
+      "id": "edge-connector-0d47a9c2-8e31-45b6-93f0-2c58e7a16bd9-internal-target-loop-7b93c05e-1d46-42fa-8c37-90e5b62d4108",
+      "source": "connector-0d47a9c2-8e31-45b6-93f0-2c58e7a16bd9",
+      "target": "loop-7b93c05e-1d46-42fa-8c37-90e5b62d4108",
+      "targetHandle": "internal-target"
+    }
+  ],
+  "nodeActionMapping": {
+    "connector-0d47a9c2-8e31-45b6-93f0-2c58e7a16bd9": [
+      "Post_Teams_approval_notification"
+    ]
+  }
+}

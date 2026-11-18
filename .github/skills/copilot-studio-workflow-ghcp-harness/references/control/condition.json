@@ -1,0 +1,527 @@
+{
+  "title": "Condition (If / else)",
+  "notes": "Container: children are nested in `actions` / `else.actions`; only the first children are kept here. Edges use `sourceHandle` `condition:<id>` and `else`. Each branch needs its own end/terminate or merges back by design.",
+  "runtimeActionName": "Validate_claim_attachments",
+  "runtimeAction": {
+    "type": "If",
+    "expression": {
+      "and": [
+        {
+          "greater": [
+            "@length(coalesce(triggerOutputs()?['body/attachments'], json('[]')))",
+            0
+          ]
+        }
+      ]
+    },
+    "actions": {
+      "Save_message_identifier": {
+        "type": "OpenApiConnection",
+        "inputs": {
+          "parameters": {
+            "entityName": "faf001_bpdatavalues",
+            "item/faf001_bpinstanceid@odata.bind": "@concat('/faf001_bpinstances(', outputs('Create_business_process_instance')?['body/faf001_bpinstanceid'], ')')",
+            "item/faf001_datakey": "claim-intake.messageid",
+            "item/faf001_datatype": 324010000,
+            "item/faf001_description": "Internet message identifier of the claim email (kept for later duplicate recognition)",
+            "item/faf001_valuetext": "@{coalesce(triggerOutputs()?['body/internetMessageId'], '')}"
+          },
+          "host": {
+            "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+            "connectionName": "shared_commondataserviceforapps",
+            "operationId": "CreateRecord"
+          }
+        },
+        "runAfter": {},
+        "metadata": {
+          "description": "Save message identifier",
+          "nodeId": "connector-7b5bf192-1ab9-56c7-89f5-5d06458aaac6"
+        }
+      },
+      "Save_email_data": {
+        "type": "OpenApiConnection",
+        "inputs": {
+          "parameters": {
+            "entityName": "faf001_bpdatavalues",
+            "item/faf001_bpinstanceid@odata.bind": "@concat('/faf001_bpinstances(', outputs('Create_business_process_instance')?['body/faf001_bpinstanceid'], ')')",
+            "item/faf001_datakey": "claim-intake.email",
+            "item/faf001_datatype": 324010004,
+            "item/faf001_description": "Claim email: message id, sender, subject, received time, body (truncated to 60000 characters) and attachment count",
+            "item/faf001_valuejson": "@concat('{\"messageId\":', substring(string(createArray(coalesce(triggerOutputs()?['body/internetMessageId'], ''))), 1, sub(length(string(createArray(coalesce(triggerOutputs()?['body/internetMessageId'], '')))), 2)), ',\"from\":', substring(string(createArray(coalesce(triggerOutputs()?['body/from'], ''))), 1, sub(length(string(createArray(coalesce(triggerOutputs()?['body/from'], '')))), 2)), ',\"subject\":', substring(string(createArray(coalesce(triggerOutputs()?['body/subject'], ''))), 1, sub(length(string(createArray(coalesce(triggerOutputs()?['body/subject'], '')))), 2)), ',\"receivedDateTime\":', substring(string(createArray(coalesce(triggerOutputs()?['body/receivedDateTime'], ''))), 1, sub(length(string(createArray(coalesce(triggerOutputs()?['body/receivedDateTime'], '')))), 2)), ',\"body\":', substring(string(createArray(substring(coalesce(triggerOutputs()?['body/body'], ''), 0, min(60000, length(coalesce(triggerOutputs()?['body/body'], '')))))), 1, sub(length(string(createArray(substring(coalesce(triggerOutputs()?['body/body'], ''), 0, min(60000, length(coalesce(triggerOutputs()?['body/body'], ''))))))), 2)), ',\"attachmentCount\":', string(length(coalesce(triggerOutputs()?['body/attachments'], json('[]')))), '}')"
+          },
+          "host": {
+            "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+            "connectionName": "shared_commondataserviceforapps",
+            "operationId": "CreateRecord"
+          }
+        },
+        "runAfter": {
+          "Save_message_identifier": [
+            "Succeeded"
+          ]
+        },
+        "metadata": {
+          "description": "Save email data",
+          "nodeId": "connector-29732571-4867-5b40-92b4-96f82dfd9b26"
+        }
+      }
+    },
+    "else": {
+      "actions": {
+        "Fail_intake_step": {
+          "type": "OpenApiConnection",
+          "inputs": {
+            "parameters": {
+              "entityName": "faf001_bpsteps",
+              "item/faf001_bpinstanceid@odata.bind": "@concat('/faf001_bpinstances(', outputs('Create_business_process_instance')?['body/faf001_bpinstanceid'], ')')",
+              "item/faf001_endtime": "@utcNow()",
+              "item/faf001_errorcode": "CLAIM_INTAKE_VALIDATION_FAILED",
+              "item/faf001_errormessage": "The claim email has no attachments, so it cannot be taken in as a claim.",
+              "item/faf001_starttime": "@triggerOutputs()?['body/receivedDateTime']",
+              "item/faf001_status": 324010004,
+              "item/faf001_stepname": "Claim Intake Acknowledgement",
+              "item/faf001_steptype": 324010000
+            },
+            "host": {
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+              "connectionName": "shared_commondataserviceforapps",
+              "operationId": "CreateRecord"
+            }
+          },
+          "runAfter": {},
+          "metadata": {
+            "description": "Fail intake step",
+            "nodeId": "connector-9fd3ac59-3f3f-5a2b-9322-4889e10c1ec9"
+          }
+        },
+        "Fail_business_process_instance": {
+          "type": "OpenApiConnection",
+          "inputs": {
+            "parameters": {
+              "entityName": "faf001_bpinstances",
+              "recordId": "@outputs('Create_business_process_instance')?['body/faf001_bpinstanceid']",
+              "item/faf001_endtime": "@utcNow()",
+              "item/faf001_errorcode": "CLAIM_INTAKE_VALIDATION_FAILED",
+              "item/faf001_errormessage": "The claim email has no attachments, so it cannot be taken in as a claim.",
+              "item/faf001_lastupdated": "@utcNow()",
+              "item/faf001_status": 324010005,
+              "item/faf001_statusmessage": "claim intake validation failed"
+            },
+            "host": {
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+              "connectionName": "shared_commondataserviceforapps",
+              "operationId": "UpdateOnlyRecord"
+            }
+          },
+          "runAfter": {
+            "Fail_intake_step": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "description": "Fail business process instance",
+            "nodeId": "connector-c57211b4-c12f-5549-b628-0bf089f8df7b"
+          }
+        },
+        "end-0b94929c-5c03-5de6-acdd-425045296298": {
+          "type": "Terminate",
+          "inputs": {
+            "runStatus": "Succeeded"
+          },
+          "runAfter": {
+            "Fail_business_process_instance": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "description": "Stop invalid claim email",
+            "nodeId": "end-0b94929c-5c03-5de6-acdd-425045296298"
+          }
+        }
+      }
+    },
+    "runAfter": {
+      "Create_business_process_instance": [
+        "Succeeded"
+      ]
+    },
+    "metadata": {
+      "description": "Validate claim attachments",
+      "nodeId": "ifElse-1f5e5ef0-0618-52cb-9dbe-21c636373871"
+    }
+  },
+  "designerNodes": [
+    {
+      "id": "ifElse-1f5e5ef0-0618-52cb-9dbe-21c636373871",
+      "name": "Validate claim attachments",
+      "type": "ifElse",
+      "version": 1,
+      "position": {
+        "x": 1026,
+        "y": 356.5
+      },
+      "data": {
+        "config": {
+          "conditions": [
+            {
+              "id": "d42cf0c3-3908-5d09-b94f-f896567a1cdd",
+              "name": "Claim email has attachments",
+              "expression": "{\r\n  \"and\": [\r\n    {\r\n      \"greater\": [\r\n        \"@length(coalesce(triggerOutputs()?['body/attachments'], json('[]')))\",\r\n        0\r\n      ]\r\n    }\r\n  ]\r\n}"
+            }
+          ]
+        },
+        "outcomes": [
+          {
+            "id": "condition:d42cf0c3-3908-5d09-b94f-f896567a1cdd",
+            "label": "Claim email has attachments"
+          },
+          {
+            "id": "else",
+            "label": "Else"
+          }
+        ]
+      },
+      "measured": {
+        "width": 241,
+        "height": 169
+      }
+    },
+    {
+      "id": "connector-7b5bf192-1ab9-56c7-89f5-5d06458aaac6",
+      "name": "Save message identifier",
+      "type": "connector",
+      "version": 1,
+      "position": {
+        "x": 1406,
+        "y": 356.5
+      },
+      "data": {
+        "config": {
+          "apiName": "shared_commondataserviceforapps",
+          "displayName": "Microsoft Dataverse",
+          "iconUri": "https://static.powerapps.com/resource/ppcr/releases/v1.0.1825/1.0.1825.4855/commondataserviceforapps/icon.png",
+          "brandColor": "#088142",
+          "operationName": "CreateRecord",
+          "connectionName": "shared_commondataserviceforapps",
+          "operationType": "OpenApiConnection",
+          "parameters": {
+            "entityName": "faf001_bpdatavalues",
+            "item/faf001_bpinstanceid@odata.bind": "@concat('/faf001_bpinstances(', outputs('Create_business_process_instance')?['body/faf001_bpinstanceid'], ')')",
+            "item/faf001_datakey": "claim-intake.messageid",
+            "item/faf001_datatype": 324010000,
+            "item/faf001_description": "Internet message identifier of the claim email (kept for later duplicate recognition)",
+            "item/faf001_valuetext": "@{coalesce(triggerOutputs()?['body/internetMessageId'], '')}"
+          },
+          "parametersSchema": {
+            "type": "object",
+            "properties": {
+              "entityName": {
+                "type": "string",
+                "title": "Table name"
+              },
+              "item": {
+                "type": "object",
+                "title": "Row"
+              }
+            },
+            "required": []
+          }
+        },
+        "outcomes": [
+          {
+            "id": "default",
+            "label": "Default",
+            "outcomeSchema": {
+              "type": "object",
+              "properties": {
+                "faf001_bpdatavalueid": {
+                  "type": "string",
+                  "format": "uuid",
+                  "title": "Process Data Value"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "measured": {
+        "width": 240,
+        "height": 66
+      }
+    },
+    {
+      "id": "connector-29732571-4867-5b40-92b4-96f82dfd9b26",
+      "name": "Save email data",
+      "type": "connector",
+      "version": 1,
+      "position": {
+        "x": 1786,
+        "y": 356.5
+      },
+      "data": {
+        "config": {
+          "apiName": "shared_commondataserviceforapps",
+          "displayName": "Microsoft Dataverse",
+          "iconUri": "https://static.powerapps.com/resource/ppcr/releases/v1.0.1825/1.0.1825.4855/commondataserviceforapps/icon.png",
+          "brandColor": "#088142",
+          "operationName": "CreateRecord",
+          "connectionName": "shared_commondataserviceforapps",
+          "operationType": "OpenApiConnection",
+          "parameters": {
+            "entityName": "faf001_bpdatavalues",
+            "item/faf001_bpinstanceid@odata.bind": "@concat('/faf001_bpinstances(', outputs('Create_business_process_instance')?['body/faf001_bpinstanceid'], ')')",
+            "item/faf001_datakey": "claim-intake.email",
+            "item/faf001_datatype": 324010004,
+            "item/faf001_description": "Claim email: message id, sender, subject, received time, body (truncated to 60000 characters) and attachment count",
+            "item/faf001_valuejson": "@concat('{\"messageId\":', substring(string(createArray(coalesce(triggerOutputs()?['body/internetMessageId'], ''))), 1, sub(length(string(createArray(coalesce(triggerOutputs()?['body/internetMessageId'], '')))), 2)), ',\"from\":', substring(string(createArray(coalesce(triggerOutputs()?['body/from'], ''))), 1, sub(length(string(createArray(coalesce(triggerOutputs()?['body/from'], '')))), 2)), ',\"subject\":', substring(string(createArray(coalesce(triggerOutputs()?['body/subject'], ''))), 1, sub(length(string(createArray(coalesce(triggerOutputs()?['body/subject'], '')))), 2)), ',\"receivedDateTime\":', substring(string(createArray(coalesce(triggerOutputs()?['body/receivedDateTime'], ''))), 1, sub(length(string(createArray(coalesce(triggerOutputs()?['body/receivedDateTime'], '')))), 2)), ',\"body\":', substring(string(createArray(substring(coalesce(triggerOutputs()?['body/body'], ''), 0, min(60000, length(coalesce(triggerOutputs()?['body/body'], '')))))), 1, sub(length(string(createArray(substring(coalesce(triggerOutputs()?['body/body'], ''), 0, min(60000, length(coalesce(triggerOutputs()?['body/body'], ''))))))), 2)), ',\"attachmentCount\":', string(length(coalesce(triggerOutputs()?['body/attachments'], json('[]')))), '}')"
+          },
+          "parametersSchema": {
+            "type": "object",
+            "properties": {
+              "entityName": {
+                "type": "string",
+                "title": "Table name"
+              },
+              "item": {
+                "type": "object",
+                "title": "Row"
+              }
+            },
+            "required": []
+          }
+        },
+        "outcomes": [
+          {
+            "id": "default",
+            "label": "Default",
+            "outcomeSchema": {
+              "type": "object",
+              "properties": {
+                "faf001_bpdatavalueid": {
+                  "type": "string",
+                  "format": "uuid",
+                  "title": "Process Data Value"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "measured": {
+        "width": 240,
+        "height": 66
+      }
+    },
+    {
+      "id": "connector-9fd3ac59-3f3f-5a2b-9322-4889e10c1ec9",
+      "name": "Fail intake step",
+      "type": "connector",
+      "version": 1,
+      "position": {
+        "x": 1406,
+        "y": 686.5
+      },
+      "data": {
+        "config": {
+          "apiName": "shared_commondataserviceforapps",
+          "displayName": "Microsoft Dataverse",
+          "iconUri": "https://static.powerapps.com/resource/ppcr/releases/v1.0.1825/1.0.1825.4855/commondataserviceforapps/icon.png",
+          "brandColor": "#088142",
+          "operationName": "CreateRecord",
+          "connectionName": "shared_commondataserviceforapps",
+          "operationType": "OpenApiConnection",
+          "parameters": {
+            "entityName": "faf001_bpsteps",
+            "item/faf001_bpinstanceid@odata.bind": "@concat('/faf001_bpinstances(', outputs('Create_business_process_instance')?['body/faf001_bpinstanceid'], ')')",
+            "item/faf001_endtime": "@utcNow()",
+            "item/faf001_errorcode": "CLAIM_INTAKE_VALIDATION_FAILED",
+            "item/faf001_errormessage": "The claim email has no attachments, so it cannot be taken in as a claim.",
+            "item/faf001_starttime": "@triggerOutputs()?['body/receivedDateTime']",
+            "item/faf001_status": 324010004,
+            "item/faf001_stepname": "Claim Intake Acknowledgement",
+            "item/faf001_steptype": 324010000
+          },
+          "parametersSchema": {
+            "type": "object",
+            "properties": {
+              "entityName": {
+                "type": "string",
+                "title": "Table name"
+              },
+              "item": {
+                "type": "object",
+                "title": "Row"
+              }
+            },
+            "required": []
+          }
+        },
+        "outcomes": [
+          {
+            "id": "default",
+            "label": "Default",
+            "outcomeSchema": {
+              "type": "object",
+              "properties": {
+                "faf001_bpstepid": {
+                  "type": "string",
+                  "format": "uuid",
+                  "title": "Process Step Execution"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "measured": {
+        "width": 240,
+        "height": 66
+      }
+    },
+    {
+      "id": "connector-c57211b4-c12f-5549-b628-0bf089f8df7b",
+      "name": "Fail business process instance",
+      "type": "connector",
+      "version": 1,
+      "position": {
+        "x": 1786,
+        "y": 686.5
+      },
+      "data": {
+        "config": {
+          "apiName": "shared_commondataserviceforapps",
+          "displayName": "Microsoft Dataverse",
+          "iconUri": "https://static.powerapps.com/resource/ppcr/releases/v1.0.1825/1.0.1825.4855/commondataserviceforapps/icon.png",
+          "brandColor": "#088142",
+          "operationName": "UpdateOnlyRecord",
+          "connectionName": "shared_commondataserviceforapps",
+          "operationType": "OpenApiConnection",
+          "parameters": {
+            "entityName": "faf001_bpinstances",
+            "recordId": "@outputs('Create_business_process_instance')?['body/faf001_bpinstanceid']",
+            "item/faf001_endtime": "@utcNow()",
+            "item/faf001_errorcode": "CLAIM_INTAKE_VALIDATION_FAILED",
+            "item/faf001_errormessage": "The claim email has no attachments, so it cannot be taken in as a claim.",
+            "item/faf001_lastupdated": "@utcNow()",
+            "item/faf001_status": 324010005,
+            "item/faf001_statusmessage": "claim intake validation failed"
+          },
+          "parametersSchema": {
+            "type": "object",
+            "properties": {
+              "entityName": {
+                "type": "string",
+                "title": "Table name"
+              },
+              "recordId": {
+                "type": "string",
+                "title": "Row ID"
+              },
+              "item": {
+                "type": "object",
+                "title": "Row"
+              }
+            },
+            "required": []
+          }
+        },
+        "outcomes": [
+          {
+            "id": "default",
+            "label": "Default",
+            "outcomeSchema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        ]
+      },
+      "measured": {
+        "width": 240,
+        "height": 66
+      }
+    },
+    {
+      "id": "end-0b94929c-5c03-5de6-acdd-425045296298",
+      "name": "Stop invalid claim email",
+      "type": "end",
+      "version": 1,
+      "position": {
+        "x": 2166,
+        "y": 686.5
+      },
+      "data": {
+        "config": {
+          "runStatus": "Succeeded"
+        },
+        "outcomes": []
+      },
+      "measured": {
+        "width": 240,
+        "height": 66
+      }
+    }
+  ],
+  "edgesInsideBlock": [
+    {
+      "id": "edge-ifElse-1f5e5ef0-0618-52cb-9dbe-21c636373871-condition:d42cf0c3-3908-5d09-b94f-f896567a1cdd-connector-7b5bf192-1ab9-56c7-89f5-5d06458aaac6",
+      "source": "ifElse-1f5e5ef0-0618-52cb-9dbe-21c636373871",
+      "target": "connector-7b5bf192-1ab9-56c7-89f5-5d06458aaac6",
+      "sourceHandle": "condition:d42cf0c3-3908-5d09-b94f-f896567a1cdd"
+    },
+    {
+      "id": "edge-connector-7b5bf192-1ab9-56c7-89f5-5d06458aaac6-connector-29732571-4867-5b40-92b4-96f82dfd9b26",
+      "source": "connector-7b5bf192-1ab9-56c7-89f5-5d06458aaac6",
+      "target": "connector-29732571-4867-5b40-92b4-96f82dfd9b26"
+    },
+    {
+      "id": "edge-ifElse-1f5e5ef0-0618-52cb-9dbe-21c636373871-else-connector-9fd3ac59-3f3f-5a2b-9322-4889e10c1ec9",
+      "source": "ifElse-1f5e5ef0-0618-52cb-9dbe-21c636373871",
+      "target": "connector-9fd3ac59-3f3f-5a2b-9322-4889e10c1ec9",
+      "sourceHandle": "else"
+    },
+    {
+      "id": "edge-connector-9fd3ac59-3f3f-5a2b-9322-4889e10c1ec9-connector-c57211b4-c12f-5549-b628-0bf089f8df7b",
+      "source": "connector-9fd3ac59-3f3f-5a2b-9322-4889e10c1ec9",
+      "target": "connector-c57211b4-c12f-5549-b628-0bf089f8df7b"
+    },
+    {
+      "id": "edge-connector-c57211b4-c12f-5549-b628-0bf089f8df7b-end-0b94929c-5c03-5de6-acdd-425045296298",
+      "source": "connector-c57211b4-c12f-5549-b628-0bf089f8df7b",
+      "target": "end-0b94929c-5c03-5de6-acdd-425045296298"
+    }
+  ],
+  "edgesCrossingBlockBoundary_examples": [
+    {
+      "id": "edge-connector-efec44c9-d07f-56f6-8dc2-a2da6fed1b09-ifElse-1f5e5ef0-0618-52cb-9dbe-21c636373871",
+      "source": "connector-efec44c9-d07f-56f6-8dc2-a2da6fed1b09",
+      "target": "ifElse-1f5e5ef0-0618-52cb-9dbe-21c636373871"
+    },
+    {
+      "id": "edge-connector-29732571-4867-5b40-92b4-96f82dfd9b26-external-input-loop-680aadfc-53ab-5b83-be25-28c194f5c1a0",
+      "source": "connector-29732571-4867-5b40-92b4-96f82dfd9b26",
+      "target": "loop-680aadfc-53ab-5b83-be25-28c194f5c1a0",
+      "targetHandle": "external-input"
+    }
+  ],
+  "nodeActionMapping": {
+    "ifElse-1f5e5ef0-0618-52cb-9dbe-21c636373871": [
+      "Validate_claim_attachments"
+    ],
+    "connector-7b5bf192-1ab9-56c7-89f5-5d06458aaac6": [
+      "Save_message_identifier"
+    ],
+    "connector-29732571-4867-5b40-92b4-96f82dfd9b26": [
+      "Save_email_data"
+    ],
+    "connector-9fd3ac59-3f3f-5a2b-9322-4889e10c1ec9": [
+      "Fail_intake_step"
+    ],
+    "connector-c57211b4-c12f-5549-b628-0bf089f8df7b": [
+      "Fail_business_process_instance"
+    ],
+    "end-0b94929c-5c03-5de6-acdd-425045296298": [
+      "end-0b94929c-5c03-5de6-acdd-425045296298"
+    ]
+  }
+}

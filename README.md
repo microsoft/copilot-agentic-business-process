@@ -170,8 +170,8 @@ core knows that orders exist, and nothing in Order Processing implements a task 
 | **Process tracking model** | Six Dataverse tables — process instance, step, human task, attachment, artifact, and typed data value — with parental cascades so deleting a run removes its whole trace, and an alternate key allowing flows to upsert process data by name without a pre-read. | [Specification](core/spec/business-process-data-model-spec.md) |
 | **Business Process API** | A Dataverse plug-in exposing the task lifecycle and process reads as Custom Actions. Claims are row-versioned so the first claimant wins; completion is a single transaction across task, outputs, and step. Reads are paged with opaque continuation tokens and run as the effective caller. | [API contract](core/plugins/business-process-api/README.md) |
 | **Workflow Console** | A Power Apps code app: personal task queue, a use-case-tailored review widget per task, the full step timeline of any process instance, and access to its attachments, artifacts, and outputs. Launchable by deep link straight to a single task. | [Console guide](core/codeapps/workflow-console/README.md) |
-| **Monitoring Agent** | A Copilot Studio agent wired to the same Custom Actions and tables, so process owners can ask about running instances, stuck steps, open tasks, and assignments from Teams. | [Core solution](core/solution/DEPLOYMENT.md) |
-| **Security and configuration** | A least-privilege runtime security role for the service identity, role-based task routing, and the environment variable that lets any flow build a Workflow Console deep link. | [Core solution](core/solution/DEPLOYMENT.md) |
+| **Monitoring Agent** | A Copilot Studio agent wired to the same Custom Actions and tables, so process owners can ask about running instances, stuck steps, open tasks, and assignments from Teams. | [Core solution](.github/skills/deploy-business-process-core/references/DEPLOYMENT.md) |
+| **Security and configuration** | A least-privilege runtime security role for the service identity, role-based task routing, and the environment variable that lets any flow build a Workflow Console deep link. | [Core solution](.github/skills/deploy-business-process-core/references/DEPLOYMENT.md) |
 
 <details>
 <summary><b>Business Core Architecture Diagram</b></summary>
@@ -288,8 +288,8 @@ versions, application user and connection IDs, role verification, and the Workfl
 Console URL.
 
 Prefer to do it yourself? The same steps are written out in the
-[Core deployment guide](core/solution/DEPLOYMENT.md) and the
-[Order Processing deployment guide](business-processes/order-processing/solution/DEPLOYMENT.md).
+[Core deployment guide](.github/skills/deploy-business-process-core/references/DEPLOYMENT.md) and the
+[Order Processing deployment guide](.github/skills/deploy-order-processing/references/DEPLOYMENT.md).
 
 ### Tooling prerequisites
 
@@ -306,7 +306,7 @@ deployment skills install and verify these for you.
 | --- | --- |
 | **System Administrator** in the target Dataverse environment | Importing the solution, configuring roles, application users, and environment variables |
 | **Entra app-registration rights** (Application Developer, or Cloud Application Administrator) | Creating the runtime identity used by the solution |
-| **Power Platform Administrator** | Only when a new environment has to be provisioned |
+| **Power Platform Administrator** (or Global Administrator when no Power Platform Administrator is assigned) | Only when a new environment has to be provisioned |
 
 | Licence | Who needs it |
 | --- | --- |
@@ -332,8 +332,10 @@ implementation, see
 | [Business Process API contract](core/plugins/business-process-api/README.md) | Request, response, authorization, paging, and mutation contracts for the Custom Actions |
 | [Plug-in development guide](core/plugins/business-process-api/DEVELOPMENT.md) | Building, testing, packaging, and registering the Dataverse plug-in |
 | [Workflow Console guide](core/codeapps/workflow-console/README.md) | Developing, testing, and deploying the code app |
-| [Core deployment guide](core/solution/DEPLOYMENT.md) | The full BusinessProcessCore installation procedure |
+| [Core deployment guide](.github/skills/deploy-business-process-core/references/DEPLOYMENT.md) | The full BusinessProcessCore installation procedure |
 | [Order Processing](business-processes/order-processing/README.md) | The reference implementation, its workflows, agents, and prerequisites |
+| [Order Processing deployment guide](.github/skills/deploy-order-processing/references/DEPLOYMENT.md) | The full OrderProcessing installation procedure |
+| [Copilot Studio workflow skill](.github/skills/copilot-studio-workflow-ghcp-harness/SKILL.md) | Generating and changing Copilot Studio Workflow Designer JSON, with building blocks, patterns, and an offline checker |
 
 ### Security guidelines
 
@@ -388,8 +390,8 @@ If a deployment does not behave as expected:
    privileges, and agent tool associations read-only, and reports pass, fail, or not
    verified per criterion with the evidence behind each.
 2. Re-read the verification steps in the
-   [Core deployment guide](core/solution/DEPLOYMENT.md) or the
-   [Order Processing deployment guide](business-processes/order-processing/solution/DEPLOYMENT.md)
+   [Core deployment guide](.github/skills/deploy-business-process-core/references/DEPLOYMENT.md) or the
+   [Order Processing deployment guide](.github/skills/deploy-order-processing/references/DEPLOYMENT.md)
    for the stage that failed.
 3. For an agent that returns filtered or unexpected responses, see
    [Resolve responsible AI content filter errors](https://learn.microsoft.com/troubleshoot/power-platform/copilot-studio/generative-answers/agent-response-filtered-by-responsible-ai).
