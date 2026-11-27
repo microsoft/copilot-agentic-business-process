@@ -178,10 +178,10 @@ A designer node stores one setting in more than one field. For every node you co
   validates the output and writes to the history.
 - Validate agent output in the workflow before storing it, and record a failure as a failed
   step, never as a finding.
-- Follow the [agents pattern](./references/agents/PATTERN.md): write the output schema **once**
-  (not again in the agent instructions or the message), keep the message to per-run data (do not
-  repeat the agent's skills, rules or input format), and when structured output fails **simplify the
-  call** instead of adding a second call that reformats the answer.
+- Follow the [agents pattern](./references/agents/PATTERN.md): use structured output whenever the workflow
+  uses data from the answer, with the output schema written **once** (only in the schema); keep the message to
+  per-run data; and when structured output fails, **simplify the call**. A text call parsed with Parse JSON is a
+  last resort that needs the user's approval.
 
 ## Platform limits
 

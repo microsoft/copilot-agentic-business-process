@@ -20,6 +20,19 @@ to this page: [published-structured.json](./published-structured.json),
 An inline agent has no separate instructions: its message **is** its instructions, so the first row
 and the second row share one text. The rules below apply to the published agent.
 
+## Output mode: structured output
+
+When the workflow uses data from the answer (extracted fields, checks, a report), call the agent with
+structured output: set `body/outputSchema` (inline agent: `structuredOutputSchema`) and read
+`body('<action>')?['structuredOutput']`. The schema is the whole output contract (Rule 1), and the platform
+returns JSON that matches it. Text output (`body('<action>')?['result']`) is for prose a person reads, such as
+a drafted message.
+
+When structured output fails, simplify the call (Rule 2). A text call that carries the shape in the agent
+instructions and parses the answer with a Parse JSON node is the last resort, used only after the Rule 2
+levers have been tried and the user has approved it. In that case the shape lives in the agent instructions
+(the call has no schema) and the Parse JSON node holds the same schema.
+
 ## Rule 1: write the output contract once
 
 With `body/outputSchema` the platform asks the model for exactly that schema and returns
@@ -34,6 +47,9 @@ one copy.
 - Keep **rules** in the instructions and skills, **names** in the schema. Write "a crop is never an
   independent viewpoint", not "set `independent_viewpoint` to false for a crop"; the model already sees
   the property in the schema. When a rule must name a value, name it as the schema spells it.
+- The instructions keep one format rule, which is not a shape: the final message is only the JSON object that
+  matches the output schema, with no preamble, no summary of the method and no code fence. Extraction reads the
+  agent's final message; prose around the JSON makes it fail on some calls.
 - The schema is stored by the workflow in several places (runtime `body/outputSchema`, designer
   `jsonSchema`, `jsonSchemaText`, `outcomeSchema.properties.structuredOutput`; table in
   [SKILL.md](../../SKILL.md#cloning-a-node-no-value-may-stay-from-the-template)). Generate all of them
@@ -116,8 +132,12 @@ without a scope node:
 - A fold over seven documents, one per call, each returning the whole result under one schema, returned
   `structuredOutput` on every call ([document-fold](../document-fold/PATTERN.md)).
 - Without a schema, and with no shape in its instructions, the agent invented its own property and enum names
-  in a text-mode call. A text-mode call therefore needs the shape in the instructions (the exception named in
-  Rule 2); a structured call does not.
+  in a text-mode call; this is why the last-resort text call carries the shape in the instructions (see
+  Output mode).
 - A second "format this" call over the text answer worked but added a second model call; removing it
   (Parse JSON on the text answer) cut one measured run from 4.2 to 1.6 minutes. The better fix was a call the
   platform can extract: one file per call.
+- Removing a JSON skeleton from an agent's instructions also removed its line "return no text outside the JSON
+  object". The agent then opened its final message with a prose summary before the JSON, and one call in seven
+  failed with `StructuredOutputExtractionFailed` (the transcripts of the agent showed the change). With the
+  one-line format rule restored and no skeleton, a seven-call run returned `structuredOutput` on every call.
