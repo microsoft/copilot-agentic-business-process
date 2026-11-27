@@ -46,12 +46,13 @@ Always generate complete Workflow Designer JSON, never runtime-only cloud-flow J
    is defined once and emits the runtime action, the designer node, the mapping entry and the
    edges. Do not hand-edit the three representations separately. Use
    [scripts/workflow_builder.py](./scripts/workflow_builder.py): it copies node shapes from a template
-   workflow export (any designer export with one node of each kind you use), builds connector, Compose,
+   workflow export (any designer export with one node of each kind you use, and each connector operation on
+   the table you use it on), builds connector, Compose,
    Filter / Select / Parse JSON, variable, If, loop (sequential for a fold), agent (structured or text),
    Extract (with `extract_template=references/extract/workflow-extract.json`) and
    end nodes with their edges and mapping, and gives the same file on every run (deterministic ids). The
-   module docstring has a usage sketch. A connector operation or node kind that the template does not contain
-   is reported rather than invented.
+   module docstring has a usage sketch. A node kind, or a connector operation on a table, that the template
+   does not contain is reported rather than invented.
 4. **Replace every template-specific value** in every copy (see next section).
 5. **Run the offline check** and fix everything it reports:
    `python "$skillFolder/scripts/check_workflow.py" <workflow.json> --template <template.json>`

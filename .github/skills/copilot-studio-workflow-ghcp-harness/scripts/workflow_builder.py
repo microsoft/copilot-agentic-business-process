@@ -27,7 +27,8 @@ Usage (sketch; see SKILL.md, "Procedure" step 3):
 
 Then run check_workflow.py on the result. Variable assignments are
 (name, mode, type, runtime_value, designer_value) with mode initialize | set | increment | appendToArray.
-Nodes you use must exist once in the template (connector operations are matched by operationName).
+Nodes you use must exist once in the template (connector operations are matched by operationName and table,
+`entityName`, because the outcome schema of a connector node lists the columns of its table).
 
 Extract node: pass `extract_template="references/extract/workflow-extract.json"` (or any export that contains an
 Extract node) to the constructor, then
@@ -222,14 +223,19 @@ class Chain:
 
     # ---- nodes
     def conn(self, display, op, params):
-        """A connector action (Dataverse, ...). `op` is the operationName found in the template."""
+        """A connector action (Dataverse, ...). `op` is the operationName found in the template, on the same
+        table (`entityName`): the designer node's outcome schema (dynamic content) is table specific."""
         b = self.b
         nid = b.gid("connector", display)
         aname = action_name(display)
         candidates = b.t_conn.get(op) or []
-        # prefer a template node on the same table: its outcome schema (dynamic content) is table specific
-        same = [t for t in candidates if t["data"]["config"]["parameters"].get("entityName") == params.get("entityName")]
-        n = b._need((same or candidates or [None])[0], f"connector operation {op}")
+        table = params.get("entityName")
+        same = [t for t in candidates if t["data"]["config"]["parameters"].get("entityName") == table]
+        if candidates and not same:
+            tables = ", ".join(sorted({str(t["data"]["config"]["parameters"].get("entityName")) for t in candidates}))
+            raise SystemExit(f"template has {op} on {tables}, not on {table}: use a template workflow that "
+                             f"contains {op} on {table}")
+        n = b._need((same or [None])[0], f"connector operation {op}")
         cfg = n["data"]["config"]
         cfg["connectionName"] = b.conn_name[cfg["apiName"]]
         self.actions[aname] = {
