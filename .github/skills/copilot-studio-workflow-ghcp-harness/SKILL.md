@@ -201,7 +201,7 @@ A designer node stores one setting in more than one field. For every node you co
 - The designer has **variable nodes** (initialise at the top level, then increment / append
   inside loops) and a **scope node** with `Failed` / `TimedOut` branches for try/catch; see
   [loops/](./references/loops/PATTERN.md) and [scope/](./references/scope/PATTERN.md).
-- Use expression functions that the designer's editor accepts: prefer the ones already used in workflows built in the designer (for example `actions`, `coalesce`, `concat`, `variables`), and check every expression in the editor before publishing.
+- Use expression functions that the designer's editor accepts: prefer the ones already used in workflows built in the designer (for example `actions`, `coalesce`, `concat`, `variables`), and check every expression in the editor before publishing. Identify a run by the row that triggered it (`triggerOutputs()?['body/<id column>']`).
 - Dataverse connector writes accept `item/<lookup>@odata.bind`; generic validators
   (`validate_flow`, `preflight_flow`) flag it and report connection references as missing. Treat
   their output as hints and rely on import, activation and per-action run results.
