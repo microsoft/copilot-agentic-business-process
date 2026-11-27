@@ -163,9 +163,10 @@ solution, and do not depend on any business process folder.
 ## Shared scripts
 
 `scripts/` holds process-agnostic, idempotent helpers: Dataverse roles, seeding,
-solution users, connections, agent connections, Entra user creation and licensing.
+solution users, connections, Entra user creation and licensing.
 Python scripts declare inline dependencies (`# /// script`) and run with `uv run`;
-PowerShell scripts require PowerShell 7. Generated output and per-environment config
+PowerShell scripts require PowerShell 7, use the Azure CLI sign-in for Dataverse and
+Graph, and should end with a concise `PASS`/`FAIL` summary. Generated output and per-environment config
 (`scripts/config/deploy.*.json` other than the sample) are git-ignored. Keep these
 scripts generic — process-specific logic belongs in the process's `solution/scripts/`.
 

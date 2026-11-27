@@ -113,6 +113,19 @@ if ($account.tenantId -ne $TenantId.ToString() -or $account.user.type -ne 'user'
 if ($account.environmentName -ne 'AzureCloud') { throw 'This helper supports the commercial cloud only.' }
 Add-Check 'Tenant authentication' 'Pass' "Azure CLI user: $($account.user.name); tenant: $TenantId. PAC authentication must be verified separately."
 
+if ($Solution -eq 'Core') {
+    # 2.12.1 adds `pac admin create --macro-region` and `pac environment-management` (Code Apps).
+    $pacText = try { @(pac 2>&1) -join "`n" } catch { '' }
+    $pacMatch = [regex]::Match($pacText, 'Version:\s*(\d+\.\d+\.\d+)')
+    if (-not $pacMatch.Success) {
+        Add-Check 'PAC CLI version' 'Fail' 'PAC not found or version unreadable. Install PAC 2.12.1 or newer.'
+    } elseif ([version] $pacMatch.Groups[1].Value -lt [version] '2.12.1') {
+        Add-Check 'PAC CLI version' 'Fail' "PAC $($pacMatch.Groups[1].Value) found; 2.12.1 or newer is required for --macro-region and environment-management."
+    } else {
+        Add-Check 'PAC CLI version' 'Pass' "PAC $($pacMatch.Groups[1].Value)."
+    }
+}
+
 $graphHeaders = $null
 $rolesAvailable = $false
 $skusAvailable = $false
@@ -201,7 +214,7 @@ try {
             }
         } else { Add-Check 'Automation user licensing' 'Not verified' 'Supply -AutomationUserPrincipalName once the intended identity exists.' }
         Add-Check 'Mailbox and flow licensing' 'Not verified' 'Confirm mailbox provisioning/delegation in Exchange and the approved flow-owner or Process licensing model where applicable.'
-        Add-Check 'Existing BusinessProcessCore' 'Not verified' 'Use the deploy-business-process-core Installation Check workflow to validate components, configuration, runtime privileges, and all 13 monitoring-tool associations before OrderProcessing setup.'
+        Add-Check 'Existing BusinessProcessCore' 'Not verified' 'Use the deploy-business-process-core Installation Check workflow to validate components, configuration, runtime privileges, and the monitoring agent before OrderProcessing setup.'
     }
     foreach ($identity in $BusinessUserPrincipalName) {
         $plans = @{ 'Power Apps Premium' = @('POWERAPPS_PER_USER') }

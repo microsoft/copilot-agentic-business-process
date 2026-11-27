@@ -2,7 +2,7 @@
 
 | Role | Required access | When required |
 | --- | --- | --- |
-| Power Platform environment administrator | **System Administrator in the target Dataverse environment**, or a validated deployment role. Environment Admin alone is insufficient for this Dataverse deployment. | Import solutions, configure security roles/application users, repair agent associations, and set environment variables. |
+| Power Platform environment administrator | **System Administrator in the target Dataverse environment**, or a validated deployment role. Environment Admin alone is insufficient for this Dataverse deployment. | Import solutions, configure security roles/application users, and set environment variables. |
 | Entra identity administrator | Approved app-registration/service-principal creation rights. **Application Developer** supports creation as owner; **Cloud Application Administrator** is a broader alternative. | Create the runtime identity and credential. Dataverse System Administrator does not grant these Entra permissions. |
 | Power Platform tenant-wide administrator | **Power Platform Administrator** (preferred), active tenant-wide **Global Administrator** when Power Platform Administrator is absent, or another eligible provisioning identity under [Appendix B](./DEPLOYMENT.md#appendix-b--creating-an-environment). | Environment provisioning or tenant-level changes only. Use an existing platform administrator when handled externally. |
 
