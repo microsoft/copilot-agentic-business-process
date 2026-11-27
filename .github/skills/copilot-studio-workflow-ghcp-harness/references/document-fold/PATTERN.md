@@ -32,17 +32,17 @@ The number of documents is never fixed in the flow: the loop runs over whatever 
 ## Shape of the flow
 
 ```
-Initialize result, files_done, conversations      (top level, before everything else)
+Initialize result, files_done                     (top level, before everything else)
 List documents                                    (source of the array, ordered)
 Read context                                      (the case record, the request, a reference table, ...)
 Loop  Check each document            concurrency 1
    Download document
    Compose  File entry                { name, contentType, size, provided, contentBytes }
    Agent    Review Agent              structured output = the result schema
-   Variable Update result             set result = string(structuredOutput); append conversationId
+   Variable Update result             set result = string(structuredOutput)
    Variable Count file                increment files_done
 Condition  Result is valid                        (after the loop; runs also when the loop failed)
-   yes: save result + run record, complete the step, create the next step
+   yes: save the result linked to the step, complete the step, create the next step
    no : fail the step and the instance with an error code
 ```
 
@@ -59,12 +59,11 @@ timestamp), or make the rule independent of order (a mandatory item stays open u
 | --- | --- | --- | --- |
 | `result` | string | `{}` | the accumulated result, passed to the next call |
 | `files_done` | integer | `0` | number of documents already checked; the prompt says "file k of n" |
-| `conversations` | array | `[]` | one agent conversation id per call, for the audit record |
 
 `result` is a **string** (`string(...)` of the structured output) so it can be interpolated into the
 prompt and read back with `json(variables('result'))`. Set it with a variable node in `set` mode
-(`SetVariable`). A variable node with `set` and `appendToArray` assignments yields the actions
-`Update_result` and `Update_result_AppendArr_conversations`.
+(`SetVariable`). One variable node initialises both; it yields the actions
+`Initialize_result__files_done` and `Initialize_result__files_done_Init_files_done`.
 
 `IncrementVariable` takes a **number**: write `"value": 1`, not `"1"` (the designer keeps `"1"` as a
 string in `assignments[]`, the runtime action needs the number).
@@ -158,12 +157,13 @@ fails a packet with no documents, because the loop never ran). The `no` branch f
 the instance with an error code and stores no finding. Gaps, conflicts and a proposed hold are
 **findings in the result**, not failures: the flow stores them and continues.
 
-### 8. Audit record
+### 8. Run identification
 
-Store the result, then a run record next to it: workflow run id (`workflow()?['run']?['name']`),
-agent name, skill names and versions, rules version, start and end time, number of documents, and
-`string(variables('conversations'))`. Keep skill versions in the flow and in each `SKILL.md`
-`metadata.version` in step.
+Store the result linked to the row that triggered the run (`item/<step lookup>@odata.bind` built from
+`triggerOutputs()?['body/<step id column>']`). That step row identifies the run: one row starts one run, it
+holds the start and end time, and its type names the agent. The deployed solution version identifies the agent
+and skill versions, and the result carries `rules_version`. The run history of the agent node shows the
+`conversationId` of each call.
 
 ## Result skeleton (common to every scenario)
 
@@ -222,11 +222,13 @@ One schema for every call; the scenarios in [SCENARIOS.md](./SCENARIOS.md) fill 
   re-emits the whole result), so a 7-document packet took about **12 minutes**. Plan the process
   timing for `documents x ~100 s`; the longer the accumulated result, the longer each later call.
 - One document per request with the output schema returned `structuredOutput` on every call.
+- With the result linked to the triggering step row, every node of the fold opens in the Copilot Studio
+  editor without errors.
 
 ## Verify
 
 1. `python scripts/check_workflow.py <workflow.json>` expects `OK`.
-2. Initialise `result`, `files_done` and `conversations` at the top level; the checker rejects
+2. Initialise `result` and `files_done` at the top level; the checker rejects
    initialisation inside branches and loops.
 3. After a run, read the loop repetitions (`.../actions/<loop>/scopeRepetitions`): one per
    document, all `Succeeded`, started one after the other.

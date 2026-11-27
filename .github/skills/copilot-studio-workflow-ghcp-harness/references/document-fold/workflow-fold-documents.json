@@ -135,7 +135,7 @@
                   },
                   {
                     "id": "variable-76f618bf-d6dc-5f2d-8677-8f9d9e4099b0",
-                    "name": "Initialize result, files_done, conversations",
+                    "name": "Initialize result, files_done",
                     "type": "variable",
                     "version": 1,
                     "position": {
@@ -158,13 +158,6 @@
                             "mode": "initialize",
                             "type": "integer",
                             "value": "0"
-                          },
-                          {
-                            "id": "var-4099b0-2",
-                            "variableName": "conversations",
-                            "mode": "initialize",
-                            "type": "array",
-                            "value": "[]"
                           }
                         ]
                       },
@@ -1934,13 +1927,6 @@
                             "mode": "set",
                             "type": "string",
                             "value": "@string(body('Completeness_Agent')?['structuredOutput'])"
-                          },
-                          {
-                            "id": "var-8fcbb4-1",
-                            "variableName": "conversations",
-                            "mode": "appendToArray",
-                            "type": "array",
-                            "value": "@coalesce(body('Completeness_Agent')?['conversationId'], '')"
                           }
                         ]
                       },
@@ -2099,76 +2085,12 @@
                     }
                   },
                   {
-                    "id": "connector-df97bfc9-6b65-54eb-af63-dc28e8590108",
-                    "name": "Save completeness run",
-                    "type": "connector",
-                    "version": 1,
-                    "position": {
-                      "x": 6106,
-                      "y": 356.5
-                    },
-                    "data": {
-                      "config": {
-                        "apiName": "shared_commondataserviceforapps",
-                        "displayName": "Microsoft Dataverse",
-                        "iconUri": "https://static.powerapps.com/resource/ppcr/releases/v1.0.1825/1.0.1825.4855/commondataserviceforapps/icon.png",
-                        "brandColor": "#088142",
-                        "operationName": "CreateRecord",
-                        "connectionName": "shared_commondataserviceforapps",
-                        "operationType": "OpenApiConnection",
-                        "parameters": {
-                          "entityName": "faf001_bpdatavalues",
-                          "item/faf001_bpinstanceid@odata.bind": "@concat('/faf001_bpinstances(', triggerOutputs()?['body/_faf001_bpinstanceid_value'], ')')",
-                          "item/faf001_bpstepid@odata.bind": "@concat('/faf001_bpsteps(', triggerOutputs()?['body/faf001_bpstepid'], ')')",
-                          "item/faf001_datakey": "claim-completeness.run",
-                          "item/faf001_datatype": 324010004,
-                          "item/faf001_description": "Identification of the completeness run: run id, agent, skills and versions, rules version, time.",
-                          "item/faf001_valuejson": "@concat('{\"runId\":\"', workflow()?['run']?['name'], '\",\"agent\":{\"schemaName\":\"faf001_claimcompletenessagent\",\"name\":\"Claim Completeness Agent\"},\"skills\":[{\"name\":\"claim-completeness-checklist\",\"version\":\"1.0\"},{\"name\":\"claim-readability-check\",\"version\":\"1.0\"},{\"name\":\"claim-consistency-check\",\"version\":\"1.0\"}],\"rulesVersion\":\"EVIDENCE-2026-11-05\",\"conversationIds\":', string(variables('conversations')), ',\"startedOn\":\"', outputs('Start_completeness_step')?['body/faf001_starttime'], '\",\"completedOn\":\"', utcNow(), '\",\"attachmentsChecked\":', string(length(outputs('List_claim_attachments')?['body/value'])), '}')"
-                        },
-                        "parametersSchema": {
-                          "type": "object",
-                          "properties": {
-                            "entityName": {
-                              "type": "string",
-                              "title": "Table name"
-                            },
-                            "item": {
-                              "type": "object",
-                              "title": "Row"
-                            }
-                          },
-                          "required": []
-                        }
-                      },
-                      "outcomes": [
-                        {
-                          "id": "default",
-                          "label": "Default",
-                          "outcomeSchema": {
-                            "type": "object",
-                            "properties": {
-                              "faf001_bpdatavalueid": {
-                                "type": "string",
-                                "format": "uuid",
-                                "title": "Process Data Value"
-                              }
-                            }
-                          }
-                        }
-                      ]
-                    },
-                    "measured": {
-                      "width": 240,
-                      "height": 66
-                    }
-                  },
-                  {
                     "id": "connector-1af5e99c-748e-585a-b15c-871357d75cc2",
                     "name": "Complete completeness step",
                     "type": "connector",
                     "version": 1,
                     "position": {
-                      "x": 6486,
+                      "x": 6106,
                       "y": 356.5
                     },
                     "data": {
@@ -2227,7 +2149,7 @@
                     "type": "connector",
                     "version": 1,
                     "position": {
-                      "x": 6866,
+                      "x": 6486,
                       "y": 356.5
                     },
                     "data": {
@@ -2287,7 +2209,7 @@
                     "type": "connector",
                     "version": 1,
                     "position": {
-                      "x": 7246,
+                      "x": 6866,
                       "y": 356.5
                     },
                     "data": {
@@ -2349,7 +2271,7 @@
                     "type": "connector",
                     "version": 1,
                     "position": {
-                      "x": 7626,
+                      "x": 7246,
                       "y": 356.5
                     },
                     "data": {
@@ -2408,7 +2330,7 @@
                     "type": "end",
                     "version": 1,
                     "position": {
-                      "x": 8006,
+                      "x": 7626,
                       "y": 356.5
                     },
                     "data": {
@@ -2675,13 +2597,8 @@
                     "sourceHandle": "condition:f904eece-96e4-5533-a6b0-52de51407251"
                   },
                   {
-                    "id": "edge-connector-a3ff0c51-d3d1-5a94-8384-37e397cc71ab-connector-df97bfc9-6b65-54eb-af63-dc28e8590108",
+                    "id": "edge-connector-a3ff0c51-d3d1-5a94-8384-37e397cc71ab-connector-1af5e99c-748e-585a-b15c-871357d75cc2",
                     "source": "connector-a3ff0c51-d3d1-5a94-8384-37e397cc71ab",
-                    "target": "connector-df97bfc9-6b65-54eb-af63-dc28e8590108"
-                  },
-                  {
-                    "id": "edge-connector-df97bfc9-6b65-54eb-af63-dc28e8590108-connector-1af5e99c-748e-585a-b15c-871357d75cc2",
-                    "source": "connector-df97bfc9-6b65-54eb-af63-dc28e8590108",
                     "target": "connector-1af5e99c-748e-585a-b15c-871357d75cc2"
                   },
                   {
@@ -2750,9 +2667,8 @@
               },
               "nodeActionMapping": {
                 "variable-76f618bf-d6dc-5f2d-8677-8f9d9e4099b0": [
-                  "Initialize_result__files_done__conversations",
-                  "Initialize_result__files_done__conversations_Init_files_done",
-                  "Initialize_result__files_done__conversations_Init_conversations"
+                  "Initialize_result__files_done",
+                  "Initialize_result__files_done_Init_files_done"
                 ],
                 "connector-9a731df6-0a4a-5d10-b524-6512a777d080": [
                   "List_existing_damage_evidence_steps"
@@ -2785,8 +2701,7 @@
                   "Completeness_Agent"
                 ],
                 "variable-47f8d16e-e208-5b83-b3c7-72b04d8fcbb4": [
-                  "Update_result",
-                  "Update_result_AppendArr_conversations"
+                  "Update_result"
                 ],
                 "variable-61552430-2901-55a8-9bf6-ad7a4dbeee66": [
                   "Count_file"
@@ -2796,9 +2711,6 @@
                 ],
                 "connector-a3ff0c51-d3d1-5a94-8384-37e397cc71ab": [
                   "Save_completeness_result"
-                ],
-                "connector-df97bfc9-6b65-54eb-af63-dc28e8590108": [
-                  "Save_completeness_run"
                 ],
                 "connector-1af5e99c-748e-585a-b15c-871357d75cc2": [
                   "Complete_completeness_step"
@@ -2833,7 +2745,7 @@
         }
       },
       "actions": {
-        "Initialize_result__files_done__conversations": {
+        "Initialize_result__files_done": {
           "type": "InitializeVariable",
           "inputs": {
             "variables": [
@@ -2846,11 +2758,11 @@
           },
           "runAfter": {},
           "metadata": {
-            "description": "Initialize result, files_done, conversations",
+            "description": "Initialize result, files_done",
             "nodeId": "variable-76f618bf-d6dc-5f2d-8677-8f9d9e4099b0"
           }
         },
-        "Initialize_result__files_done__conversations_Init_files_done": {
+        "Initialize_result__files_done_Init_files_done": {
           "type": "InitializeVariable",
           "inputs": {
             "variables": [
@@ -2862,24 +2774,7 @@
             ]
           },
           "runAfter": {
-            "Initialize_result__files_done__conversations": [
-              "Succeeded"
-            ]
-          }
-        },
-        "Initialize_result__files_done__conversations_Init_conversations": {
-          "type": "InitializeVariable",
-          "inputs": {
-            "variables": [
-              {
-                "name": "conversations",
-                "type": "Array",
-                "value": []
-              }
-            ]
-          },
-          "runAfter": {
-            "Initialize_result__files_done__conversations_Init_files_done": [
+            "Initialize_result__files_done": [
               "Succeeded"
             ]
           }
@@ -2903,7 +2798,7 @@
             "nodeId": "connector-9a731df6-0a4a-5d10-b524-6512a777d080"
           },
           "runAfter": {
-            "Initialize_result__files_done__conversations_Init_conversations": [
+            "Initialize_result__files_done_Init_files_done": [
               "Succeeded"
             ]
           }
@@ -3473,18 +3368,6 @@
                     "nodeId": "variable-47f8d16e-e208-5b83-b3c7-72b04d8fcbb4"
                   }
                 },
-                "Update_result_AppendArr_conversations": {
-                  "type": "AppendToArrayVariable",
-                  "inputs": {
-                    "name": "conversations",
-                    "value": "@coalesce(body('Completeness_Agent')?['conversationId'], '')"
-                  },
-                  "runAfter": {
-                    "Update_result": [
-                      "Succeeded"
-                    ]
-                  }
-                },
                 "Count_file": {
                   "type": "IncrementVariable",
                   "inputs": {
@@ -3492,7 +3375,7 @@
                     "value": 1
                   },
                   "runAfter": {
-                    "Update_result_AppendArr_conversations": [
+                    "Update_result": [
                       "Succeeded"
                     ]
                   },
@@ -3560,34 +3443,6 @@
                   },
                   "runAfter": {}
                 },
-                "Save_completeness_run": {
-                  "type": "OpenApiConnection",
-                  "inputs": {
-                    "parameters": {
-                      "entityName": "faf001_bpdatavalues",
-                      "item/faf001_bpinstanceid@odata.bind": "@concat('/faf001_bpinstances(', triggerOutputs()?['body/_faf001_bpinstanceid_value'], ')')",
-                      "item/faf001_bpstepid@odata.bind": "@concat('/faf001_bpsteps(', triggerOutputs()?['body/faf001_bpstepid'], ')')",
-                      "item/faf001_datakey": "claim-completeness.run",
-                      "item/faf001_datatype": 324010004,
-                      "item/faf001_description": "Identification of the completeness run: run id, agent, skills and versions, rules version, time.",
-                      "item/faf001_valuejson": "@concat('{\"runId\":\"', workflow()?['run']?['name'], '\",\"agent\":{\"schemaName\":\"faf001_claimcompletenessagent\",\"name\":\"Claim Completeness Agent\"},\"skills\":[{\"name\":\"claim-completeness-checklist\",\"version\":\"1.0\"},{\"name\":\"claim-readability-check\",\"version\":\"1.0\"},{\"name\":\"claim-consistency-check\",\"version\":\"1.0\"}],\"rulesVersion\":\"EVIDENCE-2026-11-05\",\"conversationIds\":', string(variables('conversations')), ',\"startedOn\":\"', outputs('Start_completeness_step')?['body/faf001_starttime'], '\",\"completedOn\":\"', utcNow(), '\",\"attachmentsChecked\":', string(length(outputs('List_claim_attachments')?['body/value'])), '}')"
-                    },
-                    "host": {
-                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
-                      "connectionName": "shared_commondataserviceforapps",
-                      "operationId": "CreateRecord"
-                    }
-                  },
-                  "metadata": {
-                    "description": "Save completeness run",
-                    "nodeId": "connector-df97bfc9-6b65-54eb-af63-dc28e8590108"
-                  },
-                  "runAfter": {
-                    "Save_completeness_result": [
-                      "Succeeded"
-                    ]
-                  }
-                },
                 "Complete_completeness_step": {
                   "type": "OpenApiConnection",
                   "inputs": {
@@ -3608,7 +3463,7 @@
                     "nodeId": "connector-1af5e99c-748e-585a-b15c-871357d75cc2"
                   },
                   "runAfter": {
-                    "Save_completeness_run": [
+                    "Save_completeness_result": [
                       "Succeeded"
                     ]
                   }

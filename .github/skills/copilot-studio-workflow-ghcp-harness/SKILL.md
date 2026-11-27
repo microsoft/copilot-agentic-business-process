@@ -46,12 +46,13 @@ Always generate complete Workflow Designer JSON, never runtime-only cloud-flow J
    is defined once and emits the runtime action, the designer node, the mapping entry and the
    edges. Do not hand-edit the three representations separately. Use
    [scripts/workflow_builder.py](./scripts/workflow_builder.py): it copies node shapes from a template
-   workflow export (any designer export with one node of each kind you use), builds connector, Compose,
+   workflow export (any designer export with one node of each kind you use, and each connector operation on
+   the table you use it on), builds connector, Compose,
    Filter / Select / Parse JSON, variable, If, loop (sequential for a fold), agent (structured or text),
    Extract (with `extract_template=references/extract/workflow-extract.json`) and
    end nodes with their edges and mapping, and gives the same file on every run (deterministic ids). The
-   module docstring has a usage sketch. A connector operation or node kind that the template does not contain
-   is reported rather than invented.
+   module docstring has a usage sketch. A node kind, or a connector operation on a table, that the template
+   does not contain is reported rather than invented.
 4. **Replace every template-specific value** in every copy (see next section).
 5. **Run the offline check** and fix everything it reports:
    `python "$skillFolder/scripts/check_workflow.py" <workflow.json> --template <template.json>`
@@ -177,10 +178,10 @@ A designer node stores one setting in more than one field. For every node you co
   validates the output and writes to the history.
 - Validate agent output in the workflow before storing it, and record a failure as a failed
   step, never as a finding.
-- Follow the [agents pattern](./references/agents/PATTERN.md): write the output schema **once**
-  (not again in the agent instructions or the message), keep the message to per-run data (do not
-  repeat the agent's skills, rules or input format), and when structured output fails **simplify the
-  call** instead of adding a second call that reformats the answer.
+- Follow the [agents pattern](./references/agents/PATTERN.md): use structured output whenever the workflow
+  uses data from the answer, with the output schema written **once** (only in the schema); keep the message to
+  per-run data; and when structured output fails, **simplify the call**. A text call parsed with Parse JSON is a
+  last resort that needs the user's approval.
 
 ## Platform limits
 
@@ -201,7 +202,7 @@ A designer node stores one setting in more than one field. For every node you co
 - The designer has **variable nodes** (initialise at the top level, then increment / append
   inside loops) and a **scope node** with `Failed` / `TimedOut` branches for try/catch; see
   [loops/](./references/loops/PATTERN.md) and [scope/](./references/scope/PATTERN.md).
-- Use expression functions that the designer's editor accepts: prefer the ones already used in workflows built in the designer (for example `actions`, `coalesce`, `concat`, `variables`), and check every expression in the editor before publishing.
+- Use expression functions that the designer's editor accepts: prefer the ones already used in workflows built in the designer (for example `actions`, `coalesce`, `concat`, `variables`), and check every expression in the editor before publishing. Identify a run by the row that triggered it (`triggerOutputs()?['body/<id column>']`).
 - Dataverse connector writes accept `item/<lookup>@odata.bind`; generic validators
   (`validate_flow`, `preflight_flow`) flag it and report connection references as missing. Treat
   their output as hints and rely on import, activation and per-action run results.

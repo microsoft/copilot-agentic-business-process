@@ -98,7 +98,7 @@ Rules that hold in every contract:
 | Findings, not failures | a discount above the recorded approval, a term outside policy, a missing approval |
 | Proposed hold when | the approval does not cover the discount, the customer name differs between documents, the order form is unsigned |
 | Next | approval task for the deal desk with `deviations[]`; approved terms are written back by a person |
-| Watch out | the approval matrix changes: keep its version in the run record. An approval given for a different quantity or term does not cover the deal: compare values, not the existence of an approval |
+| Watch out | the approval matrix changes: keep its version in the result. An approval given for a different quantity or term does not cover the deal: compare values, not the existence of an approval |
 
 ## 5. Loan application
 
