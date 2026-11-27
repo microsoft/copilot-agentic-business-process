@@ -12,6 +12,6 @@ $report.Overall
 
 2. For a new environment, omit `-EnvironmentId`; require active tenant-wide Power Platform Administrator (`/`), accepting active tenant-wide Global Administrator (`/`) when Power Platform Administrator is absent. Approve provisioning, then rerun with the new ID.
 3. Add `-CreateRuntimeIdentity` when the operator creates the app identity; `-BusinessUserPrincipalName <UPNs>` for Console users; `-MonitoringAccess` for Teams access.
-4. Verify Dataverse deployment access, operator Power Apps Premium/Copilot Studio, and applicable user licenses. Confirm custom/delegated access, seats, capacity, and Copilot Credits with owners.
+4. Verify PAC 2.12.1+, Dataverse deployment access, operator Power Apps Premium/Copilot Studio, and applicable user licenses. Confirm custom/delegated access, seats, capacity, and Copilot Credits with owners.
 5. Resolve failures; record evidence for unverified checks. Present only overall status, blockers, and required confirmations. Obtain explicit user understanding/availability confirmation.
 6. Keep checks read-only and secrets out of chat. Verify PAC identity/target separately; preserve approvals. For an existing Core installation, run the [Installation Check workflow](../SKILL.md#installation-check) before reusing it; run it again after deployment.

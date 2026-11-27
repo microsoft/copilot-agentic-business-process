@@ -1,8 +1,0 @@
-<fetch>
-  <entity name="canvasapp">
-    <attribute name="displayname" />
-    <attribute name="name" />
-    <attribute name="appopenuri" />
-    <order attribute="displayname" />
-  </entity>
-</fetch>

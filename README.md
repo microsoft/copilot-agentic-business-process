@@ -277,7 +277,7 @@ Open the repository in VS Code with GitHub Copilot and ask for what you want:
 
 | Ask for | Skill | What it does |
 | --- | --- | --- |
-| "Deploy Business Process Core" | `deploy-business-process-core` | Uses the Dataverse environment you name, or provisions a new one. Installs the tooling prerequisites, creates the least-privilege security role, the Entra application and its Dataverse application user, and the Dataverse connection; generates the deployment settings; imports and publishes the solution; repairs the monitoring agent's tool associations; grants table privileges; sets the Workflow Console URL; then verifies every component. |
+| "Deploy Business Process Core" | `deploy-business-process-core` | Uses the Dataverse environment you name, or provisions a new one. Installs the tooling prerequisites, creates the least-privilege security role, the Entra application and its Dataverse application user, and the Dataverse connection; generates the deployment settings; imports and publishes the solution; grants table privileges; sets the Workflow Console URL; then verifies every component. |
 | "Deploy Order Processing" | `deploy-order-processing` | Verifies or installs the core first, provisions the automation identity and shared mailbox, imports the solution, activates its workflows, and assigns the reviewer and approver roles. |
 
 Each skill runs a **readiness report before touching anything**, summarises the access,
@@ -293,9 +293,9 @@ Prefer to do it yourself? The same steps are written out in the
 
 ### Tooling prerequisites
 
-[Power Platform CLI](https://learn.microsoft.com/power-platform/developer/howto/install-cli-msi),
+[Power Platform CLI](https://learn.microsoft.com/power-platform/developer/howto/install-cli-msi) 2.12.1 or newer,
 [Azure CLI](https://learn.microsoft.com/cli/azure/install-azure-cli),
-[PowerShell 7](https://github.com/powershell/powershell), and
+[PowerShell 7](https://github.com/powershell/powershell), and, for Order Processing,
 [Python 3.11+ with uv](https://github.com/astral-sh/uv). Node.js and the .NET SDK are
 needed only if you intend to modify the Workflow Console or the Dataverse plug-in. The
 deployment skills install and verify these for you.
@@ -387,8 +387,8 @@ If a deployment does not behave as expected:
 
 1. Ask GitHub Copilot to run the **installation check** from the
    `deploy-business-process-core` skill. It verifies components, configuration, runtime
-   privileges, and agent tool associations read-only, and reports pass, fail, or not
-   verified per criterion with the evidence behind each.
+   privileges, and the monitoring agent read-only, and reports pass or fail per
+   criterion with the evidence behind each.
 2. Re-read the verification steps in the
    [Core deployment guide](.github/skills/deploy-business-process-core/references/DEPLOYMENT.md) or the
    [Order Processing deployment guide](.github/skills/deploy-order-processing/references/DEPLOYMENT.md)

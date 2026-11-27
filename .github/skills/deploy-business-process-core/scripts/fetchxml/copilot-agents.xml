@@ -1,8 +1,0 @@
-<fetch>
-  <entity name="bot">
-    <attribute name="name" />
-    <attribute name="schemaname" />
-    <attribute name="statecode" />
-    <order attribute="name" />
-  </entity>
-</fetch>

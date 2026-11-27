@@ -17,6 +17,14 @@ function az {
     throw 'Unexpected Azure CLI command.'
 }
 
+function pac {
+    $global:LASTEXITCODE = 0
+    if ($args.Count) { throw 'Only the read-only PAC version banner is allowed.' }
+    if ($testState.Scenario -eq 'NoPac') { throw 'The term pac is not recognized.' }
+    $version = if ($testState.Scenario -eq 'OldPac') { '2.11.2+gabc' } else { '2.12.1+g0914bd1' }
+    "Microsoft PowerPlatform CLI`nVersion: $version (.NET 10.0.15)"
+}
+
 function Invoke-RestMethod {
     [CmdletBinding()]
     param([string] $Method, [string] $Uri, [hashtable] $Headers)
@@ -92,6 +100,7 @@ foreach ($case in $cases.Keys) {
         if ($roleCheck.Evidence -notmatch 'Global Administrator') { throw 'Report must identify the accepted Global Administrator assignment.' }
     }
     Assert-Check $report "Power Apps Premium : $fixtureOperatorId" 'Pass'
+    Assert-Check $report 'PAC CLI version' 'Pass'
     if ($report.SubscriptionSeats[0].Available -ne 0) { throw 'Seat inventory mismatch.' }
     if ($report.Overall -eq 'Pass') { throw 'Manual requirements must prevent an overall pass.' }
 }
@@ -107,10 +116,17 @@ $testState.Scenario = 'DisabledUser'
 $report = & $corePath -TenantId $tenantId
 Assert-Check $report "User readiness: $fixtureOperatorId" 'Fail'
 
+foreach ($case in @('OldPac', 'NoPac')) {
+    $testState.Scenario = $case
+    $report = & $corePath -TenantId $tenantId
+    Assert-Check $report 'PAC CLI version' 'Fail'
+    if ($report.Overall -ne 'Fail') { throw "Scenario $case must fail overall." }
+}
+
 foreach ($case in @('ExistingEnvironment', 'CustomRole', 'MissingEnvironment', 'WrongEnvironmentTenant', 'WrongOrganization')) {
     $testState.Scenario = $case
     $report = & $orderPath -TenantId $tenantId -EnvironmentId $environmentId -AutomationUserPrincipalName 'automation@example.com' -BusinessUserPrincipalName 'reviewer@example.com'
-    if (@($report.Checks | Where-Object Check -In @('Tenant-wide Power Platform Administrator', 'Runtime identity creation', 'Environment provisioning capacity and policy')).Count) { throw 'OrderProcessing must not report Core provisioning checks.' }
+    if (@($report.Checks | Where-Object Check -In @('Tenant-wide Power Platform Administrator', 'Runtime identity creation', 'Environment provisioning capacity and policy', 'PAC CLI version')).Count) { throw 'OrderProcessing must not report Core provisioning checks.' }
     Assert-Check $report 'Exchange Online : automation@example.com' 'Pass'
     Assert-Check $report 'Teams : reviewer@example.com' 'Pass'
     if ($case -eq 'ExistingEnvironment') { Assert-Check $report 'Dataverse deployment permissions' 'Pass' }
@@ -153,4 +169,4 @@ foreach ($parameters in @(
     try { $null = & $scriptPath -TenantId $tenantId @parameters } catch { $rejected = $true }
     if (-not $rejected -or $testState.Calls.Count -ne $callsBefore) { throw 'Reject cross-solution options before HTTP calls.' }
 }
-Write-Output 'PASS: 25 offline scenarios; separate Core and OrderProcessing reports; no cloud calls or writes.'
+Write-Output 'PASS: 27 offline scenarios; separate Core and OrderProcessing reports; no cloud calls or writes.'

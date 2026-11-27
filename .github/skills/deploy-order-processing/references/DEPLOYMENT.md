@@ -35,7 +35,7 @@ If no environment exists, stop and use the Core skill's Deploy workflow separate
 ## Step 3: Validate BusinessProcessCore
 
 1. Use [deploy-business-process-core: Installation Check](../../deploy-business-process-core/SKILL.md#installation-check) in the approved environment.
-2. Require every component/configuration criterion to pass, including effective runtime privileges and all 13 monitoring-tool associations. Stop on failed/unverified results.
+2. Require every component/configuration criterion to pass, including effective runtime privileges and the monitoring agent. Stop on failed/unverified results.
 3. If Core is absent or needs repair/upgrade, obtain approval and use the Core Deploy workflow separately, then rerun Installation Check. Do not import or upgrade Core as part of OrderProcessing setup.
 
 ## Step 4: Create the Automation User
@@ -351,11 +351,13 @@ try {
 
 ## Step 10: Complete Access and Approve Activation
 
-1. Run the [role helper](../../../../scripts/dataverse_role.py) with the team and role names.
+1. Run the [role helper](../../../../scripts/dataverse_role.ps1) with the team and role names.
 
 ```pwsh
-uv run scripts/dataverse_role.py --url <environment-url> --assign-team-role "Order Reviewers Global" "Order Reviewer" --assign-team-role "Order Approvers Global" "Order Approver"
+./scripts/dataverse_role.ps1 -TenantId <tenant-id> -Url <environment-url> -AssignTeamRole @{ 'Order Reviewers Global' = 'Order Reviewer'; 'Order Approvers Global' = 'Order Approver' }
 ```
+
+Require the `PASS team roles` line.
 
 2. Obtain explicit approval before processing live orders or executing downstream business actions.
 
